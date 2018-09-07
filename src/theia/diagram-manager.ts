@@ -72,8 +72,8 @@ export abstract class DiagramManagerImpl implements DiagramManager {
         return promiseDiagramWidget
     }
 
-    protected getOrCreateDiagramWidget(uri: URI): Promise<DiagramWidget> {
-        const widget = this.widgetRegistry.getWidget(uri, this.diagramType)
+    protected async getOrCreateDiagramWidget(uri: URI): Promise<DiagramWidget> {
+        const widget = await this.widgetRegistry.getWidget(uri, this.diagramType)
         if (widget !== undefined)
             return widget
         const newWidget = this.createDiagramWidget(uri)
