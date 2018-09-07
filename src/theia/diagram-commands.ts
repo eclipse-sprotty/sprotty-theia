@@ -36,6 +36,7 @@ export namespace DiagramCommands {
     export const EXPORT = 'diagram:export'
     export const SELECT_ALL = 'diagram.selectAll'
     export const OPEN_IN_DIAGRAM = 'diagram.open'
+    export const DELETE = 'diagram.delete'
 }
 
 export namespace DiagramMenus {
