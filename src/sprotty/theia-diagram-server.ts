@@ -21,7 +21,7 @@ import {
 } from 'sprotty/lib'
 import { TheiaSprottyConnector } from './theia-sprotty-connector'
 import { injectable, inject, optional } from "inversify"
-import { Workspace } from '@theia/languages/lib/browser';
+import { IWorkspaceEditApplicator } from '../theia/languageserver/workspace-edit-applicator';
 
 
 export const TheiaDiagramServerProvider = Symbol('TheiaDiagramServerProvider');
@@ -47,7 +47,7 @@ export class TheiaDiagramServer extends DiagramServer {
     private connector: Promise<TheiaSprottyConnector>
     private resolveConnector: (server: TheiaSprottyConnector) => void
     protected sourceUri: string
-    protected workspace: Workspace | undefined;
+    protected workspaceEditApplicator: IWorkspaceEditApplicator | undefined;
 
     @inject(IRootPopupModelProvider)@optional() protected rootPopupModelProvider: IRootPopupModelProvider;
 
@@ -62,7 +62,7 @@ export class TheiaDiagramServer extends DiagramServer {
 
     connect(connector: TheiaSprottyConnector): void {
         this.resolveConnector(connector)
-        this.workspace = connector.workspace
+        this.workspaceEditApplicator = connector.workspaceEditApplicator
     }
 
     disconnect(): void {
@@ -82,8 +82,8 @@ export class TheiaDiagramServer extends DiagramServer {
         return this.sourceUri
     }
 
-    getWorkspace() {
-        return this.workspace
+    getWorkspaceEditApplicator() {
+        return this.workspaceEditApplicator
     }
 
     initialize(registry: ActionHandlerRegistry): void {

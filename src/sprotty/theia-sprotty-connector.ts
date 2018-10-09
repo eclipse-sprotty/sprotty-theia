@@ -16,12 +16,13 @@
 
 import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty/lib'
 import { TheiaDiagramServer } from './theia-diagram-server'
-import { LanguageClientContribution, ILanguageClient, Workspace, Location, NotificationType } from '@theia/languages/lib/browser'
+import { LanguageClientContribution, ILanguageClient, Location, NotificationType } from '@theia/languages/lib/browser'
 import { EditorManager } from '@theia/editor/lib/browser'
 import { TheiaFileSaver } from './theia-file-saver'
 import { DiagramWidgetRegistry } from '../theia/diagram-widget-registry'
 import URI from "@theia/core/lib/common/uri"
 import { QuickPickService } from '@theia/core/lib/browser';
+import { IWorkspaceEditApplicator } from '../theia/languageserver/workspace-edit-applicator';
 
 export interface OpenInTextEditorMessage {
     location: Location
@@ -50,7 +51,7 @@ export class TheiaSprottyConnector {
                 readonly fileSaver: TheiaFileSaver,
                 readonly editorManager: EditorManager,
                 readonly diagramWidgetRegistry: DiagramWidgetRegistry,
-                readonly workspace?: Workspace,
+                readonly workspaceEditApplicator?: IWorkspaceEditApplicator,
                 readonly quickPickService?: QuickPickService) {
         this.languageClientContribution.languageClient.then(
             lc => {

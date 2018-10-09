@@ -29,7 +29,7 @@ export class CompletionLabelEditor {
         const range = toLsRange(element.range);
         const diagramServer = await this.diagramServerProvider();
         const connector = await diagramServer.getConnector();
-        if (connector.quickPickService && connector.workspace) {
+        if (connector.quickPickService && connector.workspaceEditApplicator) {
             const languageClient = await connector.getLanguageClient();
             const uri = diagramServer.getSourceUri();
             const completions = await languageClient.sendRequest(CompletionRequest.type, {
@@ -50,7 +50,7 @@ export class CompletionLabelEditor {
                     changes[uri] = [ {
                         ...pick.textEdit, ...{ range }
                     }];
-                    await connector.workspace.applyEdit({
+                    await connector.workspaceEditApplicator.applyEdit({
                         changes
                     })
                 }

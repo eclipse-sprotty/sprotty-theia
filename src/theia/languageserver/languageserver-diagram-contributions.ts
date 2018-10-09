@@ -37,9 +37,9 @@ export class LSDiagramCommandContribution implements CommandContribution {
             DiagramCommands.DELETE,
             new DiagramCommandHandler(this.shell, widget => {
                 if (widget.modelSource instanceof TheiaDiagramServer) {
-                    const workspace  = widget.modelSource.getWorkspace()
-                    if (workspace) {
-                        const action = new DeleteWithWorkspaceEditAction(workspace, widget.modelSource.getSourceUri());
+                    const workspaceEditApplicator  = widget.modelSource.getWorkspaceEditApplicator()
+                    if (workspaceEditApplicator) {
+                        const action = new DeleteWithWorkspaceEditAction(workspaceEditApplicator, widget.modelSource.getSourceUri());
                         widget.actionDispatcher.dispatch(action);
                     }
                 }

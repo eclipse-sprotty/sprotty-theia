@@ -107,7 +107,7 @@ export class PaletteMouseListener extends PopupHoverMouseListener {
 
     async getWorkspaceEditAction(target: PaletteButton): Promise<Action> {
         const diagramServer = await this.diagramServerProvider();
-        const workspace = diagramServer.getWorkspace();
+        const workspace = diagramServer.getWorkspaceEditApplicator();
         if (workspace) {
             const codeActions = await this.codeActionProvider.getCodeActions(target.range, target.codeActionKind);
             if (codeActions) {

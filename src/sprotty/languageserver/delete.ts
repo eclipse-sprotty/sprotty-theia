@@ -14,10 +14,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { TextEdit, Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
+import { TextEdit, WorkspaceEdit } from "@theia/languages/lib/browser";
 import { Action, CommandExecutionContext, isSelectable, SEdge, Selectable, SModelElement, SModelRoot, SChildElement } from "sprotty/lib";
 import { AbstractWorkspaceEditCommand } from "./workspace-edit-command";
 import { toLsRange, isRanged, Ranged } from "./ranged";
+import { IWorkspaceEditApplicator } from "../../theia/languageserver/workspace-edit-applicator";
 
 export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand {
     static readonly KIND = 'deleteWithWorkspaceEdit'
@@ -26,8 +27,8 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
         super();
     }
 
-    get workspace() {
-        return this.action.workspace;
+    get workspaceEditApplicator() {
+        return this.action.workspaceEditApplicator;
     }
 
     createWorkspaceEdit(context: CommandExecutionContext) {
@@ -84,6 +85,6 @@ export class DeleteWithWorkspaceEditAction implements Action {
     readonly kind = DeleteWithWorkspaceEditCommand.KIND
 
     // TODO: consider URIs from individual element traces
-    constructor(readonly workspace: Workspace, readonly sourceUri: string) {}
+    constructor(readonly workspaceEditApplicator: IWorkspaceEditApplicator, readonly sourceUri: string) {}
 }
 
