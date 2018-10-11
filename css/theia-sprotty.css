@@ -54,6 +54,18 @@ svg {
     color: #bbbbbb
 }
 
+.sprotty-error {
+    fill: #ff0000
+}
+
+.sprotty-warning {
+    fill: #ffff00
+}
+
+.sprotty-info {
+    fill: #bbbbbb
+}
+
 .sprotty-status .ok {
     visibility: hidden;
 }
