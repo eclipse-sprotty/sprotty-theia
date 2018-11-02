@@ -14,8 +14,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
+export * from './code-action-palette';
+export * from './completion-label-edit';
+export * from './delete';
 export * from './workspace-edit-command';
 export * from './ranged';
+export * from './rename-label-edit';
 export * from './traceable';
 export * from './workspace-edit-command';
 export * from './code-action-palette';
