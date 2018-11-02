@@ -39,12 +39,12 @@ export class DiagramWidgetRegistry {
         return Array.from(this.widgets.values()).filter(widget => widget instanceof Widget) as Widget[]
     }
 
-    getWidget(uri: URI, diagramType: string): Promise<DiagramWidget> | undefined {
+    getWidget(uri: URI, diagramType: string): Promise<DiagramWidget | undefined> {
         const widget = this.widgets.get(this.getKey(uri, diagramType))
-        if (widget) {
-            return Promise.resolve(widget)
-        }
-        return undefined
+        if (widget)
+            return Promise.resolve(widget || undefined)
+        else
+            return Promise.resolve(undefined)
     }
 
     getWidgetById(widgetId: string): DiagramWidget | undefined {

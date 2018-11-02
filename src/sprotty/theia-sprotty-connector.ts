@@ -16,9 +16,7 @@
 
 import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty/lib'
 import { TheiaDiagramServer } from './theia-diagram-server'
-import { NotificationType } from 'vscode-jsonrpc/lib/messages'
-import { Location } from 'vscode-languageserver-types'
-import { LanguageClientContribution } from '@theia/languages/lib/browser'
+import { LanguageClientContribution, ILanguageClient, Workspace, Location, NotificationType } from '@theia/languages/lib/browser'
 import { EditorManager } from '@theia/editor/lib/browser'
 import { TheiaFileSaver } from './theia-file-saver'
 import { DiagramWidgetRegistry } from '../theia/diagram-widget-registry'
@@ -47,10 +45,11 @@ export class TheiaSprottyConnector {
 
     private servers: TheiaDiagramServer[] = []
 
-    constructor(private languageClientContribution: LanguageClientContribution,
-                private fileSaver: TheiaFileSaver,
-                private editorManager: EditorManager,
-                private diagramWidgetRegistry: DiagramWidgetRegistry) {
+    constructor(readonly languageClientContribution: LanguageClientContribution,
+                readonly fileSaver: TheiaFileSaver,
+                readonly editorManager: EditorManager,
+                readonly diagramWidgetRegistry: DiagramWidgetRegistry,
+                readonly workspace?: Workspace) {
         this.languageClientContribution.languageClient.then(
             lc => {
                 lc.onNotification(acceptMessageType, this.receivedThroughLsp.bind(this))
@@ -108,6 +107,10 @@ export class TheiaSprottyConnector {
 
     sendThroughLsp(message: ActionMessage) {
         this.languageClientContribution.languageClient.then(lc => lc.sendNotification(acceptMessageType, message))
+    }
+
+    getLanguageClient(): Promise<ILanguageClient> {
+        return this.languageClientContribution.languageClient
     }
 
     receivedThroughLsp(message: ActionMessage) {
