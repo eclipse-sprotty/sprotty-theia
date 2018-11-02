@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2017-2018 TypeFox and others.
+ * Copyright (c) 2018 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,11 +14,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { SModelElement } from "sprotty/lib";
+import { SModelElement, SModelExtension } from "sprotty/lib";
 
-export const traceFeature = Symbol("rangedFeature")
+export const traceFeature = Symbol("traceFeature")
 
-export interface Traceable {
+export interface Traceable extends SModelExtension {
     trace: string
 }
 
