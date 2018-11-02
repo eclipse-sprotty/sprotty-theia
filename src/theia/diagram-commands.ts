@@ -72,12 +72,12 @@ export class DiagramCommandHandler implements CommandHandler {
 
     execute(...args: any[]) {
         return this.isEnabled()
-            ? this.doExecute(this.shell.currentWidget as DiagramWidget)
+            ? this.doExecute(this.shell.activeWidget as DiagramWidget)
             : undefined
     }
 
     isEnabled(): boolean {
-        return this.shell.currentWidget instanceof DiagramWidget
+        return this.shell.activeWidget instanceof DiagramWidget
     }
 }
 
