@@ -82,7 +82,7 @@ export class TheiaSprottyConnector {
         if (!message.forceOpen) {
             this.editorManager.all.forEach(editorWidget => {
                 const currentTextEditor = editorWidget.editor
-                if (editorWidget.isVisible && uri.toString() === currentTextEditor.uri.toString()) {
+                if (editorWidget.isVisible && uri.toString(true) === currentTextEditor.uri.toString(true)) {
                     currentTextEditor.cursor = message.location.range.start
                     currentTextEditor.revealRange(message.location.range)
                     currentTextEditor.selection = message.location.range

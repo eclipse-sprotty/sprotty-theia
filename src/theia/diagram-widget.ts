@@ -73,7 +73,7 @@ export class DiagramWidget extends BaseWidget {
         statusDiv.appendChild(this.statusMessageDiv)
 
         this.modelSource.handle(new RequestModelAction({
-            sourceUri: this.uri.toString(),
+            sourceUri: this.uri.toString(true),
             diagramType: this.diagramType
         }))
     }

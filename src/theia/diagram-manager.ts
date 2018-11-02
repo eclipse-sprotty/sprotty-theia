@@ -112,7 +112,7 @@ export abstract class DiagramManagerImpl implements DiagramManager {
         const options: ApplicationShell.WidgetOptions = {
             area: 'main'
         }
-        if (!!currentEditor && currentEditor.editor.uri.toString === widget.uri.toString) {
+        if (!!currentEditor && currentEditor.editor.uri.toString(true) === widget.uri.toString(true)) {
             options.ref = currentEditor
             options.mode = 'split-right'
         }
