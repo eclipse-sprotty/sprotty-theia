@@ -19,9 +19,10 @@ import { TheiaDiagramServer } from './theia-diagram-server'
 import { LanguageClientContribution, ILanguageClient, Workspace, Location, NotificationType } from '@theia/languages/lib/browser'
 import { EditorManager } from '@theia/editor/lib/browser'
 import { TheiaFileSaver } from './theia-file-saver'
-import { DiagramWidgetRegistry } from '../theia/diagram-widget-registry'
 import URI from "@theia/core/lib/common/uri"
-import { QuickPickService } from '@theia/core/lib/browser';
+import { QuickPickService, WidgetManager } from '@theia/core/lib/browser';
+import { DiagramManager } from '../theia/diagram-manager';
+import { DiagramWidget } from '../theia/diagram-widget';
 
 export interface OpenInTextEditorMessage {
     location: Location
@@ -31,6 +32,16 @@ export interface OpenInTextEditorMessage {
 const acceptMessageType = new NotificationType<ActionMessage, void>('diagram/accept')
 const didCloseMessageType = new NotificationType<string, void>('diagram/didClose')
 const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage, void>('diagram/openInTextEditor')
+
+export interface TheiaSprottyConnectorServices {
+    readonly languageClientContribution: LanguageClientContribution,
+    readonly fileSaver: TheiaFileSaver,
+    readonly editorManager: EditorManager,
+    readonly widgetManager: WidgetManager,
+    readonly diagramManager: DiagramManager,
+    readonly workspace?: Workspace,
+    readonly quickPickService?: QuickPickService
+}
 
 /**
  * Connects sprotty DiagramServers to a Theia LanguageClientContribution.
@@ -42,16 +53,20 @@ const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage
  * diagram) and a specific language client from the Theia DI container
  * (one per application).
  */
-export class TheiaSprottyConnector {
+export class TheiaSprottyConnector implements TheiaSprottyConnectorServices {
 
     private servers: TheiaDiagramServer[] = []
 
-    constructor(readonly languageClientContribution: LanguageClientContribution,
-                readonly fileSaver: TheiaFileSaver,
-                readonly editorManager: EditorManager,
-                readonly diagramWidgetRegistry: DiagramWidgetRegistry,
-                readonly workspace?: Workspace,
-                readonly quickPickService?: QuickPickService) {
+    readonly languageClientContribution: LanguageClientContribution
+    readonly fileSaver: TheiaFileSaver
+    readonly editorManager: EditorManager
+    readonly widgetManager: WidgetManager
+    readonly diagramManager: DiagramManager
+    readonly workspace?: Workspace
+    readonly quickPickService?: QuickPickService
+
+    constructor(services: TheiaSprottyConnectorServices) {
+        Object.assign(this, services)
         this.languageClientContribution.languageClient.then(
             lc => {
                 lc.onNotification(acceptMessageType, this.receivedThroughLsp.bind(this))
@@ -102,8 +117,8 @@ export class TheiaSprottyConnector {
     }
 
     showStatus(widgetId: string, status: ServerStatusAction): void {
-        const widget = this.diagramWidgetRegistry.getWidgetById(widgetId)
-        if (widget)
+        const widget = this.widgetManager.getWidgets(this.diagramManager.id).find(w => w.id === widgetId)
+        if (widget instanceof DiagramWidget)
             widget.setStatus(status)
     }
 

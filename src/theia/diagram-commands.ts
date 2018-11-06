@@ -23,12 +23,12 @@ import {
     SelectAllAction
 } from 'sprotty/lib'
 import { DiagramWidget } from './diagram-widget'
-import { DiagramManagerImpl } from './diagram-manager'
 import { injectable, inject } from 'inversify'
 import { MAIN_MENU_BAR, MenuContribution, MenuModelRegistry, CommandContribution,
          CommandHandler, CommandRegistry, MenuPath } from '@theia/core/lib/common'
 import { ApplicationShell, OpenerService, CommonCommands } from '@theia/core/lib/browser'
 import { EDITOR_CONTEXT_MENU, EditorManager } from "@theia/editor/lib/browser"
+import { DiagramManager } from './diagram-manager';
 
 export namespace DiagramCommands {
     export const CENTER = 'diagram:center'
@@ -93,7 +93,7 @@ export class OpenInDiagramHandler implements CommandHandler {
             const uri = editor.editor.uri
             const openers = this.openerService.getOpeners(uri)
             openers.then(openers => {
-                const opener = openers.find(opener => opener instanceof DiagramManagerImpl)
+                const opener = openers.find(opener => opener instanceof DiagramManager)
                 if (opener !== undefined)
                     opener.open(uri)
             })

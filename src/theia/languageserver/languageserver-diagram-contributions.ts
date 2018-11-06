@@ -18,9 +18,9 @@ import { CommandContribution, CommandRegistry } from "@theia/core";
 import { ApplicationShell, KeybindingContribution, KeybindingRegistry } from "@theia/core/lib/browser";
 import { inject, injectable } from "inversify";
 import { DeleteWithWorkspaceEditAction } from "../../sprotty/languageserver/delete";
-import { TheiaDiagramServer } from "../../sprotty/theia-diagram-server";
 import { DiagramCommandHandler, DiagramCommands } from "../diagram-commands";
 import { DiagramKeybindingContext } from "../diagram-keybinding";
+import { DiagramWidget } from "../diagram-widget";
 
 @injectable()
 export class LSDiagramCommandContribution implements CommandContribution {
@@ -36,10 +36,10 @@ export class LSDiagramCommandContribution implements CommandContribution {
         registry.registerHandler(
             DiagramCommands.DELETE,
             new DiagramCommandHandler(this.shell, widget => {
-                if (widget.modelSource instanceof TheiaDiagramServer) {
-                    const workspace  = widget.modelSource.getWorkspace()
+                if (widget instanceof DiagramWidget) {
+                    const workspace  = widget.connector ? widget.connector.workspace : undefined;
                     if (workspace) {
-                        const action = new DeleteWithWorkspaceEditAction(workspace, widget.modelSource.getSourceUri());
+                        const action = new DeleteWithWorkspaceEditAction(workspace, widget.uri.toString(false));
                         widget.actionDispatcher.dispatch(action);
                     }
                 }

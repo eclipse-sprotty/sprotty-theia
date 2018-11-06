@@ -14,50 +14,68 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { RequestModelAction, CenterAction, InitializeCanvasBoundsAction, ModelSource, ServerStatusAction, IActionDispatcher } from 'sprotty/lib';
+import { RequestModelAction, CenterAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher, ModelSource, TYPES, DiagramServer } from 'sprotty/lib';
 import { Widget } from "@phosphor/widgets"
 import { Message } from "@phosphor/messaging/lib"
-import URI from "@theia/core/lib/common/uri"
 import { BaseWidget } from '@theia/core/lib/browser/widgets/widget'
+import { StatefulWidget } from '@theia/core/lib/browser';
+import URI from '@theia/core/lib/common/uri';
+import { TheiaSprottyConnector } from '../sprotty/theia-sprotty-connector';
+import { Container } from 'inversify';
+import { TheiaDiagramServer } from '../sprotty/theia-diagram-server';
 
 export interface DiagramWidgetOptions {
-    id: string
+    widgetId: string,
     svgContainerId: string
-    uri: URI
+    uri: string
     diagramType: string
-    modelSource: ModelSource
-    actionDispatcher: IActionDispatcher
+    label: string
+    iconClass: string
 }
 
-export type DiagramWidgetFactory = (options: DiagramWidgetOptions) => DiagramWidget
-export const DiagramWidgetFactory = Symbol('DiagramWidgetFactory')
+export namespace DiagramWidgetOptions {
+    export function is(options: any): options is DiagramWidgetOptions {
+        return options.widgetId
+            && options.svgContainerId
+            && options.diagramType
+            && options.uri
+            && options.label
+            && options.iconClass
+    }
+}
 
-export class DiagramWidget extends BaseWidget {
+export class DiagramWidget extends BaseWidget implements StatefulWidget {
 
     private statusIconDiv: HTMLDivElement
     private statusMessageDiv: HTMLDivElement
 
-    public readonly id: string
-    public readonly svgContainerId: string
-    public readonly uri: URI
-    public readonly diagramType: string
-    public readonly modelSource: ModelSource
-    public readonly actionDispatcher: IActionDispatcher
+    protected options: DiagramWidgetOptions
+    protected _actionDispatcher: IActionDispatcher
 
-    constructor(options: DiagramWidgetOptions) {
+    get id(): string {
+        return this.options.widgetId
+    }
+
+    get uri(): URI {
+        return new URI(this.options.uri)
+    }
+
+    get actionDispatcher(): IActionDispatcher {
+        return this.diContainer.get(TYPES.IActionDispatcher);
+    }
+
+    constructor(options: DiagramWidgetOptions, readonly diContainer: Container, readonly connector?: TheiaSprottyConnector) {
         super()
-        this.id = options.id
-        this.svgContainerId = options.svgContainerId
-        this.uri = options.uri
-        this.diagramType = options.diagramType
-        this.modelSource = options.modelSource
-        this.actionDispatcher = options.actionDispatcher
+        this.options = options
+        this.title.closable = true
+        this.title.label = options.label
+        this.title.iconClass = options.iconClass
     }
 
     protected onAfterAttach(msg: Message): void {
         super.onAfterAttach(msg)
         const svgContainer = document.createElement("div")
-        svgContainer.id = this.svgContainerId
+        svgContainer.id = this.options.svgContainerId
         this.node.appendChild(svgContainer)
 
         const statusDiv = document.createElement("div")
@@ -71,10 +89,22 @@ export class DiagramWidget extends BaseWidget {
         this.statusMessageDiv = document.createElement("div")
         this.statusMessageDiv.setAttribute('class', 'sprotty-status-message')
         statusDiv.appendChild(this.statusMessageDiv)
+        this.initializeSprotty()
+    }
 
-        this.modelSource.handle(new RequestModelAction({
-            sourceUri: this.uri.toString(true),
-            diagramType: this.diagramType
+    protected initializeSprotty() {
+        const modelSource = this.diContainer.get<ModelSource>(TYPES.ModelSource)
+        if (modelSource instanceof DiagramServer)
+            modelSource.clientId = this.options.widgetId
+        if (modelSource instanceof TheiaDiagramServer && this.connector)
+            this.connector.connect(modelSource)
+        this.disposed.connect(() => {
+            if (modelSource instanceof TheiaDiagramServer && this.connector)
+                this.connector.disconnect(modelSource)
+        })
+        this.actionDispatcher.dispatch(new RequestModelAction({
+            sourceUri: this.options.uri,
+            diagramType: this.options.diagramType
         }))
     }
 
@@ -97,9 +127,34 @@ export class DiagramWidget extends BaseWidget {
 
     protected onActivateRequest(msg: Message): void {
         super.onActivateRequest(msg)
-        const svgElement = this.node.querySelector(`#${this.svgContainerId} svg`) as HTMLElement
+        const svgElement = this.node.querySelector(`#${this.options.svgContainerId} svg`) as HTMLElement
         if (svgElement !== null)
             svgElement.focus()
+    }
+
+    /**
+     * We cannot activate the widget before the SVG element is there, as it takes the focus.
+     * This should happen within two animation frames, as the action dispatcher issues
+     * a SetModelCommand in the constructor. OTOH, shell.activateWidget() is synchronous. So
+     * after creating the widget and before activating it, we use this method to wait for the
+     * SVG to be appended to the DOM.
+     */
+    async getSvgElement(): Promise<HTMLElement | undefined> {
+        return new Promise<HTMLElement | undefined>((resolve) => {
+            let frames = 0
+            const waitForSvg = () => {
+                requestAnimationFrame(() => {
+                    const svgElement = this.node.querySelector(`#${this.options.svgContainerId} svg`) as HTMLElement
+                    if (svgElement !== null)
+                        resolve(svgElement)
+                    else if (++frames < 5)
+                        waitForSvg()
+                    else
+                        resolve(undefined)
+                })
+            }
+            waitForSvg()
+        });
     }
 
     setStatus(status: ServerStatusAction): void {
@@ -126,5 +181,14 @@ export class DiagramWidget extends BaseWidget {
             if (item)
                 classes.remove(item)
         }
+    }
+
+    storeState(): object {
+        return this.options
+    }
+
+    restoreState(oldState: object): void {
+        if (DiagramWidgetOptions.is(oldState))
+            this.options = oldState
     }
 }
