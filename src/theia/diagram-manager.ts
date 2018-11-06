@@ -73,16 +73,15 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
     }
 
     protected createWidgetOptions(uri: URI, options?: WidgetOpenerOptions): Object {
-        const widgetId = this.diagramType + '_' + (this.widgetCount++)
+        const clientId = this.diagramType + '_' + (this.widgetCount++)
         const widgetOptions = options && options.widgetOptions;
         return {
             ...<DiagramWidgetOptions> {
-                widgetId,
+                clientId,
                 diagramType: this.diagramType,
                 uri: uri.toString(false),
                 iconClass: this.iconClass,
-                label: uri.path.base,
-                svgContainerId: widgetId + '_sprotty'
+                label: uri.path.base
             },
             ...widgetOptions
         }
@@ -91,7 +90,7 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
     async createWidget(options?: any): Promise<Widget> {
         if (DiagramWidgetOptions.is(options)) {
             const config = this.diagramConfigurationRegistry.get(options.diagramType)
-            const diContainer = config.createContainer(options.svgContainerId)
+            const diContainer = config.createContainer(options.clientId + '_sprotty')
             const diagramWidget = new DiagramWidget(options, diContainer, this.diagramConnector)
             return diagramWidget;
         }

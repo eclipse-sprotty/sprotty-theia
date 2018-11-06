@@ -14,7 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { RequestModelAction, CenterAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher, ModelSource, TYPES, DiagramServer } from 'sprotty/lib';
+import { RequestModelAction, CenterAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher,
+    ModelSource, TYPES, DiagramServer, ViewerOptions } from 'sprotty/lib';
 import { Widget } from "@phosphor/widgets"
 import { Message } from "@phosphor/messaging/lib"
 import { BaseWidget } from '@theia/core/lib/browser/widgets/widget'
@@ -25,8 +26,7 @@ import { Container } from 'inversify';
 import { TheiaDiagramServer } from '../sprotty/theia-diagram-server';
 
 export interface DiagramWidgetOptions {
-    widgetId: string,
-    svgContainerId: string
+    clientId: string,
     uri: string
     diagramType: string
     label: string
@@ -35,8 +35,7 @@ export interface DiagramWidgetOptions {
 
 export namespace DiagramWidgetOptions {
     export function is(options: any): options is DiagramWidgetOptions {
-        return options.widgetId
-            && options.svgContainerId
+        return options.clientId
             && options.diagramType
             && options.uri
             && options.label
@@ -53,7 +52,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
     protected _actionDispatcher: IActionDispatcher
 
     get id(): string {
-        return this.options.widgetId
+        return this.options.clientId
     }
 
     get uri(): URI {
@@ -62,6 +61,10 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
 
     get actionDispatcher(): IActionDispatcher {
         return this.diContainer.get(TYPES.IActionDispatcher);
+    }
+
+    get viewerOptions(): ViewerOptions {
+        return this.diContainer.get(TYPES.ViewerOptions)
     }
 
     constructor(options: DiagramWidgetOptions, readonly diContainer: Container, readonly connector?: TheiaSprottyConnector) {
@@ -74,9 +77,14 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
 
     protected onAfterAttach(msg: Message): void {
         super.onAfterAttach(msg)
+
         const svgContainer = document.createElement("div")
-        svgContainer.id = this.options.svgContainerId
+        svgContainer.id = this.viewerOptions.baseDiv
         this.node.appendChild(svgContainer)
+
+        const hiddenContainer = document.createElement("div")
+        hiddenContainer.id = this.viewerOptions.hiddenDiv
+        this.node.appendChild(hiddenContainer)
 
         const statusDiv = document.createElement("div")
         statusDiv.setAttribute('class', 'sprotty-status')
@@ -95,7 +103,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
     protected initializeSprotty() {
         const modelSource = this.diContainer.get<ModelSource>(TYPES.ModelSource)
         if (modelSource instanceof DiagramServer)
-            modelSource.clientId = this.options.widgetId
+            modelSource.clientId = this.options.clientId
         if (modelSource instanceof TheiaDiagramServer && this.connector)
             this.connector.connect(modelSource)
         this.disposed.connect(() => {
@@ -127,7 +135,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
 
     protected onActivateRequest(msg: Message): void {
         super.onActivateRequest(msg)
-        const svgElement = this.node.querySelector(`#${this.options.svgContainerId} svg`) as HTMLElement
+        const svgElement = this.node.querySelector(`#${this.viewerOptions.baseDiv} svg`) as HTMLElement
         if (svgElement !== null)
             svgElement.focus()
     }
@@ -144,7 +152,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
             let frames = 0
             const waitForSvg = () => {
                 requestAnimationFrame(() => {
-                    const svgElement = this.node.querySelector(`#${this.options.svgContainerId} svg`) as HTMLElement
+                    const svgElement = this.node.querySelector(`#${this.viewerOptions.baseDiv} svg`) as HTMLElement
                     if (svgElement !== null)
                         resolve(svgElement)
                     else if (++frames < 5)
