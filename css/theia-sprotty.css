@@ -34,6 +34,10 @@ svg {
     border-color: #bbb;
 }
 
+svg:focus {
+    border-width: 0;
+}
+
 .sprotty-status {
     position: absolute;
     top: 5px;
