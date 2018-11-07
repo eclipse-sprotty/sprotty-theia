@@ -18,7 +18,6 @@ export * from './code-action-palette';
 export * from './completion-label-edit';
 export * from './delete';
 export * from './workspace-edit-command';
-export * from './ranged';
 export * from './rename-label-edit';
 export * from './traceable';
 export * from './workspace-edit-command';

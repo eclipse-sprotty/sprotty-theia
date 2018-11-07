@@ -15,13 +15,42 @@
  ********************************************************************************/
 
 import { SModelElement, SModelExtension } from "sprotty/lib";
-
-export const traceFeature = Symbol("traceFeature")
+import { Range } from "@theia/languages/lib/browser";
+import URI from "@theia/core/lib/common/uri";
 
 export interface Traceable extends SModelExtension {
     trace: string
 }
 
 export function isTraceable<T extends SModelElement>(element: T): element is Traceable & T {
-   return element.hasFeature(traceFeature) && (element as any).trace !== null
+   return !!(element as any).trace && !!getRange((element as any).trace)
+}
+
+export function getRange(traceable: Traceable): Range
+export function getRange(trace: string): Range | undefined
+export function getRange(trace: object): Range | undefined
+export function getRange(thing: string | Traceable | object): Range | undefined {
+    const trace = typeof thing === 'string'
+        ? thing
+        : (thing as any).trace
+    if (!trace)
+        return undefined
+    const query = new URI(trace).query
+    const numbers = query.split(/[:-]/).map(s => parseInt(s, 10));
+    if (numbers.length !== 4 || numbers.find(isNaN) !== undefined)
+        return undefined
+    return <Range> {
+        start: {
+            line: numbers[0],
+            character: numbers[1]
+        },
+        end: {
+            line: numbers[2],
+            character: numbers[3]
+        }
+    };
+}
+
+export function getURI(traceable: Traceable): URI {
+    return new URI(traceable.trace).withoutQuery();
 }

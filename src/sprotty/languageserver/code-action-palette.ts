@@ -18,9 +18,9 @@ import { inject, injectable } from "inversify";
 import { Action, EMPTY_ROOT, HtmlRootSchema, PopupHoverMouseListener, RequestPopupModelAction,
     SButton, SButtonSchema, SetPopupModelAction, SModelElement, SModelElementSchema, SModelRootSchema } from "sprotty/lib";
 import { TheiaDiagramServerProvider, IRootPopupModelProvider } from '../theia-diagram-server';
-import { toLsRange } from './ranged';
 import { CodeAction, CodeActionParams, CodeActionRequest, Range } from '@theia/languages/lib/browser';
 import { WorkspaceEditAction } from "./workspace-edit-command";
+import { getRange } from "./traceable";
 
 @injectable()
 export class CodeActionProvider {
@@ -53,9 +53,8 @@ export class CodeActionPalettePopupProvider implements IRootPopupModelProvider {
     @inject(CodeActionProvider) codeActionProvider: CodeActionProvider;
 
     async getPopupModel(action: RequestPopupModelAction, rootElement: SModelRootSchema): Promise<SModelElementSchema | undefined> {
-        const rangeString: string = (rootElement as any)['range'];
-        if (rangeString !== undefined) {
-            const range = toLsRange(rangeString);
+        const range = getRange(rootElement);
+        if (range !== undefined) {
             const codeActions = await this.codeActionProvider.getCodeActions(range, 'sprotty.create');
             if (codeActions) {
                 const buttons: PaletteButtonSchema[] = [];
