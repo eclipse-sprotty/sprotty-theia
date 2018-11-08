@@ -17,7 +17,7 @@
 import { TextEdit, Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
 import { Action, CommandExecutionContext, isSelectable, SEdge, Selectable, SModelElement, SModelRoot, SChildElement } from "sprotty/lib";
 import { AbstractWorkspaceEditCommand } from "./workspace-edit-command";
-import { toLsRange, isRanged, Ranged } from "./ranged";
+import { getRange, Traceable, isTraceable } from "./traceable";
 
 export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand {
     static readonly KIND = 'deleteWithWorkspaceEdit'
@@ -36,7 +36,7 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
         // TODO: consider URIs from element traces
         elementsToBeDeleted.forEach(e => {
             textEdits.push({
-                range: toLsRange(e.range),
+                range: getRange(e),
                 newText: ''
             });
         })
@@ -49,12 +49,12 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
     }
 
     private findElementsToBeDeleted(root: SModelRoot) {
-        const elements = new Set<SModelElement & Ranged>();
+        const elements = new Set<SModelElement & Traceable>();
         const index = root.index;
         index.all().forEach(e => {
             if (e && this.shouldDelete(e))
                 elements.add(e);
-            else if (e instanceof SEdge && isRanged(e)) {
+            else if (e instanceof SEdge && isTraceable(e)) {
                 const source = index.getById(e.sourceId);
                 const target = index.getById(e.targetId);
                 if (this.shouldDeleteParent(source)
@@ -65,8 +65,8 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
         return elements
     }
 
-    private shouldDelete<T extends SModelElement>(e: T): e is (Ranged & Selectable & T) {
-        return isSelectable(e) && e.selected && isRanged(e);
+    private shouldDelete<T extends SModelElement>(e: T): e is (Traceable & Selectable & T) {
+        return isSelectable(e) && e.selected && isTraceable(e);
     }
 
     private shouldDeleteParent(source: SModelElement | undefined): boolean {

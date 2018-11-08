@@ -15,18 +15,18 @@
  ********************************************************************************/
 
 import { SLabel } from "sprotty/lib";
-import { Ranged, toLsRange } from "./ranged";
 import { inject, injectable } from "inversify";
 import { TheiaDiagramServerProvider } from "../theia-diagram-server";
 import { CompletionRequest, CompletionList, CompletionItem, TextEdit } from '@theia/languages/lib/browser';
+import { Traceable, getRange } from "./traceable";
 
 @injectable()
 export class CompletionLabelEditor {
 
     @inject(TheiaDiagramServerProvider) diagramServerProvider: TheiaDiagramServerProvider;
 
-    async edit(element: SLabel & Ranged) {
-        const range = toLsRange(element.range);
+    async edit(element: SLabel & Traceable) {
+        const range = getRange(element);
         const diagramServer = await this.diagramServerProvider();
         const connector = await diagramServer.getConnector();
         if (connector.quickPickService && connector.workspace) {
