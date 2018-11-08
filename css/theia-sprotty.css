@@ -14,13 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-.copyright {
-    margin-top: 10px;
-    text-align: right;
-    font-size: 10px;
-    color: #888;
-}
-
 .sprotty {
     display: flex;
     height:100%;
@@ -31,7 +24,6 @@ svg {
     flex: 1;
     border-style: solid;
     border-width: 0px;
-    border-color: #bbb;
 }
 
 svg:focus {
@@ -46,30 +38,40 @@ svg:focus {
     align-items: center;
 }
 
+.sprotty-status .fatal {
+    color: var(--theia-error-color1)
+}
+
 .sprotty-status .error {
-    color: #ff0000
+    color: var(--theia-error-color0)
 }
 
 .sprotty-status .warning {
-    color: #ffff00
+    color: var(--theia-warn-color0)
 }
 
 .sprotty-status .info {
-    color: #bbbbbb
+    color: var(--theia-info-color0)
 }
 
 .sprotty-error {
-    fill: #ff0000
+    fill: var(--theia-error-color0);
+    color: var(--theia-error-color0);
 }
 
 .sprotty-warning {
-    fill: #ffff00
+    fill: var(--theia-warn-color0);
+    color: var(--theia-warn-color0);
 }
 
 .sprotty-info {
-    fill: #bbbbbb
+    fill: var(--theia-info-color0);
+    color: var(--theia-info-color0);
 }
 
+.sprotty-infoRow .fa {
+    margin-right: 8px;
+}
 .sprotty-status .ok {
     visibility: hidden;
 }
@@ -81,4 +83,25 @@ svg:focus {
 
 .sprotty-status:hover .sprotty-status-message {
     visibility: visible;
+}
+
+.sprotty-popup {
+    position: absolute;
+    background: #FFE9BE;
+    border-radius: 0px;
+    border: none;
+    max-width: initial;
+    min-width: initial;
+    z-index: 1;
+    padding: 8px;
+}
+
+.sprotty-infoRow {
+    font-size: small;
+    margin-bottom: 8px;
+}
+
+.sprotty-infoTitle {
+    display: block;
+    font-weight: bold;
 }
