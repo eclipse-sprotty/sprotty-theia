@@ -91,7 +91,6 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
         this.node.appendChild(statusDiv)
 
         this.statusIconDiv = document.createElement("div")
-        this.statusIconDiv.setAttribute('class', 'fa')
         statusDiv.appendChild(this.statusIconDiv)
 
         this.statusMessageDiv = document.createElement("div")
@@ -169,15 +168,25 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
         this.statusMessageDiv.textContent = status.message
         this.removeClasses(this.statusMessageDiv, 1)
         this.statusMessageDiv.classList.add(status.severity.toLowerCase())
-        this.removeClasses(this.statusIconDiv, 1)
+        this.removeClasses(this.statusIconDiv, 0)
         const classes = this.statusIconDiv.classList
         classes.add(status.severity.toLowerCase())
         switch (status.severity) {
-            case 'ERROR': classes.add('fa-exclamation-circle')
+            case 'FATAL':
+                classes.add('fa')
+                classes.add('fa-times-circle')
                 break
-            case 'WARNING': classes.add('fa-warning')
+            case 'ERROR':
+                classes.add('fa')
+                classes.add('fa-exclamation-circle')
                 break
-            case 'INFO': classes.add('fa-info-circle')
+            case 'WARNING':
+                classes.add('fa')
+                classes.add('fa-exclamation-circle')
+                break
+            case 'INFO':
+                classes.add('fa')
+                classes.add('fa-info-circle')
                 break
         }
     }
