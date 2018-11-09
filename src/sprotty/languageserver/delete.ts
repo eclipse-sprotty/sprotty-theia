@@ -15,9 +15,10 @@
  ********************************************************************************/
 
 import { TextEdit, Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
-import { Action, CommandExecutionContext, isSelectable, SEdge, Selectable, SModelElement, SModelRoot, SChildElement } from "sprotty/lib";
+import { Action, CommandExecutionContext, isSelectable, SEdge, Selectable, SModelElement, SChildElement } from "sprotty/lib";
 import { AbstractWorkspaceEditCommand } from "./workspace-edit-command";
-import { getRange, Traceable, isTraceable } from "./traceable";
+import { getRange, Traceable, isTraceable, getURI } from "./traceable";
+import { Range } from "@theia/languages/lib/browser";
 
 export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand {
     static readonly KIND = 'deleteWithWorkspaceEdit'
@@ -30,27 +31,9 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
         return this.action.workspace;
     }
 
-    createWorkspaceEdit(context: CommandExecutionContext) {
-        const elementsToBeDeleted = this.findElementsToBeDeleted(context.root);
-        const textEdits: TextEdit[] = [];
-        // TODO: consider URIs from element traces
-        elementsToBeDeleted.forEach(e => {
-            textEdits.push({
-                range: getRange(e),
-                newText: ''
-            });
-        })
-        const workspaceEdit: WorkspaceEdit = {
-            changes: {
-                [this.action.sourceUri]: textEdits
-            }
-        }
-        return workspaceEdit;
-    }
-
-    private findElementsToBeDeleted(root: SModelRoot) {
+    createWorkspaceEdit(context: CommandExecutionContext): WorkspaceEdit {
         const elements = new Set<SModelElement & Traceable>();
-        const index = root.index;
+        const index = context.root.index;
         index.all().forEach(e => {
             if (e && this.shouldDelete(e))
                 elements.add(e);
@@ -62,7 +45,59 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
                     elements.add(e);
             }
         });
-        return elements
+        const uri2ranges: Map<string, Range[]> = new Map()
+        elements.forEach(element => {
+            const uri = getURI(element).withoutFragment().toString(true)
+            const range = getRange(element)
+            let ranges = uri2ranges.get(uri)
+            if (!ranges) {
+                ranges = []
+                uri2ranges.set(uri, ranges)
+            }
+            let mustAdd = true
+            for (let i = 0; i < ranges.length; ++i) {
+                const r = ranges[i]
+                if (this.containsRange(r, range)) {
+                    mustAdd = false
+                    break
+                } else if (this.containsRange(range, r)) {
+                    mustAdd = false
+                    ranges[i] = range
+                    break
+                }
+            }
+            if (mustAdd)
+                ranges.push(range)
+        })
+        const changes = {}
+        uri2ranges.forEach((ranges, uri) => {
+            (changes as any)[uri] = ranges.map(range => {
+                return <TextEdit> {
+                    range,
+                    newText: ''
+                }
+            })
+        });
+        const workspaceEdit: WorkspaceEdit = {
+            changes
+        }
+        return workspaceEdit;
+    }
+
+    private containsRange(range: Range, otherRange: Range): boolean {
+        if (otherRange.start.line < range.start.line || otherRange.end.line < range.start.line) {
+            return false;
+        }
+        if (otherRange.start.line > range.end.line || otherRange.end.line > range.end.line) {
+            return false;
+        }
+        if (otherRange.start.line === range.start.line && otherRange.start.character < range.start.character) {
+            return false;
+        }
+        if (otherRange.end.line === range.end.line && otherRange.end.character > range.end.character) {
+            return false;
+        }
+        return true;
     }
 
     private shouldDelete<T extends SModelElement>(e: T): e is (Traceable & Selectable & T) {
