@@ -52,7 +52,9 @@
     "watch": "tsc -w -p ./tsconfig.json",
     "test": "jenkins-mocha --opts ./mocha.opts \"./src/**/*.spec.?(ts|tsx)\"",
     "prepare": "yarn run clean && yarn run build",
-    "prepublishOnly": "yarn run test"
+    "prepublishOnly": "yarn run test",
+    "publish:next": "lerna publish --registry=https://registry.npmjs.org/ --exact --canary preminor --preid next --npm-tag next --no-git-tag-version --no-push --yes",
+    "publish:latest": "lerna publish --registry=https://registry.npmjs.org/ --exact --no-git-tag-version --no-push"
   },
   "files": [
     "lib",
