@@ -32,7 +32,7 @@
     "@theia/filesystem": "next",
     "@theia/languages": "next",
     "@theia/monaco": "next",
-    "sprotty": "^0.4.2"
+    "sprotty": "next"
   },
   "devDependencies": {
     "@types/chai": "^4.1.3",
