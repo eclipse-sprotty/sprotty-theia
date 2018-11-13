@@ -52,8 +52,8 @@ describe('inversify', () => {
             bind(Connector).to(Connector).inSingletonScope()
             bind(Manager0).to(Manager0).inSingletonScope()
             bind(Manager1).to(Manager1).inSingletonScope()
-            bind(m0).toDynamicValue(c => c.container.get(Manager0))
-            bind(m1).toDynamicValue(c => c.container.get(Manager1))
+            bind(m0).toService(Manager0)
+            bind(m1).toService(Manager1)
         })
 
         const container = new Container()
