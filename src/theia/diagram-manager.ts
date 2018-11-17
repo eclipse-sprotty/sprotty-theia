@@ -21,6 +21,11 @@ import URI from "@theia/core/lib/common/uri";
 import { EditorManager } from "@theia/editor/lib/browser";
 import { TheiaSprottyConnector } from "../sprotty/theia-sprotty-connector";
 import { DiagramConfigurationRegistry } from "./diagram-configuration";
+import { Emitter, Event } from "@theia/core";
+
+export const DiagramManagerProvider = Symbol('DiagramManagerProvider')
+
+export type DiagramManagerProvider = () => Promise<DiagramManager>
 
 @injectable()
 export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> implements WidgetFactory {
@@ -34,6 +39,8 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
     abstract get iconClass(): string
 
     private widgetCount = 0
+
+    protected readonly onDiagramOpenedEmitter = new Emitter<URI>()
 
     canHandle(uri: URI, options?: WidgetOpenerOptions | undefined): number {
         return 10
@@ -65,11 +72,16 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
             promises.push(this.onReveal(widget));
             this.shell.revealWidget(widget.id);
         }
+        this.onDiagramOpenedEmitter.fire(widget.uri)
         await Promise.all(promises);
     }
 
     get id() {
         return this.diagramType + "-diagram-manager"
+    }
+
+    get onDiagramOpened(): Event<URI> {
+        return this.onDiagramOpenedEmitter.event
     }
 
     protected createWidgetOptions(uri: URI, options?: WidgetOpenerOptions): Object {

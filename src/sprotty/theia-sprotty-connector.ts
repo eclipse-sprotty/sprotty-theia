@@ -19,7 +19,7 @@ import { ILanguageClient, Workspace } from '@theia/languages/lib/browser';
 import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty/lib';
 import { DiagramManager } from '../theia/diagram-manager';
 import { DiagramWidget } from '../theia/diagram-widget';
-import { ActionMessageReceiver, DiagramLanguageClient } from './sprotty-language-client-extension';
+import { ActionMessageReceiver, DiagramLanguageClient } from '../theia/languageserver';
 import { TheiaDiagramServer } from './theia-diagram-server';
 import { TheiaFileSaver } from './theia-file-saver';
 
