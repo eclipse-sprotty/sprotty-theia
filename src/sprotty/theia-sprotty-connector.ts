@@ -14,29 +14,18 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty/lib'
-import { TheiaDiagramServer } from './theia-diagram-server'
-import { LanguageClientContribution, ILanguageClient, Workspace, Location, NotificationType } from '@theia/languages/lib/browser'
-import { EditorManager } from '@theia/editor/lib/browser'
-import { TheiaFileSaver } from './theia-file-saver'
-import URI from "@theia/core/lib/common/uri"
 import { QuickPickService, WidgetManager } from '@theia/core/lib/browser';
+import { ILanguageClient, Workspace } from '@theia/languages/lib/browser';
+import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty/lib';
 import { DiagramManager } from '../theia/diagram-manager';
 import { DiagramWidget } from '../theia/diagram-widget';
-
-export interface OpenInTextEditorMessage {
-    location: Location
-    forceOpen: boolean
-}
-
-const acceptMessageType = new NotificationType<ActionMessage, void>('diagram/accept')
-const didCloseMessageType = new NotificationType<string, void>('diagram/didClose')
-const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage, void>('diagram/openInTextEditor')
+import { ActionMessageReceiver, DiagramLanguageClient } from './sprotty-language-client-extension';
+import { TheiaDiagramServer } from './theia-diagram-server';
+import { TheiaFileSaver } from './theia-file-saver';
 
 export interface TheiaSprottyConnectorServices {
-    readonly languageClientContribution: LanguageClientContribution,
+    readonly diagramLanguageClient: DiagramLanguageClient,
     readonly fileSaver: TheiaFileSaver,
-    readonly editorManager: EditorManager,
     readonly widgetManager: WidgetManager,
     readonly diagramManager: DiagramManager,
     readonly workspace?: Workspace,
@@ -53,13 +42,12 @@ export interface TheiaSprottyConnectorServices {
  * diagram) and a specific language client from the Theia DI container
  * (one per application).
  */
-export class TheiaSprottyConnector implements TheiaSprottyConnectorServices {
+export class TheiaSprottyConnector implements TheiaSprottyConnectorServices, ActionMessageReceiver {
 
     private servers: TheiaDiagramServer[] = []
 
-    readonly languageClientContribution: LanguageClientContribution
+    readonly diagramLanguageClient: DiagramLanguageClient
     readonly fileSaver: TheiaFileSaver
-    readonly editorManager: EditorManager
     readonly widgetManager: WidgetManager
     readonly diagramManager: DiagramManager
     readonly workspace?: Workspace
@@ -67,14 +55,7 @@ export class TheiaSprottyConnector implements TheiaSprottyConnectorServices {
 
     constructor(services: TheiaSprottyConnectorServices) {
         Object.assign(this, services)
-        this.languageClientContribution.languageClient.then(
-            lc => {
-                lc.onNotification(acceptMessageType, this.receivedThroughLsp.bind(this))
-                lc.onNotification(openInTextEditorMessageType, this.openInTextEditor.bind(this))
-            }
-        ).catch(
-            err => console.error(err)
-        )
+        this.diagramLanguageClient.connect(this)
     }
 
     connect(diagramServer: TheiaDiagramServer) {
@@ -87,33 +68,11 @@ export class TheiaSprottyConnector implements TheiaSprottyConnectorServices {
         if (index >= 0)
             this.servers.splice(index, 0)
         diagramServer.disconnect()
-        this.languageClientContribution.languageClient.then(lc => lc.sendNotification(didCloseMessageType, diagramServer.clientId))
+        this.diagramLanguageClient.didClose(diagramServer.clientId)
     }
 
     save(uri: string, action: ExportSvgAction) {
         this.fileSaver.save(uri, action)
-    }
-
-    openInTextEditor(message: OpenInTextEditorMessage) {
-        const uri = new URI(message.location.uri)
-        if (!message.forceOpen) {
-            this.editorManager.all.forEach(editorWidget => {
-                const currentTextEditor = editorWidget.editor
-                if (editorWidget.isVisible && uri.toString(true) === currentTextEditor.uri.toString(true)) {
-                    currentTextEditor.cursor = message.location.range.start
-                    currentTextEditor.revealRange(message.location.range)
-                    currentTextEditor.selection = message.location.range
-                }
-            })
-        } else {
-            this.editorManager.open(uri).then(
-                editorWidget => {
-                    const editor = editorWidget.editor
-                    editor.cursor = message.location.range.start
-                    editor.revealRange(message.location.range)
-                    editor.selection = message.location.range
-                })
-        }
     }
 
     showStatus(widgetId: string, status: ServerStatusAction): void {
@@ -123,14 +82,14 @@ export class TheiaSprottyConnector implements TheiaSprottyConnectorServices {
     }
 
     sendThroughLsp(message: ActionMessage) {
-        this.languageClientContribution.languageClient.then(lc => lc.sendNotification(acceptMessageType, message))
+        this.diagramLanguageClient.sendThroughLsp(message)
     }
 
     getLanguageClient(): Promise<ILanguageClient> {
-        return this.languageClientContribution.languageClient
+        return this.diagramLanguageClient.languageClient
     }
 
-    receivedThroughLsp(message: ActionMessage) {
+    receivedThroughLsp(message: ActionMessage): void {
         this.servers.forEach(element => {
             element.messageReceived(message)
         })
