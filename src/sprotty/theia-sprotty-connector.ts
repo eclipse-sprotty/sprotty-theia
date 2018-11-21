@@ -22,10 +22,12 @@ import { DiagramWidget } from '../theia/diagram-widget';
 import { ActionMessageReceiver, DiagramLanguageClient } from '../theia/languageserver';
 import { TheiaDiagramServer } from './theia-diagram-server';
 import { TheiaFileSaver } from './theia-file-saver';
+import { EditorManager } from '@theia/editor/lib/browser';
 
 export interface TheiaSprottyConnectorServices {
     readonly diagramLanguageClient: DiagramLanguageClient,
     readonly fileSaver: TheiaFileSaver,
+    readonly editorManager: EditorManager,
     readonly widgetManager: WidgetManager,
     readonly diagramManager: DiagramManager,
     readonly workspace?: Workspace,
@@ -48,6 +50,7 @@ export class TheiaSprottyConnector implements TheiaSprottyConnectorServices, Act
 
     readonly diagramLanguageClient: DiagramLanguageClient
     readonly fileSaver: TheiaFileSaver
+    readonly editorManager: EditorManager
     readonly widgetManager: WidgetManager
     readonly diagramManager: DiagramManager
     readonly workspace?: Workspace
