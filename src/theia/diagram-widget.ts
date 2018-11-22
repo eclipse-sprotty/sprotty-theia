@@ -84,7 +84,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
 
         const hiddenContainer = document.createElement("div")
         hiddenContainer.id = this.viewerOptions.hiddenDiv
-        this.node.appendChild(hiddenContainer)
+        document.body.appendChild(hiddenContainer)
 
         const statusDiv = document.createElement("div")
         statusDiv.setAttribute('class', 'sprotty-status')
