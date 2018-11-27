@@ -91,7 +91,7 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
             ...<DiagramWidgetOptions> {
                 clientId,
                 diagramType: this.diagramType,
-                uri: uri.toString(false),
+                uri: uri.toString(true),
                 iconClass: this.iconClass,
                 label: uri.path.base
             },

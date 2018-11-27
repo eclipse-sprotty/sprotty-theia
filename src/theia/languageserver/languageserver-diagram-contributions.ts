@@ -39,7 +39,7 @@ export class LSDiagramCommandContribution implements CommandContribution {
                 if (widget instanceof DiagramWidget) {
                     const workspace  = widget.connector ? widget.connector.workspace : undefined;
                     if (workspace) {
-                        const action = new DeleteWithWorkspaceEditAction(workspace, widget.uri.toString(false));
+                        const action = new DeleteWithWorkspaceEditAction(workspace, widget.uri.toString(true));
                         widget.actionDispatcher.dispatch(action);
                     }
                 }
