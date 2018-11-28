@@ -14,11 +14,13 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
+import { ApplicationShell } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 import { EditorManager } from '@theia/editor/lib/browser';
 import { ILanguageClient, LanguageClientContribution, Location, NotificationType } from '@theia/languages/lib/browser';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { ActionMessage } from 'sprotty/lib';
+import { DiagramWidget } from '../diagram-widget';
 
 export interface ActionMessageReceiver {
     receivedThroughLsp(message: ActionMessage): void
@@ -37,6 +39,8 @@ const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage
 export class DiagramLanguageClient {
 
     actionMessageReceivers: ActionMessageReceiver[] = []
+
+    @inject(ApplicationShell) readonly shell: ApplicationShell
 
     constructor(readonly languageClientContribution: LanguageClientContribution,
                 readonly editorManager: EditorManager) {
@@ -62,7 +66,15 @@ export class DiagramLanguageClient {
                 }
             })
         } else {
-            this.editorManager.open(uri).then(
+            const widgetOptions: ApplicationShell.WidgetOptions = {
+                area: 'main'
+            }
+            const activeWidget = this.shell.activeWidget
+            if (activeWidget instanceof DiagramWidget) {
+                widgetOptions.ref = activeWidget
+                widgetOptions.mode = 'open-to-left'
+            }
+            this.editorManager.open(uri, { widgetOptions }).then(
                 editorWidget => {
                     const editor = editorWidget.editor
                     editor.cursor = message.location.range.start

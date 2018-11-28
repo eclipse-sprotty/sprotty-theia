@@ -58,7 +58,7 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
             }
             if (!!currentEditor && currentEditor.editor.uri.toString(true) === widget.uri.toString(true)) {
                 options.ref = currentEditor
-                options.mode = 'split-right'
+                options.mode = 'open-to-right'
             }
             this.shell.addWidget(widget, options)
         }

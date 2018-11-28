@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { SModelElement, SModelExtension } from "sprotty/lib";
+import { SModelElement, SModelExtension, MouseListener, Action, findParent, OpenAction } from "sprotty/lib";
 import { Range } from "@theia/languages/lib/browser";
 import URI from "@theia/core/lib/common/uri";
 
@@ -53,4 +53,14 @@ export function getRange(thing: string | Traceable | object): Range | undefine
 
 export function getURI(traceable: Traceable): URI {
     return new URI(traceable.trace).withoutQuery();
+}
+
+export class TraceableMouseListener extends MouseListener {
+    doubleClick(target: SModelElement, event: WheelEvent): (Action | Promise<Action>)[] {
+        const traceable = findParent(target, (element) => isTraceable(element))
+        if (traceable)
+            return [ new OpenAction(traceable.id) ]
+        else
+            return []
+    }
 }
