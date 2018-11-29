@@ -85,11 +85,9 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
     }
 
     protected createWidgetOptions(uri: URI, options?: WidgetOpenerOptions): Object {
-        const clientId = this.diagramType + '_' + (this.widgetCount++)
         const widgetOptions = options && options.widgetOptions;
         return {
             ...<DiagramWidgetOptions> {
-                clientId,
                 diagramType: this.diagramType,
                 uri: uri.toString(true),
                 iconClass: this.iconClass,
@@ -101,12 +99,17 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
 
     async createWidget(options?: any): Promise<Widget> {
         if (DiagramWidgetOptions.is(options)) {
+            const clientId = this.createClientId()
             const config = this.diagramConfigurationRegistry.get(options.diagramType)
-            const diContainer = config.createContainer(options.clientId + '_sprotty')
-            const diagramWidget = new DiagramWidget(options, diContainer, this.diagramConnector)
+            const diContainer = config.createContainer(clientId + '_sprotty')
+            const diagramWidget = new DiagramWidget(options, clientId, diContainer, this.diagramConnector)
             return diagramWidget;
         }
         throw Error('DiagramWidgetFactory needs DiagramWidgetOptions but got ' + JSON.stringify(options))
+    }
+
+    protected createClientId() {
+        return this.diagramType + '_' + (this.widgetCount++);
     }
 
     get diagramConnector(): TheiaSprottyConnector | undefined {

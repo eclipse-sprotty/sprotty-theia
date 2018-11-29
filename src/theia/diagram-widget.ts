@@ -26,7 +26,6 @@ import { Container } from 'inversify';
 import { TheiaDiagramServer } from '../sprotty/theia-diagram-server';
 
 export interface DiagramWidgetOptions {
-    clientId: string,
     uri: string
     diagramType: string
     label: string
@@ -35,8 +34,7 @@ export interface DiagramWidgetOptions {
 
 export namespace DiagramWidgetOptions {
     export function is(options: any): options is DiagramWidgetOptions {
-        return options.clientId
-            && options.diagramType
+        return options.diagramType
             && options.uri
             && options.label
             && options.iconClass
@@ -51,10 +49,6 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
     protected options: DiagramWidgetOptions
     protected _actionDispatcher: IActionDispatcher
 
-    get id(): string {
-        return this.options.clientId
-    }
-
     get uri(): URI {
         return new URI(this.options.uri)
     }
@@ -67,7 +61,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
         return this.diContainer.get(TYPES.ViewerOptions)
     }
 
-    constructor(options: DiagramWidgetOptions, readonly diContainer: Container, readonly connector?: TheiaSprottyConnector) {
+    constructor(options: DiagramWidgetOptions, readonly id: string, readonly diContainer: Container, readonly connector?: TheiaSprottyConnector) {
         super()
         this.options = options
         this.title.closable = true
@@ -102,7 +96,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
     protected initializeSprotty() {
         const modelSource = this.diContainer.get<ModelSource>(TYPES.ModelSource)
         if (modelSource instanceof DiagramServer)
-            modelSource.clientId = this.options.clientId
+            modelSource.clientId = this.id
         if (modelSource instanceof TheiaDiagramServer && this.connector)
             this.connector.connect(modelSource)
         this.disposed.connect(() => {
