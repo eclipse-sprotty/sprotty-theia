@@ -15,7 +15,6 @@
  ********************************************************************************/
 
 import { FrontendApplication } from '@theia/core/lib/browser';
-import URI from '@theia/core/lib/common/uri';
 import { BaseLanguageClientContribution, LanguageClientFactory, Languages, Workspace } from '@theia/languages/lib/browser';
 import { inject, injectable, multiInject } from 'inversify';
 import { DiagramManagerProvider } from '../diagram-manager';
@@ -42,7 +41,7 @@ export abstract class DiagramLanguageClientContribution extends BaseLanguageClie
         return Promise.race(this.diagramManagerProviders.map(diagramManagerProvider => {
             return diagramManagerProvider().then(diagramManager => {
                 return new Promise<void>((resolve) => {
-                    const disposable = diagramManager.onDiagramOpened((uri: URI) => {
+                    const disposable = diagramManager.onCreated((widget) => {
                         disposable.dispose()
                         resolve()
                     });
