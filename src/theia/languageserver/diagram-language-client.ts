@@ -85,7 +85,11 @@ export class DiagramLanguageClient {
     }
 
     sendThroughLsp(message: ActionMessage) {
-        this.languageClientContribution.languageClient.then(lc => lc.sendNotification(acceptMessageType, message))
+        this.languageClientContribution.languageClient.then(lc =>
+            lc.onReady().then(() =>
+                lc.sendNotification(acceptMessageType, message)
+            )
+        );
     }
 
     receivedThroughLsp(message: ActionMessage) {
