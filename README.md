@@ -1,3 +1,20 @@
 # sprotty-theia
 
-Glue code for sprotty diagrams in Theia.
+Glue code for [Sprotty diagram](https://github.com/eclipse/sprotty) - with or without language servers - in [Theia](https://theia-ide.org).
+
+## Build
+```bash
+yarn
+```
+
+Pre-build npm packages available from [npmjs](https://www.npmjs.com/package/sprotty-theia).
+
+## See also
+
+- [sprotty](https://github.com/eclipse/sprotty) the client part of the Sprotty framework. 
+- [sprotty-server](https://github.com/eclipse/sprotty-server) libraries to implement Sprotty diagram servers in Java. Also covers addin Sprotty diagram support to Xtext-based language servers.
+
+## References
+
+- [DSL in the Cloud example](http://github.com/TypeFox/theia-xtext-sprotty-example) an example using Xtext, Theia and Sprotty to create a DSL workbench in the cloud.
+- [yangster](http://github.com/theia-ide/yangster) a Theia extension for the YANG language.
