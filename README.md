@@ -1,6 +1,6 @@
 # sprotty-theia
 
-Glue code for [Sprotty diagram](https://github.com/eclipse/sprotty) - with or without language servers - in [Theia](https://theia-ide.org).
+Glue code for [Sprotty diagrams](https://github.com/eclipse/sprotty) - with or without language servers - in [Theia](https://theia-ide.org).
 
 ## Build
 ```bash
