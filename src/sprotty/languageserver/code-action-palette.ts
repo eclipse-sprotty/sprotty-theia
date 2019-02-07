@@ -29,11 +29,11 @@ export class CodeActionProvider {
 
     async getCodeActions(range: Range, codeActionKind: string) {
         const diagramServer = await this.diagramServerProvider();
-        const connector = await diagramServer.getConnector();
+        const connector = diagramServer.connector;
         const languageClient = await connector.getLanguageClient();
         return await languageClient.sendRequest(CodeActionRequest.type, <CodeActionParams>{
             textDocument: {
-                uri: diagramServer.getSourceUri()
+                uri: diagramServer.sourceUri
             },
             range,
             context: {
@@ -106,13 +106,13 @@ export class PaletteMouseListener extends PopupHoverMouseListener {
 
     async getWorkspaceEditAction(target: PaletteButton): Promise<Action> {
         const diagramServer = await this.diagramServerProvider();
-        const workspace = diagramServer.getWorkspace();
+        const workspace = diagramServer.connector.workspace;
         if (workspace) {
             const codeActions = await this.codeActionProvider.getCodeActions(target.range, target.codeActionKind);
             if (codeActions) {
                 for (let codeAction of codeActions) {
                     if (CodeAction.is(codeAction) && codeAction.edit)
-                        return new WorkspaceEditAction(codeAction.edit, workspace);
+                        return new WorkspaceEditAction(codeAction.edit);
                 }
             }
         }

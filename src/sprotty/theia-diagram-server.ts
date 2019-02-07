@@ -14,14 +14,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import {
-    ILogger, SelectCommand, ActionHandlerRegistry, IActionDispatcher, SModelStorage, TYPES,
-    ViewerOptions, DiagramServer, ActionMessage, ExportSvgAction, RequestModelAction, Action,
-    ICommand, ServerStatusAction, RequestPopupModelAction, SetPopupModelAction, SModelRootSchema, SModelElementSchema
-} from 'sprotty/lib'
-import { TheiaSprottyConnector } from './theia-sprotty-connector'
-import { injectable, inject, optional } from "inversify"
-import { Workspace } from '@theia/languages/lib/browser';
+import { inject, injectable, optional } from "inversify";
+import { Action, ActionHandlerRegistry, ActionMessage, DiagramServer, ExportSvgAction, IActionDispatcher,
+    ICommand, ILogger, RequestModelAction, RequestPopupModelAction, SelectCommand, ServerStatusAction,
+    SetPopupModelAction, SModelElementSchema, SModelRootSchema, SModelStorage, TYPES, ViewerOptions
+} from 'sprotty/lib';
+import { TheiaSprottyConnector } from './theia-sprotty-connector';
 
 
 export const TheiaDiagramServerProvider = Symbol('TheiaDiagramServerProvider');
@@ -44,10 +42,9 @@ export interface IRootPopupModelProvider {
 @injectable()
 export class TheiaDiagramServer extends DiagramServer {
 
-    private connector: Promise<TheiaSprottyConnector>
-    private resolveConnector: (server: TheiaSprottyConnector) => void
-    protected sourceUri: string
-    protected workspace: Workspace | undefined;
+    protected _sourceUri: string
+
+    protected _connector: TheiaSprottyConnector | undefined;
 
     @inject(IRootPopupModelProvider)@optional() protected rootPopupModelProvider: IRootPopupModelProvider;
 
@@ -57,33 +54,31 @@ export class TheiaDiagramServer extends DiagramServer {
                 @inject(TYPES.SModelStorage) storage: SModelStorage,
                 @inject(TYPES.ILogger) logger: ILogger) {
         super(actionDispatcher, actionHandlerRegistry, viewerOptions, storage, logger)
-        this.waitForConnector()
     }
 
     connect(connector: TheiaSprottyConnector): void {
-        this.resolveConnector(connector)
-        this.workspace = connector.workspace
+        this._connector = connector
     }
 
     disconnect(): void {
-        this.waitForConnector()
     }
 
-    private waitForConnector(): void {
-        this.connector = new Promise<TheiaSprottyConnector>(resolve =>
-            this.resolveConnector = resolve)
+    get connector() {
+        if (!this._connector) {
+            throw Error("TheiaDiagramServer is not connected.")
+        }
+        return this._connector!
     }
 
-    getConnector() {
-        return this.connector
+    get sourceUri() {
+        return this._sourceUri
     }
 
-    getSourceUri() {
-        return this.sourceUri
-    }
-
-    getWorkspace() {
-        return this.workspace
+    get workspace() {
+        if (this._connector)
+            return this._connector.workspace
+        else
+            return undefined;
     }
 
     initialize(registry: ActionHandlerRegistry): void {
@@ -93,7 +88,7 @@ export class TheiaDiagramServer extends DiagramServer {
 
     handle(action: Action): void | ICommand {
         if (action instanceof RequestModelAction && action.options !== undefined)
-            this.sourceUri = action.options.sourceUri
+            this._sourceUri = action.options.sourceUri
         return super.handle(action)
     }
 
@@ -106,7 +101,7 @@ export class TheiaDiagramServer extends DiagramServer {
     }
 
     handleExportSvgAction(action: ExportSvgAction): boolean {
-        this.connector.then(c => c.save(this.sourceUri, action))
+        this.connector.save(this.sourceUri, action);
         return true
     }
 
@@ -123,12 +118,12 @@ export class TheiaDiagramServer extends DiagramServer {
     }
 
     protected handleServerStateAction(status: ServerStatusAction): boolean {
-        this.connector.then(c => c.showStatus(this.clientId, status))
+        this.connector.showStatus(this.clientId, status);
         return false
     }
 
     sendMessage(message: ActionMessage) {
-        this.connector.then(c => c.sendThroughLsp(message))
+        this.connector.sendThroughLsp(message);
     }
 
     /**

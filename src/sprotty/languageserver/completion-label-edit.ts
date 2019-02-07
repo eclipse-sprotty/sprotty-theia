@@ -28,12 +28,12 @@ export class CompletionLabelEditor {
     async edit(element: SLabel & Traceable) {
         const range = getRange(element);
         const diagramServer = await this.diagramServerProvider();
-        const connector = await diagramServer.getConnector();
+        const connector = diagramServer.connector;
         if (connector.quickPickService && connector.workspace) {
             const languageClient = await connector.getLanguageClient();
-            const uri = diagramServer.getSourceUri();
+            const uri = diagramServer.sourceUri;
             const completions = await languageClient.sendRequest(CompletionRequest.type, {
-                textDocument: { uri: diagramServer.getSourceUri() },
+                textDocument: { uri },
                 position: range.start
             })
             if (completions) {

@@ -29,7 +29,7 @@ export class RenameLabelEditor {
     async edit(element: SLabel & Traceable) {
         const range = getRange(element);
         const diagramServer = await this.diagramServerProvider();
-        const connector = await diagramServer.getConnector();
+        const connector = diagramServer.connector;
         if (connector.workspace) {
             const initialValue = element.text;
             const dialog = new SingleTextInputDialog({
@@ -50,7 +50,7 @@ export class RenameLabelEditor {
             if (newName) {
                 const languageClient = await connector.getLanguageClient();
                 const workspaceEdit = await languageClient.sendRequest(RenameRequest.type, {
-                    textDocument: { uri: diagramServer.getSourceUri() },
+                    textDocument: { uri: diagramServer.sourceUri },
                     position: range.start,
                     newName
                 })

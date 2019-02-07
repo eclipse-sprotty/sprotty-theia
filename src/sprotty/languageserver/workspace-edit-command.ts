@@ -14,13 +14,21 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Action, Command, CommandExecutionContext, CommandResult } from "sprotty/lib";
+import { Action, Command, CommandExecutionContext, CommandResult, TYPES } from "sprotty/lib";
 import { Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
+import { inject, injectable } from "inversify";
+import { TheiaDiagramServer } from "../theia-diagram-server";
 
+@injectable()
 export abstract class AbstractWorkspaceEditCommand extends Command {
 
+    @inject(TheiaDiagramServer) diagramServer: TheiaDiagramServer;
+
     abstract createWorkspaceEdit(context: CommandExecutionContext): WorkspaceEdit
-    abstract get workspace(): Workspace
+
+    get workspace(): Workspace {
+        return this.diagramServer.connector.workspace!;
+    }
 
     protected workspaceEdit: WorkspaceEdit | undefined;
 
@@ -41,15 +49,12 @@ export abstract class AbstractWorkspaceEditCommand extends Command {
     }
 }
 
+@injectable()
 export class WorkspaceEditCommand extends AbstractWorkspaceEditCommand {
     static readonly KIND = 'workspaceEdit';
 
-    constructor(readonly action: WorkspaceEditAction) {
+    constructor(@inject(TYPES.Action) readonly action: WorkspaceEditAction) {
         super();
-    }
-
-    get workspace() {
-        return this.action.workspace;
     }
 
     createWorkspaceEdit(context: CommandExecutionContext) {
@@ -62,5 +67,5 @@ export class WorkspaceEditCommand extends AbstractWorkspaceEditCommand {
  */
 export class WorkspaceEditAction implements Action {
     readonly kind = WorkspaceEditCommand.KIND;
-    constructor(readonly workspaceEdit: WorkspaceEdit, readonly workspace: Workspace) {}
+    constructor(readonly workspaceEdit: WorkspaceEdit) {}
 }

@@ -15,20 +15,18 @@
  ********************************************************************************/
 
 import { TextEdit, Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
-import { Action, CommandExecutionContext, isSelectable, SEdge, Selectable, SModelElement, SChildElement } from "sprotty/lib";
+import { Action, CommandExecutionContext, isSelectable, SEdge, Selectable, SModelElement, SChildElement, TYPES } from "sprotty/lib";
 import { AbstractWorkspaceEditCommand } from "./workspace-edit-command";
 import { getRange, Traceable, isTraceable, getURI } from "./traceable";
 import { Range } from "@theia/languages/lib/browser";
+import { injectable, inject } from "inversify";
 
+@injectable()
 export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand {
     static readonly KIND = 'deleteWithWorkspaceEdit'
 
-    constructor(readonly action: DeleteWithWorkspaceEditAction) {
+    constructor(@inject(TYPES.Action) readonly action: DeleteWithWorkspaceEditAction) {
         super();
-    }
-
-    get workspace() {
-        return this.action.workspace;
     }
 
     createWorkspaceEdit(context: CommandExecutionContext): WorkspaceEdit {
