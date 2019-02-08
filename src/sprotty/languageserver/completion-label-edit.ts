@@ -16,14 +16,14 @@
 
 import { SLabel } from "sprotty/lib";
 import { inject, injectable } from "inversify";
-import { TheiaDiagramServerProvider } from "../theia-diagram-server";
+import { LSTheiaDiagramServerProvider } from "../theia-diagram-server";
 import { CompletionRequest, CompletionList, CompletionItem, TextEdit } from '@theia/languages/lib/browser';
 import { Traceable, getRange } from "./traceable";
 
 @injectable()
 export class CompletionLabelEditor {
 
-    @inject(TheiaDiagramServerProvider) diagramServerProvider: TheiaDiagramServerProvider;
+    @inject(LSTheiaDiagramServerProvider) diagramServerProvider: LSTheiaDiagramServerProvider;
 
     async edit(element: SLabel & Traceable) {
         const range = getRange(element);

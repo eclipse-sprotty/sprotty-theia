@@ -21,6 +21,7 @@ import { DeleteWithWorkspaceEditAction } from "../../sprotty/languageserver/dele
 import { DiagramCommandHandler, DiagramCommands } from "../diagram-commands";
 import { DiagramKeybindingContext } from "../diagram-keybinding";
 import { DiagramWidget } from "../diagram-widget";
+import { LSTheiaSprottyConnector } from "../../sprotty/theia-sprotty-connector";
 
 @injectable()
 export class LSDiagramCommandContribution implements CommandContribution {
@@ -37,7 +38,7 @@ export class LSDiagramCommandContribution implements CommandContribution {
             DiagramCommands.DELETE,
             new DiagramCommandHandler(this.shell, widget => {
                 if (widget instanceof DiagramWidget) {
-                    const workspace  = widget.connector ? widget.connector.workspace : undefined;
+                    const workspace = widget.connector instanceof LSTheiaSprottyConnector ? widget.connector.workspace : undefined;
                     if (workspace) {
                         const action = new DeleteWithWorkspaceEditAction(workspace, widget.uri.toString(true));
                         widget.actionDispatcher.dispatch(action);

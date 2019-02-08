@@ -17,7 +17,7 @@
 import { inject, injectable } from "inversify";
 import { Action, EMPTY_ROOT, HtmlRootSchema, PopupHoverMouseListener, RequestPopupModelAction,
     SButton, SButtonSchema, SetPopupModelAction, SModelElement, SModelElementSchema, SModelRootSchema } from "sprotty/lib";
-import { TheiaDiagramServerProvider, IRootPopupModelProvider } from '../theia-diagram-server';
+import { LSTheiaDiagramServerProvider, IRootPopupModelProvider } from '../theia-diagram-server';
 import { CodeAction, CodeActionParams, CodeActionRequest, Range } from '@theia/languages/lib/browser';
 import { WorkspaceEditAction } from "./workspace-edit-command";
 import { getRange } from "./traceable";
@@ -25,7 +25,7 @@ import { getRange } from "./traceable";
 @injectable()
 export class CodeActionProvider {
 
-    @inject(TheiaDiagramServerProvider) diagramServerProvider: TheiaDiagramServerProvider;
+    @inject(LSTheiaDiagramServerProvider) diagramServerProvider: LSTheiaDiagramServerProvider;
 
     async getCodeActions(range: Range, codeActionKind: string) {
         const diagramServer = await this.diagramServerProvider();
@@ -95,7 +95,7 @@ export class PaletteButton extends SButton {
 export class PaletteMouseListener extends PopupHoverMouseListener {
 
     @inject(CodeActionProvider) codeActionProvider: CodeActionProvider;
-    @inject(TheiaDiagramServerProvider) diagramServerProvider: TheiaDiagramServerProvider;
+    @inject(LSTheiaDiagramServerProvider) diagramServerProvider: LSTheiaDiagramServerProvider;
 
     mouseDown(target: SModelElement, event: MouseEvent): (Action | Promise<Action>)[] {
         if (target instanceof PaletteButton) {
