@@ -18,13 +18,13 @@ import { RenameRequest } from '@theia/languages/lib/browser';
 import { SingleTextInputDialog } from '@theia/core/lib/browser';
 import { inject, injectable } from "inversify";
 import { SLabel } from "sprotty/lib";
-import { TheiaDiagramServerProvider } from "../theia-diagram-server";
+import { LSTheiaDiagramServerProvider } from "../theia-diagram-server";
 import { Traceable, getRange } from './traceable';
 
 @injectable()
 export class RenameLabelEditor {
 
-    @inject(TheiaDiagramServerProvider) diagramServerProvider: TheiaDiagramServerProvider;
+    @inject(LSTheiaDiagramServerProvider) diagramServerProvider: LSTheiaDiagramServerProvider;
 
     async edit(element: SLabel & Traceable) {
         const range = getRange(element);

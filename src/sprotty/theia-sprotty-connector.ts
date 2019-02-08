@@ -37,6 +37,22 @@ export interface TheiaSprottyConnectorServices {
 /**
  * Connects sprotty DiagramServers to a Theia LanguageClientContribution.
  *
+ * Instances bridge the gap between the sprotty DI containers (one per
+ * diagram) and a specific connection client (e.g. LSP client) from the Theia DI container
+ * (one per application).
+ */
+export interface TheiaSprottyConnector {
+    connect(diagramServer: TheiaDiagramServer): void
+    disconnect(diagramServer: TheiaDiagramServer): void
+    save(uri: string, action: ExportSvgAction): void
+    showStatus(widgetId: string, status: ServerStatusAction): void
+    sendMessage(message: ActionMessage): void
+    onMessageReceived(message: ActionMessage): void
+}
+
+/**
+ * Connects sprotty DiagramServers to a Theia LanguageClientContribution.
+ *
  * Used to tunnel sprotty actions to and from the sprotty server through
  * the LSP.
  *
@@ -44,8 +60,7 @@ export interface TheiaSprottyConnectorServices {
  * diagram) and a specific language client from the Theia DI container
  * (one per application).
  */
-export class TheiaSprottyConnector implements TheiaSprottyConnectorServices, ActionMessageReceiver {
-
+export class LSTheiaSprottyConnector implements TheiaSprottyConnector, TheiaSprottyConnectorServices, ActionMessageReceiver {
     private servers: TheiaDiagramServer[] = []
 
     readonly diagramLanguageClient: DiagramLanguageClient
@@ -84,7 +99,7 @@ export class TheiaSprottyConnector implements TheiaSprottyConnectorServices, Act
             widget.setStatus(status)
     }
 
-    sendThroughLsp(message: ActionMessage) {
+    sendMessage(message: ActionMessage) {
         this.diagramLanguageClient.sendThroughLsp(message)
     }
 
@@ -92,7 +107,7 @@ export class TheiaSprottyConnector implements TheiaSprottyConnectorServices, Act
         return this.diagramLanguageClient.languageClient
     }
 
-    receivedThroughLsp(message: ActionMessage): void {
+    onMessageReceived(message: ActionMessage): void {
         this.servers.forEach(element => {
             element.messageReceived(message)
         })

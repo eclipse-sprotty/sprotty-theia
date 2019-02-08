@@ -14,15 +14,15 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Action, Command, CommandExecutionContext, CommandResult, TYPES } from "sprotty/lib";
 import { Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
 import { inject, injectable } from "inversify";
-import { TheiaDiagramServer } from "../theia-diagram-server";
+import { Action, Command, CommandExecutionContext, CommandResult, TYPES } from "sprotty/lib";
+import { LSTheiaDiagramServer } from "../theia-diagram-server";
 
 @injectable()
 export abstract class AbstractWorkspaceEditCommand extends Command {
 
-    @inject(TheiaDiagramServer) diagramServer: TheiaDiagramServer;
+    @inject(LSTheiaDiagramServer) diagramServer: LSTheiaDiagramServer;
 
     abstract createWorkspaceEdit(context: CommandExecutionContext): WorkspaceEdit
 

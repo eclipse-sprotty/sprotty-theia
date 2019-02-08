@@ -23,7 +23,7 @@ import { ActionMessage } from 'sprotty/lib';
 import { DiagramWidget } from '../diagram-widget';
 
 export interface ActionMessageReceiver {
-    receivedThroughLsp(message: ActionMessage): void
+    onMessageReceived(message: ActionMessage): void
 }
 
 export interface OpenInTextEditorMessage {
@@ -46,7 +46,7 @@ export class DiagramLanguageClient {
                 readonly editorManager: EditorManager) {
         this.languageClientContribution.languageClient.then(
             lc => {
-                lc.onNotification(acceptMessageType, this.receivedThroughLsp.bind(this))
+                lc.onNotification(acceptMessageType, this.onMessageReceived.bind(this))
                 lc.onNotification(openInTextEditorMessageType, this.openInTextEditor.bind(this))
             }
         ).catch(
@@ -92,9 +92,9 @@ export class DiagramLanguageClient {
         );
     }
 
-    receivedThroughLsp(message: ActionMessage) {
+    onMessageReceived(message: ActionMessage) {
         this.actionMessageReceivers.forEach(client => {
-            client.receivedThroughLsp(message)
+            client.onMessageReceived(message)
         })
     }
 

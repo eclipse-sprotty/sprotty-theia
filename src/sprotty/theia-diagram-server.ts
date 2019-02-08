@@ -19,12 +19,7 @@ import { Action, ActionHandlerRegistry, ActionMessage, DiagramServer, ExportSvgA
     ICommand, ILogger, RequestModelAction, RequestPopupModelAction, SelectCommand, ServerStatusAction,
     SetPopupModelAction, SModelElementSchema, SModelRootSchema, SModelStorage, TYPES, ViewerOptions
 } from 'sprotty/lib';
-import { TheiaSprottyConnector } from './theia-sprotty-connector';
-
-
-export const TheiaDiagramServerProvider = Symbol('TheiaDiagramServerProvider');
-
-export type TheiaDiagramServerProvider = () => Promise<TheiaDiagramServer>;
+import { TheiaSprottyConnector, LSTheiaSprottyConnector } from './theia-sprotty-connector';
 
 export const IRootPopupModelProvider = Symbol('IRootPopupModelProvider');
 export interface IRootPopupModelProvider {
@@ -40,7 +35,7 @@ export interface IRootPopupModelProvider {
  * services are available via the TheiaDiagramServerConnector.
  */
 @injectable()
-export class TheiaDiagramServer extends DiagramServer {
+export abstract class TheiaDiagramServer extends DiagramServer {
 
     protected _sourceUri: string
 
@@ -74,12 +69,6 @@ export class TheiaDiagramServer extends DiagramServer {
         return this._sourceUri
     }
 
-    get workspace() {
-        if (this._connector)
-            return this._connector.workspace
-        else
-            return undefined;
-    }
 
     initialize(registry: ActionHandlerRegistry): void {
         super.initialize(registry)
@@ -123,7 +112,7 @@ export class TheiaDiagramServer extends DiagramServer {
     }
 
     sendMessage(message: ActionMessage) {
-        this.connector.sendThroughLsp(message);
+        this.connector.sendMessage(message);
     }
 
     /**
@@ -133,5 +122,25 @@ export class TheiaDiagramServer extends DiagramServer {
         super.messageReceived(message)
     }
 }
+export const LSTheiaDiagramServerProvider = Symbol('LSTheiaDiagramServerProvider');
 
+export type LSTheiaDiagramServerProvider = () => Promise<LSTheiaDiagramServer>;
 
+@injectable()
+export class LSTheiaDiagramServer extends TheiaDiagramServer {
+
+    connect(connector: LSTheiaSprottyConnector): void {
+        super.connect(connector)
+    }
+
+    get workspace() {
+        if (this.connector)
+            return this.connector.workspace
+        else
+            return undefined;
+    }
+
+    get connector(): LSTheiaSprottyConnector {
+        return this._connector as LSTheiaSprottyConnector
+    }
+}
