@@ -16,7 +16,7 @@
 
 import { SLabel } from "sprotty/lib";
 import { inject, injectable } from "inversify";
-import { LSTheiaDiagramServerProvider } from "../theia-diagram-server";
+import { LSTheiaDiagramServerProvider } from "./ls-theia-diagram-server";
 import { CompletionRequest, CompletionList, CompletionItem, TextEdit } from '@theia/languages/lib/browser';
 import { Traceable, getRange } from "./traceable";
 
