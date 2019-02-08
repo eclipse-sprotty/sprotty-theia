@@ -17,10 +17,11 @@
 import { inject, injectable } from "inversify";
 import { Action, EMPTY_ROOT, HtmlRootSchema, PopupHoverMouseListener, RequestPopupModelAction,
     SButton, SButtonSchema, SetPopupModelAction, SModelElement, SModelElementSchema, SModelRootSchema } from "sprotty/lib";
-import { LSTheiaDiagramServerProvider, IRootPopupModelProvider } from '../theia-diagram-server';
+import { IRootPopupModelProvider } from '../theia-diagram-server';
 import { CodeAction, CodeActionParams, CodeActionRequest, Range } from '@theia/languages/lib/browser';
 import { WorkspaceEditAction } from "./workspace-edit-command";
 import { getRange } from "./traceable";
+import { LSTheiaDiagramServerProvider } from './ls-theia-diagram-server';
 
 @injectable()
 export class CodeActionProvider {

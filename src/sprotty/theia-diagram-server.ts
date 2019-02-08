@@ -19,7 +19,7 @@ import { Action, ActionHandlerRegistry, ActionMessage, DiagramServer, ExportSvgA
     ICommand, ILogger, RequestModelAction, RequestPopupModelAction, SelectCommand, ServerStatusAction,
     SetPopupModelAction, SModelElementSchema, SModelRootSchema, SModelStorage, TYPES, ViewerOptions
 } from 'sprotty/lib';
-import { TheiaSprottyConnector, LSTheiaSprottyConnector } from './theia-sprotty-connector';
+import { TheiaSprottyConnector } from './theia-sprotty-connector';
 
 export const IRootPopupModelProvider = Symbol('IRootPopupModelProvider');
 export interface IRootPopupModelProvider {
@@ -27,8 +27,7 @@ export interface IRootPopupModelProvider {
 }
 
 /**
- * A sprotty DiagramServer that can be connected to a Theia language
- * server.
+ * A sprotty DiagramServer that integrates with the Theia workbench.
  *
  * This class is the sprotty side of the Theia/sprotty integration. It
  * is instantiated with the DI container of the sprotty diagram. Theia
@@ -120,27 +119,5 @@ export abstract class TheiaDiagramServer extends DiagramServer {
      */
     messageReceived(message: ActionMessage) {
         super.messageReceived(message)
-    }
-}
-export const LSTheiaDiagramServerProvider = Symbol('LSTheiaDiagramServerProvider');
-
-export type LSTheiaDiagramServerProvider = () => Promise<LSTheiaDiagramServer>;
-
-@injectable()
-export class LSTheiaDiagramServer extends TheiaDiagramServer {
-
-    connect(connector: LSTheiaSprottyConnector): void {
-        super.connect(connector)
-    }
-
-    get workspace() {
-        if (this.connector)
-            return this.connector.workspace
-        else
-            return undefined;
-    }
-
-    get connector(): LSTheiaSprottyConnector {
-        return this._connector as LSTheiaSprottyConnector
     }
 }

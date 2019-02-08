@@ -21,7 +21,7 @@ import { DeleteWithWorkspaceEditAction } from "../../sprotty/languageserver/dele
 import { DiagramCommandHandler, DiagramCommands } from "../diagram-commands";
 import { DiagramKeybindingContext } from "../diagram-keybinding";
 import { DiagramWidget } from "../diagram-widget";
-import { LSTheiaSprottyConnector } from "../../sprotty/theia-sprotty-connector";
+import { LSTheiaSprottyConnector } from "../../sprotty/languageserver/ls-theia-sprotty-connector";
 
 @injectable()
 export class LSDiagramCommandContribution implements CommandContribution {
