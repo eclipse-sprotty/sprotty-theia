@@ -14,16 +14,15 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { injectable, inject, multiInject, optional } from 'inversify'
-import { IActionDispatcher, KeyListener, KeyTool, SModelElement, TYPES } from 'sprotty/lib'
-import { VNode } from 'snabbdom/vnode'
+import { injectable, multiInject, optional } from 'inversify';
+import { VNode } from 'snabbdom/vnode';
+import { KeyListener, KeyTool, SModelElement, TYPES } from 'sprotty/lib';
 
 @injectable()
 export class TheiaKeyTool extends KeyTool {
 
-    constructor(@inject(TYPES.IActionDispatcher) actionDispatcher: IActionDispatcher,
-        @multiInject(TYPES.KeyListener)@optional() protected keyListeners: KeyListener[] = []) {
-        super(actionDispatcher, [])
+    constructor(@multiInject(TYPES.KeyListener)@optional() protected keyListeners: KeyListener[] = []) {
+        super([])
     }
 
     decorate(vnode: VNode, element: SModelElement): VNode {

@@ -26,8 +26,7 @@ import { LSTheiaSprottyConnector } from "../../sprotty/languageserver/ls-theia-s
 @injectable()
 export class LSDiagramCommandContribution implements CommandContribution {
 
-    constructor(@inject(ApplicationShell) protected readonly shell: ApplicationShell) {
-    }
+    @inject(ApplicationShell) protected readonly shell: ApplicationShell;
 
     registerCommands(registry: CommandRegistry): void {
         registry.registerCommand({
@@ -52,8 +51,7 @@ export class LSDiagramCommandContribution implements CommandContribution {
 @injectable()
 export class LSDiagramKeybindingContribution implements KeybindingContribution {
 
-    constructor(@inject(DiagramKeybindingContext) protected readonly diagramKeybindingContext: DiagramKeybindingContext) {
-    }
+    @inject(DiagramKeybindingContext) protected readonly diagramKeybindingContext: DiagramKeybindingContext;
 
     registerKeybindings(registry: KeybindingRegistry): void {
         registry.registerKeybinding({

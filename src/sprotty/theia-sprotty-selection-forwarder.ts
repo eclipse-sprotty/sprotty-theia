@@ -34,6 +34,7 @@ export function isSprottySelection(object?: any): object is SprottySelection {
 
 @injectable()
 export class TheiaSprottySelectionForwarder implements IActionHandlerInitializer, IActionHandler {
+
     @inject(TYPES.ViewerOptions) protected viewerOptions: ViewerOptions
     @inject(SelectionService) protected selectionService: SelectionService
 

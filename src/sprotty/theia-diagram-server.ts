@@ -15,10 +15,9 @@
  ********************************************************************************/
 
 import { inject, injectable, optional } from "inversify";
-import { Action, ActionHandlerRegistry, ActionMessage, DiagramServer, ExportSvgAction, IActionDispatcher,
-    ICommand, ILogger, RequestModelAction, RequestPopupModelAction, SelectCommand, ServerStatusAction,
-    SetPopupModelAction, SModelElementSchema, SModelRootSchema, SModelStorage, TYPES, ViewerOptions
-} from 'sprotty/lib';
+import { Action, ActionHandlerRegistry, ActionMessage, DiagramServer, ExportSvgAction, ICommand,
+    RequestModelAction, RequestPopupModelAction, SelectCommand, ServerStatusAction, SetPopupModelAction,
+    SModelElementSchema, SModelRootSchema } from 'sprotty/lib';
 import { TheiaSprottyConnector } from './theia-sprotty-connector';
 
 export const IRootPopupModelProvider = Symbol('IRootPopupModelProvider');
@@ -41,14 +40,6 @@ export abstract class TheiaDiagramServer extends DiagramServer {
     protected _connector: TheiaSprottyConnector | undefined;
 
     @inject(IRootPopupModelProvider)@optional() protected rootPopupModelProvider: IRootPopupModelProvider;
-
-    constructor(@inject(TYPES.IActionDispatcher) public actionDispatcher: IActionDispatcher,
-                @inject(TYPES.ActionHandlerRegistry) actionHandlerRegistry: ActionHandlerRegistry,
-                @inject(TYPES.ViewerOptions) viewerOptions: ViewerOptions,
-                @inject(TYPES.SModelStorage) storage: SModelStorage,
-                @inject(TYPES.ILogger) logger: ILogger) {
-        super(actionDispatcher, actionHandlerRegistry, viewerOptions, storage, logger)
-    }
 
     connect(connector: TheiaSprottyConnector): void {
         this._connector = connector
