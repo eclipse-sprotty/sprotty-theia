@@ -23,8 +23,7 @@ import { CommonCommands, KeybindingContext, Keybinding, KeybindingContribution, 
 @injectable()
 export class DiagramKeybindingContext implements KeybindingContext {
 
-    constructor(@inject(FrontendApplication) protected readonly application: FrontendApplication) {
-    }
+    @inject(FrontendApplication) protected readonly application: FrontendApplication;
 
     id = 'diagram.keybinding.context'
 
@@ -36,7 +35,7 @@ export class DiagramKeybindingContext implements KeybindingContext {
 @injectable()
 export class DiagramKeybindingContribution implements KeybindingContribution {
 
-    constructor(@inject(DiagramKeybindingContext) protected readonly diagramKeybindingContext: DiagramKeybindingContext) { }
+    @inject(DiagramKeybindingContext) protected readonly diagramKeybindingContext: DiagramKeybindingContext;
 
     registerKeybindings(registry: KeybindingRegistry): void {
         [

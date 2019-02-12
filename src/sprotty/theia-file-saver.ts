@@ -21,9 +21,9 @@ import { MessageService } from '@theia/core/lib/common'
 
 @injectable()
 export class TheiaFileSaver {
-    constructor(@inject(FileSystem) protected readonly fileSystem: FileSystem,
-                @inject(MessageService) protected readonly messageService: MessageService) {
-    }
+
+    @inject(FileSystem) protected readonly fileSystem: FileSystem;
+    @inject(MessageService) protected readonly messageService: MessageService;
 
     save(sourceUri: string, action: ExportSvgAction) {
         this.getNextFileName(sourceUri).then(fileName =>

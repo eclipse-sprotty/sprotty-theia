@@ -103,10 +103,10 @@ export class OpenInDiagramHandler implements CommandHandler {
 
 @injectable()
 export class DiagramCommandContribution implements CommandContribution {
-    constructor(@inject(ApplicationShell) protected readonly shell: ApplicationShell,
-                @inject(EditorManager) protected readonly editorManager: EditorManager,
-                @inject(OpenerService) protected readonly openerService: OpenerService) {
-    }
+
+    @inject(ApplicationShell) protected readonly shell: ApplicationShell;
+    @inject(EditorManager) protected readonly editorManager: EditorManager;
+    @inject(OpenerService) protected readonly openerService: OpenerService;
 
     registerCommands(registry: CommandRegistry): void {
         registry.registerCommand({
