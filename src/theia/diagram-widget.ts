@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { RequestModelAction, CenterAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher,
-    ModelSource, TYPES, DiagramServer, ViewerOptions } from 'sprotty/lib';
+    ModelSource, TYPES, DiagramServer, ViewerOptions } from 'sprotty';
 import { Widget } from "@phosphor/widgets"
 import { Message } from "@phosphor/messaging/lib"
 import { BaseWidget } from '@theia/core/lib/browser/widgets/widget'

@@ -16,7 +16,7 @@
 
 import { Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
 import { inject, injectable } from "inversify";
-import { Action, Command, CommandExecutionContext, CommandResult, TYPES } from "sprotty/lib";
+import { Action, Command, CommandExecutionContext, CommandResult, TYPES } from "sprotty";
 import { LSTheiaDiagramServer } from "./ls-theia-diagram-server";
 
 @injectable()

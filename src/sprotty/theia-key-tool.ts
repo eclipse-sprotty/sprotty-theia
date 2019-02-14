@@ -16,7 +16,7 @@
 
 import { injectable, multiInject, optional } from 'inversify';
 import { VNode } from 'snabbdom/vnode';
-import { KeyListener, KeyTool, SModelElement, TYPES } from 'sprotty/lib';
+import { KeyListener, KeyTool, SModelElement, TYPES } from 'sprotty';
 
 @injectable()
 export class TheiaKeyTool extends KeyTool {

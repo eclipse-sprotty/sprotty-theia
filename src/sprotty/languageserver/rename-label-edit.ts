@@ -17,7 +17,7 @@
 import { RenameRequest } from '@theia/languages/lib/browser';
 import { SingleTextInputDialog } from '@theia/core/lib/browser';
 import { inject, injectable } from "inversify";
-import { SLabel } from "sprotty/lib";
+import { SLabel } from "sprotty";
 import { LSTheiaDiagramServerProvider } from "./ls-theia-diagram-server";
 import { Traceable, getRange } from './traceable';
 

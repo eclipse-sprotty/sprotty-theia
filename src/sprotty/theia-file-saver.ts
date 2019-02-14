@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { inject, injectable } from 'inversify'
-import { ExportSvgAction } from 'sprotty/lib'
+import { ExportSvgAction } from 'sprotty'
 import { FileSystem } from '@theia/filesystem/lib/common'
 import { MessageService } from '@theia/core/lib/common'
 

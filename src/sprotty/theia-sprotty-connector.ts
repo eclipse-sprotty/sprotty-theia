@@ -16,7 +16,7 @@
 
 import { QuickPickService, WidgetManager } from '@theia/core/lib/browser';
 import { Workspace } from '@theia/languages/lib/browser';
-import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty/lib';
+import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty';
 import { DiagramManager } from '../theia/diagram-manager';
 import { DiagramLanguageClient } from '../theia/languageserver';
 import { TheiaDiagramServer } from './theia-diagram-server';
