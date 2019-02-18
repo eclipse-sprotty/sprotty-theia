@@ -53,9 +53,9 @@ export class RenameLabelEditor {
                     textDocument: { uri: diagramServer.sourceUri },
                     position: range.start,
                     newName
-                })
+                });
                 if (workspaceEdit) {
-                    await connector.workspace.applyEdit(workspaceEdit)
+                    await connector.workspace.applyEdit(workspaceEdit);
                 }
             }
         }

@@ -36,55 +36,55 @@ import { TheiaSprottyConnector, TheiaSprottyConnectorServices } from '../theia-s
  * (one per application).
  */
 export class LSTheiaSprottyConnector implements TheiaSprottyConnector, TheiaSprottyConnectorServices, ActionMessageReceiver {
-    private servers: TheiaDiagramServer[] = []
+    private servers: TheiaDiagramServer[] = [];
 
-    readonly diagramLanguageClient: DiagramLanguageClient
-    readonly fileSaver: TheiaFileSaver
-    readonly editorManager: EditorManager
-    readonly widgetManager: WidgetManager
-    readonly diagramManager: DiagramManager
-    readonly workspace?: Workspace
-    readonly quickPickService?: QuickPickService
+    readonly diagramLanguageClient: DiagramLanguageClient;
+    readonly fileSaver: TheiaFileSaver;
+    readonly editorManager: EditorManager;
+    readonly widgetManager: WidgetManager;
+    readonly diagramManager: DiagramManager;
+    readonly workspace?: Workspace;
+    readonly quickPickService?: QuickPickService;
 
     constructor(services: TheiaSprottyConnectorServices) {
-        Object.assign(this, services)
-        this.diagramLanguageClient.connect(this)
+        Object.assign(this, services);
+        this.diagramLanguageClient.connect(this);
     }
 
     connect(diagramServer: TheiaDiagramServer) {
-        this.servers.push(diagramServer)
-        diagramServer.connect(this)
+        this.servers.push(diagramServer);
+        diagramServer.connect(this);
     }
 
     disconnect(diagramServer: TheiaDiagramServer) {
-        const index = this.servers.indexOf(diagramServer)
+        const index = this.servers.indexOf(diagramServer);
         if (index >= 0)
-            this.servers.splice(index, 0)
-        diagramServer.disconnect()
-        this.diagramLanguageClient.didClose(diagramServer.clientId)
+            this.servers.splice(index, 0);
+        diagramServer.disconnect();
+        this.diagramLanguageClient.didClose(diagramServer.clientId);
     }
 
     save(uri: string, action: ExportSvgAction) {
-        this.fileSaver.save(uri, action)
+        this.fileSaver.save(uri, action);
     }
 
     showStatus(widgetId: string, status: ServerStatusAction): void {
-        const widget = this.widgetManager.getWidgets(this.diagramManager.id).find(w => w.id === widgetId)
+        const widget = this.widgetManager.getWidgets(this.diagramManager.id).find(w => w.id === widgetId);
         if (widget instanceof DiagramWidget)
-            widget.setStatus(status)
+            widget.setStatus(status);
     }
 
     sendMessage(message: ActionMessage) {
-        this.diagramLanguageClient.sendThroughLsp(message)
+        this.diagramLanguageClient.sendThroughLsp(message);
     }
 
     getLanguageClient(): Promise<ILanguageClient> {
-        return this.diagramLanguageClient.languageClient
+        return this.diagramLanguageClient.languageClient;
     }
 
     onMessageReceived(message: ActionMessage): void {
         this.servers.forEach(element => {
-            element.messageReceived(message)
-        })
+            element.messageReceived(message);
+        });
     }
 }

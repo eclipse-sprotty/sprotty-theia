@@ -23,22 +23,22 @@ export interface Traceable extends SModelExtension {
 }
 
 export function isTraceable<T extends SModelElement>(element: T): element is Traceable & T {
-   return !!(element as any).trace && !!getRange((element as any).trace)
+   return !!(element as any).trace && !!getRange((element as any).trace);
 }
 
-export function getRange(traceable: Traceable): Range
-export function getRange(trace: string): Range | undefined
-export function getRange(trace: object): Range | undefined
+export function getRange(traceable: Traceable): Range;
+export function getRange(trace: string): Range | undefined;
+export function getRange(trace: object): Range | undefined;
 export function getRange(thing: string | Traceable | object): Range | undefined {
     const trace = typeof thing === 'string'
         ? thing
-        : (thing as any).trace
+        : (thing as any).trace;
     if (!trace)
-        return undefined
-    const query = new URI(trace).query
+        return undefined;
+    const query = new URI(trace).query;
     const numbers = query.split(/[:-]/).map(s => parseInt(s, 10));
     if (numbers.length !== 4 || numbers.find(isNaN) !== undefined)
-        return undefined
+        return undefined;
     return <Range> {
         start: {
             line: numbers[0],
@@ -57,10 +57,10 @@ export function getURI(traceable: Traceable): URI {
 
 export class TraceableMouseListener extends MouseListener {
     doubleClick(target: SModelElement, event: WheelEvent): (Action | Promise<Action>)[] {
-        const traceable = findParent(target, (element) => isTraceable(element))
+        const traceable = findParent(target, (element) => isTraceable(element));
         if (traceable)
-            return [ new OpenAction(traceable.id) ]
+            return [ new OpenAction(traceable.id) ];
         else
-            return []
+            return [];
     }
 }

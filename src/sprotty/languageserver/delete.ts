@@ -23,7 +23,7 @@ import { injectable, inject } from "inversify";
 
 @injectable()
 export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand {
-    static readonly KIND = 'deleteWithWorkspaceEdit'
+    static readonly KIND = 'deleteWithWorkspaceEdit';
 
     constructor(@inject(TYPES.Action) readonly action: DeleteWithWorkspaceEditAction) {
         super();
@@ -43,42 +43,42 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
                     elements.add(e);
             }
         });
-        const uri2ranges: Map<string, Range[]> = new Map()
+        const uri2ranges: Map<string, Range[]> = new Map();
         elements.forEach(element => {
-            const uri = getURI(element).withoutFragment().toString(true)
-            const range = getRange(element)
-            let ranges = uri2ranges.get(uri)
+            const uri = getURI(element).withoutFragment().toString(true);
+            const range = getRange(element);
+            let ranges = uri2ranges.get(uri);
             if (!ranges) {
-                ranges = []
-                uri2ranges.set(uri, ranges)
+                ranges = [];
+                uri2ranges.set(uri, ranges);
             }
-            let mustAdd = true
+            let mustAdd = true;
             for (let i = 0; i < ranges.length; ++i) {
-                const r = ranges[i]
+                const r = ranges[i];
                 if (this.containsRange(r, range)) {
-                    mustAdd = false
-                    break
+                    mustAdd = false;
+                    break;
                 } else if (this.containsRange(range, r)) {
-                    mustAdd = false
-                    ranges[i] = range
-                    break
+                    mustAdd = false;
+                    ranges[i] = range;
+                    break;
                 }
             }
             if (mustAdd)
-                ranges.push(range)
-        })
-        const changes = {}
+                ranges.push(range);
+        });
+        const changes = {};
         uri2ranges.forEach((ranges, uri) => {
             (changes as any)[uri] = ranges.map(range => {
                 return <TextEdit> {
                     range,
                     newText: ''
-                }
-            })
+                };
+            });
         });
         const workspaceEdit: WorkspaceEdit = {
             changes
-        }
+        };
         return workspaceEdit;
     }
 
@@ -114,7 +114,7 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
 }
 
 export class DeleteWithWorkspaceEditAction implements Action {
-    readonly kind = DeleteWithWorkspaceEditCommand.KIND
+    readonly kind = DeleteWithWorkspaceEditCommand.KIND;
 
     // TODO: consider URIs from individual element traces
     constructor(readonly workspace: Workspace, readonly sourceUri: string) {}

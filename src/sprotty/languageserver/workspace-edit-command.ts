@@ -24,7 +24,7 @@ export abstract class AbstractWorkspaceEditCommand extends Command {
 
     @inject(LSTheiaDiagramServer) diagramServer: LSTheiaDiagramServer;
 
-    abstract createWorkspaceEdit(context: CommandExecutionContext): WorkspaceEdit
+    abstract createWorkspaceEdit(context: CommandExecutionContext): WorkspaceEdit;
 
     get workspace(): Workspace {
         return this.diagramServer.connector.workspace!;
@@ -33,7 +33,7 @@ export abstract class AbstractWorkspaceEditCommand extends Command {
     protected workspaceEdit: WorkspaceEdit | undefined;
 
     execute(context: CommandExecutionContext): CommandResult {
-        this.workspaceEdit = this.createWorkspaceEdit(context)
+        this.workspaceEdit = this.createWorkspaceEdit(context);
         this.workspace.applyEdit(this.workspaceEdit);
         return context.root;
     }

@@ -14,21 +14,21 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { DiagramCommands } from './diagram-commands'
-import { DiagramWidget } from './diagram-widget'
-import { injectable, inject } from 'inversify'
-import { FrontendApplication } from '@theia/core/lib/browser/frontend-application'
-import { CommonCommands, KeybindingContext, Keybinding, KeybindingContribution, KeybindingRegistry } from '@theia/core/lib/browser'
+import { DiagramCommands } from './diagram-commands';
+import { DiagramWidget } from './diagram-widget';
+import { injectable, inject } from 'inversify';
+import { FrontendApplication } from '@theia/core/lib/browser/frontend-application';
+import { CommonCommands, KeybindingContext, Keybinding, KeybindingContribution, KeybindingRegistry } from '@theia/core/lib/browser';
 
 @injectable()
 export class DiagramKeybindingContext implements KeybindingContext {
 
     @inject(FrontendApplication) protected readonly application: FrontendApplication;
 
-    id = 'diagram.keybinding.context'
+    id = 'diagram.keybinding.context';
 
     isEnabled(arg?: Keybinding) {
-        return this.application.shell.activeWidget instanceof DiagramWidget
+        return this.application.shell.activeWidget instanceof DiagramWidget;
     }
 }
 
@@ -70,7 +70,7 @@ export class DiagramKeybindingContribution implements KeybindingContribution {
                 keybinding: 'ctrlcmd+shift+z'
             }
         ].forEach(binding => {
-            registry.registerKeybinding(binding)
-        })
+            registry.registerKeybinding(binding);
+        });
     }
 }

@@ -31,56 +31,56 @@ export interface OpenInTextEditorMessage {
     forceOpen: boolean
 }
 
-const acceptMessageType = new NotificationType<ActionMessage, void>('diagram/accept')
-const didCloseMessageType = new NotificationType<string, void>('diagram/didClose')
-const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage, void>('diagram/openInTextEditor')
+const acceptMessageType = new NotificationType<ActionMessage, void>('diagram/accept');
+const didCloseMessageType = new NotificationType<string, void>('diagram/didClose');
+const openInTextEditorMessageType = new NotificationType<OpenInTextEditorMessage, void>('diagram/openInTextEditor');
 
 @injectable()
 export class DiagramLanguageClient {
 
-    actionMessageReceivers: ActionMessageReceiver[] = []
+    actionMessageReceivers: ActionMessageReceiver[] = [];
 
-    @inject(ApplicationShell) readonly shell: ApplicationShell
+    @inject(ApplicationShell) readonly shell: ApplicationShell;
 
     constructor(readonly languageClientContribution: LanguageClientContribution,
                 readonly editorManager: EditorManager) {
         this.languageClientContribution.languageClient.then(
             lc => {
-                lc.onNotification(acceptMessageType, this.onMessageReceived.bind(this))
-                lc.onNotification(openInTextEditorMessageType, this.openInTextEditor.bind(this))
+                lc.onNotification(acceptMessageType, this.onMessageReceived.bind(this));
+                lc.onNotification(openInTextEditorMessageType, this.openInTextEditor.bind(this));
             }
         ).catch(
             err => console.error(err)
-        )
+        );
     }
 
     openInTextEditor(message: OpenInTextEditorMessage) {
-        const uri = new URI(message.location.uri)
+        const uri = new URI(message.location.uri);
         if (!message.forceOpen) {
             this.editorManager.all.forEach(editorWidget => {
-                const currentTextEditor = editorWidget.editor
+                const currentTextEditor = editorWidget.editor;
                 if (editorWidget.isVisible && uri.toString(true) === currentTextEditor.uri.toString(true)) {
-                    currentTextEditor.cursor = message.location.range.start
-                    currentTextEditor.revealRange(message.location.range)
-                    currentTextEditor.selection = message.location.range
+                    currentTextEditor.cursor = message.location.range.start;
+                    currentTextEditor.revealRange(message.location.range);
+                    currentTextEditor.selection = message.location.range;
                 }
-            })
+            });
         } else {
             const widgetOptions: ApplicationShell.WidgetOptions = {
                 area: 'main'
-            }
-            const activeWidget = this.shell.activeWidget
+            };
+            const activeWidget = this.shell.activeWidget;
             if (activeWidget instanceof DiagramWidget) {
-                widgetOptions.ref = activeWidget
-                widgetOptions.mode = 'open-to-left'
+                widgetOptions.ref = activeWidget;
+                widgetOptions.mode = 'open-to-left';
             }
             this.editorManager.open(uri, { widgetOptions }).then(
                 editorWidget => {
-                    const editor = editorWidget.editor
-                    editor.cursor = message.location.range.start
-                    editor.revealRange(message.location.range)
-                    editor.selection = message.location.range
-                })
+                    const editor = editorWidget.editor;
+                    editor.cursor = message.location.range.start;
+                    editor.revealRange(message.location.range);
+                    editor.selection = message.location.range;
+                });
         }
     }
 
@@ -94,26 +94,26 @@ export class DiagramLanguageClient {
 
     onMessageReceived(message: ActionMessage) {
         this.actionMessageReceivers.forEach(client => {
-            client.onMessageReceived(message)
-        })
+            client.onMessageReceived(message);
+        });
     }
 
     get languageClient(): Promise<ILanguageClient> {
-        return this.languageClientContribution.languageClient
+        return this.languageClientContribution.languageClient;
     }
 
     didClose(clientId: string) {
-        this.languageClientContribution.languageClient.then(lc => lc.sendNotification(didCloseMessageType, clientId))
+        this.languageClientContribution.languageClient.then(lc => lc.sendNotification(didCloseMessageType, clientId));
     }
 
     connect(client: ActionMessageReceiver) {
-        this.actionMessageReceivers.push(client)
+        this.actionMessageReceivers.push(client);
     }
 
     disconnect(client: ActionMessageReceiver) {
-        const index = this.actionMessageReceivers.indexOf(client)
+        const index = this.actionMessageReceivers.indexOf(client);
         if (index >= 0) {
-            this.actionMessageReceivers.splice(index)
+            this.actionMessageReceivers.splice(index);
         }
     }
 }

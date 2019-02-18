@@ -35,14 +35,14 @@ export interface IRootPopupModelProvider {
 @injectable()
 export abstract class TheiaDiagramServer extends DiagramServer {
 
-    protected _sourceUri: string
+    protected _sourceUri: string;
 
     protected _connector: TheiaSprottyConnector | undefined;
 
     @inject(IRootPopupModelProvider)@optional() protected rootPopupModelProvider: IRootPopupModelProvider;
 
     connect(connector: TheiaSprottyConnector): void {
-        this._connector = connector
+        this._connector = connector;
     }
 
     disconnect(): void {
@@ -50,25 +50,25 @@ export abstract class TheiaDiagramServer extends DiagramServer {
 
     get connector() {
         if (!this._connector) {
-            throw Error("TheiaDiagramServer is not connected.")
+            throw Error("TheiaDiagramServer is not connected.");
         }
-        return this._connector!
+        return this._connector!;
     }
 
     get sourceUri() {
-        return this._sourceUri
+        return this._sourceUri;
     }
 
 
     initialize(registry: ActionHandlerRegistry): void {
-        super.initialize(registry)
-        registry.register(SelectCommand.KIND, this)
+        super.initialize(registry);
+        registry.register(SelectCommand.KIND, this);
     }
 
     handle(action: Action): void | ICommand {
         if (action instanceof RequestModelAction && action.options !== undefined)
-            this._sourceUri = action.options.sourceUri
-        return super.handle(action)
+            this._sourceUri = action.options.sourceUri;
+        return super.handle(action);
     }
 
     handleLocally(action: Action): boolean {
@@ -81,7 +81,7 @@ export abstract class TheiaDiagramServer extends DiagramServer {
 
     handleExportSvgAction(action: ExportSvgAction): boolean {
         this.connector.save(this.sourceUri, action);
-        return true
+        return true;
     }
 
     handleRequestPopupModel(action: RequestPopupModelAction): boolean {
@@ -98,7 +98,7 @@ export abstract class TheiaDiagramServer extends DiagramServer {
 
     protected handleServerStateAction(status: ServerStatusAction): boolean {
         this.connector.showStatus(this.clientId, status);
-        return false
+        return false;
     }
 
     sendMessage(message: ActionMessage) {
@@ -109,6 +109,6 @@ export abstract class TheiaDiagramServer extends DiagramServer {
      * made public
      */
     messageReceived(message: ActionMessage) {
-        super.messageReceived(message)
+        super.messageReceived(message);
     }
 }

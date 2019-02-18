@@ -14,20 +14,20 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { ContainerModule } from 'inversify'
-import { DiagramConfigurationRegistry } from "./diagram-configuration"
-import { TheiaFileSaver } from "../sprotty/theia-file-saver"
-import { DiagramCommandContribution, DiagramMenuContribution } from './diagram-commands'
-import { CommandContribution, MenuContribution } from '@theia/core/lib/common'
-import { DiagramKeybindingContext, DiagramKeybindingContribution } from './diagram-keybinding'
+import { ContainerModule } from 'inversify';
+import { DiagramConfigurationRegistry } from "./diagram-configuration";
+import { TheiaFileSaver } from "../sprotty/theia-file-saver";
+import { DiagramCommandContribution, DiagramMenuContribution } from './diagram-commands';
+import { CommandContribution, MenuContribution } from '@theia/core/lib/common';
+import { DiagramKeybindingContext, DiagramKeybindingContribution } from './diagram-keybinding';
 import { KeybindingContext, KeybindingContribution } from '@theia/core/lib/browser';
 
 export default new ContainerModule(bind => {
-    bind(DiagramConfigurationRegistry).toSelf().inSingletonScope()
-    bind(TheiaFileSaver).toSelf().inSingletonScope()
-    bind(CommandContribution).to(DiagramCommandContribution).inSingletonScope()
-    bind(MenuContribution).to(DiagramMenuContribution).inSingletonScope()
-    bind(DiagramKeybindingContext).toSelf().inSingletonScope()
-    bind(KeybindingContext).to(DiagramKeybindingContext).inSingletonScope()
-    bind(KeybindingContribution).to(DiagramKeybindingContribution).inSingletonScope()
-})
+    bind(DiagramConfigurationRegistry).toSelf().inSingletonScope();
+    bind(TheiaFileSaver).toSelf().inSingletonScope();
+    bind(CommandContribution).to(DiagramCommandContribution).inSingletonScope();
+    bind(MenuContribution).to(DiagramMenuContribution).inSingletonScope();
+    bind(DiagramKeybindingContext).toSelf().inSingletonScope();
+    bind(KeybindingContext).to(DiagramKeybindingContext).inSingletonScope();
+    bind(KeybindingContribution).to(DiagramKeybindingContribution).inSingletonScope();
+});

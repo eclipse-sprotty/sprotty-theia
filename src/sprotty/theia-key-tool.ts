@@ -22,10 +22,10 @@ import { KeyListener, KeyTool, SModelElement, TYPES } from 'sprotty';
 export class TheiaKeyTool extends KeyTool {
 
     constructor(@multiInject(TYPES.KeyListener)@optional() protected keyListeners: KeyListener[] = []) {
-        super([])
+        super([]);
     }
 
     decorate(vnode: VNode, element: SModelElement): VNode {
-        return vnode
+        return vnode;
     }
 }

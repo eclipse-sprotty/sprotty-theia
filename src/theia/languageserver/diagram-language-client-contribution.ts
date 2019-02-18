@@ -27,14 +27,14 @@ export abstract class DiagramLanguageClientContribution extends BaseLanguageClie
         @inject(Languages) languages: Languages,
         @inject(LanguageClientFactory) languageClientFactory: LanguageClientFactory,
         @multiInject(DiagramManagerProvider) protected diagramManagerProviders: DiagramManagerProvider[]) {
-        super(workspace, languages, languageClientFactory)
+        super(workspace, languages, languageClientFactory);
     }
 
     waitForActivation(app: FrontendApplication): Promise<any> {
         return Promise.race([
             super.waitForActivation(app),
             this.waitForOpenDiagrams()
-        ])
+        ]);
     }
 
     protected waitForOpenDiagrams(): Promise<any> {
@@ -42,11 +42,11 @@ export abstract class DiagramLanguageClientContribution extends BaseLanguageClie
             return diagramManagerProvider().then(diagramManager => {
                 return new Promise<void>((resolve) => {
                     const disposable = diagramManager.onCreated((widget) => {
-                        disposable.dispose()
-                        resolve()
+                        disposable.dispose();
+                        resolve();
                     });
-                })
-            })
-        }))
+                });
+            });
+        }));
     }
 }

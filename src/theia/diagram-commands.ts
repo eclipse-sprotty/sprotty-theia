@@ -21,46 +21,46 @@ import {
     UndoAction,
     RedoAction,
     SelectAllAction
-} from 'sprotty'
-import { DiagramWidget } from './diagram-widget'
-import { injectable, inject } from 'inversify'
+} from 'sprotty';
+import { DiagramWidget } from './diagram-widget';
+import { injectable, inject } from 'inversify';
 import { MAIN_MENU_BAR, MenuContribution, MenuModelRegistry, CommandContribution,
-         CommandHandler, CommandRegistry, MenuPath } from '@theia/core/lib/common'
-import { ApplicationShell, OpenerService, CommonCommands } from '@theia/core/lib/browser'
-import { EDITOR_CONTEXT_MENU, EditorManager } from "@theia/editor/lib/browser"
+         CommandHandler, CommandRegistry, MenuPath } from '@theia/core/lib/common';
+import { ApplicationShell, OpenerService, CommonCommands } from '@theia/core/lib/browser';
+import { EDITOR_CONTEXT_MENU, EditorManager } from "@theia/editor/lib/browser";
 import { DiagramManager } from './diagram-manager';
 
 export namespace DiagramCommands {
-    export const CENTER = 'diagram:center'
-    export const FIT = 'diagram:fit'
-    export const EXPORT = 'diagram:export'
-    export const SELECT_ALL = 'diagram.selectAll'
-    export const OPEN_IN_DIAGRAM = 'diagram.open'
-    export const DELETE = 'diagram.delete'
+    export const CENTER = 'diagram:center';
+    export const FIT = 'diagram:fit';
+    export const EXPORT = 'diagram:export';
+    export const SELECT_ALL = 'diagram.selectAll';
+    export const OPEN_IN_DIAGRAM = 'diagram.open';
+    export const DELETE = 'diagram.delete';
 }
 
 export namespace DiagramMenus {
-    export const DIAGRAM: MenuPath = MAIN_MENU_BAR.concat("3_diagram")
+    export const DIAGRAM: MenuPath = MAIN_MENU_BAR.concat("3_diagram");
 }
 
 @injectable()
 export class DiagramMenuContribution implements MenuContribution {
 
     registerMenus(registry: MenuModelRegistry) {
-        registry.registerSubmenu(DiagramMenus.DIAGRAM, "Diagram")
+        registry.registerSubmenu(DiagramMenus.DIAGRAM, "Diagram");
 
         registry.registerMenuAction(DiagramMenus.DIAGRAM, {
             commandId: DiagramCommands.CENTER
-        })
+        });
         registry.registerMenuAction(DiagramMenus.DIAGRAM, {
             commandId: DiagramCommands.FIT
-        })
+        });
         registry.registerMenuAction(DiagramMenus.DIAGRAM, {
             commandId: DiagramCommands.EXPORT
-        })
+        });
         registry.registerMenuAction(EDITOR_CONTEXT_MENU, {
             commandId: DiagramCommands.OPEN_IN_DIAGRAM
-        })
+        });
     }
 }
 
@@ -73,11 +73,11 @@ export class DiagramCommandHandler implements CommandHandler {
     execute(...args: any[]) {
         return this.isEnabled()
             ? this.doExecute(this.shell.activeWidget as DiagramWidget)
-            : undefined
+            : undefined;
     }
 
     isEnabled(): boolean {
-        return this.shell.activeWidget instanceof DiagramWidget
+        return this.shell.activeWidget instanceof DiagramWidget;
     }
 }
 
@@ -88,15 +88,15 @@ export class OpenInDiagramHandler implements CommandHandler {
     }
 
     execute(...args: any[]) {
-        const editor = this.editorManager.currentEditor
+        const editor = this.editorManager.currentEditor;
         if (editor !== undefined) {
-            const uri = editor.editor.uri
-            const openers = this.openerService.getOpeners(uri)
-            openers.then(openers => {
-                const opener = openers.find(opener => opener instanceof DiagramManager)
+            const uri = editor.editor.uri;
+            const openersPromise = this.openerService.getOpeners(uri);
+            openersPromise.then(openers => {
+                const opener = openers.find(o => o instanceof DiagramManager);
                 if (opener !== undefined)
-                    opener.open(uri)
-            })
+                    opener.open(uri);
+            });
         }
     }
 }
@@ -112,64 +112,64 @@ export class DiagramCommandContribution implements CommandContribution {
         registry.registerCommand({
             id: DiagramCommands.CENTER,
             label: 'Center'
-        })
+        });
         registry.registerCommand({
             id: DiagramCommands.FIT,
             label: 'Fit to screen'
-        })
+        });
         registry.registerCommand({
             id: DiagramCommands.EXPORT,
             label: 'Export'
-        })
+        });
         registry.registerCommand({
             id: DiagramCommands.SELECT_ALL,
             label: 'Select all'
-        })
+        });
         registry.registerCommand({
             id: DiagramCommands.OPEN_IN_DIAGRAM,
             label: 'Open in diagram'
-        })
+        });
 
         registry.registerHandler(
             DiagramCommands.CENTER,
             new DiagramCommandHandler(this.shell, widget =>
                 widget.actionDispatcher.dispatch(new CenterAction([]))
             )
-        )
+        );
         registry.registerHandler(
             DiagramCommands.FIT,
             new DiagramCommandHandler(this.shell, widget =>
                 widget.actionDispatcher.dispatch(new FitToScreenAction([]))
             )
-        )
+        );
         registry.registerHandler(
             DiagramCommands.EXPORT,
             new DiagramCommandHandler(this.shell, widget =>
                 widget.actionDispatcher.dispatch(new RequestExportSvgAction())
             )
-        )
+        );
         registry.registerHandler(
             DiagramCommands.SELECT_ALL,
             new DiagramCommandHandler(this.shell, widget => {
-                const action = new SelectAllAction(true)
-                widget.actionDispatcher.dispatch(action)
+                const action = new SelectAllAction(true);
+                widget.actionDispatcher.dispatch(action);
             })
-        )
+        );
         registry.registerHandler(
             DiagramCommands.OPEN_IN_DIAGRAM,
             new OpenInDiagramHandler(this.editorManager, this.openerService)
-        )
+        );
         registry.registerHandler(
             CommonCommands.UNDO.id,
             new DiagramCommandHandler(this.shell, widget =>
                 widget.actionDispatcher.dispatch(new UndoAction())
             )
-        )
+        );
         registry.registerHandler(
             CommonCommands.REDO.id,
             new DiagramCommandHandler(this.shell, widget =>
                 widget.actionDispatcher.dispatch(new RedoAction())
             )
-        )
+        );
     }
 }

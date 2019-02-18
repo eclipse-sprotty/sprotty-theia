@@ -17,12 +17,12 @@
 import { KeybindingContribution } from '@theia/core/lib/browser';
 import { CommandContribution } from '@theia/core/lib/common';
 import { ContainerModule } from 'inversify';
-import { LSDiagramCommandContribution, LSDiagramKeybindingContribution } from './languageserver-diagram-contributions';
+import { LSDiagramCommandContribution, LSDiagramKeybindingContribution } from './ls-diagram-contributions';
 
 /**
  * Standard DI config for languageserver aware diagrams.
  */
 export default new ContainerModule(bind => {
-    bind(CommandContribution).to(LSDiagramCommandContribution).inSingletonScope()
-    bind(KeybindingContribution).to(LSDiagramKeybindingContribution).inSingletonScope()
-})
+    bind(CommandContribution).to(LSDiagramCommandContribution).inSingletonScope();
+    bind(KeybindingContribution).to(LSDiagramKeybindingContribution).inSingletonScope();
+});

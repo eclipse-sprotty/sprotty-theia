@@ -35,16 +35,17 @@ export class CompletionLabelEditor {
             const completions = await languageClient.sendRequest(CompletionRequest.type, {
                 textDocument: { uri },
                 position: range.start
-            })
+            });
             if (completions) {
                 const completionItems = ((completions as any)["items"])
                     ? (completions as CompletionList).items
-                    : completions as CompletionItem[]
+                    : completions as CompletionItem[];
                 const quickPickItems = completionItems.map(i => { return {
-                    label: i.textEdit!.newText,
-                    value: i
-                }});
-                const pick = await connector.quickPickService.show(quickPickItems)
+                        label: i.textEdit!.newText,
+                        value: i
+                    };
+                });
+                const pick = await connector.quickPickService.show(quickPickItems);
                 if (pick && pick.textEdit) {
                     const changes: { [uri: string]: TextEdit[] } = {};
                     changes[uri] = [ {
@@ -52,7 +53,7 @@ export class CompletionLabelEditor {
                     }];
                     await connector.workspace.applyEdit({
                         changes
-                    })
+                    });
                 }
             }
         }

@@ -26,17 +26,17 @@ export type LSTheiaDiagramServerProvider = () => Promise<LSTheiaDiagramServer>;
 export class LSTheiaDiagramServer extends TheiaDiagramServer {
 
     connect(connector: LSTheiaSprottyConnector): void {
-        super.connect(connector)
+        super.connect(connector);
     }
 
     get workspace() {
         if (this.connector)
-            return this.connector.workspace
+            return this.connector.workspace;
         else
             return undefined;
     }
 
     get connector(): LSTheiaSprottyConnector {
-        return this._connector as LSTheiaSprottyConnector
+        return this._connector as LSTheiaSprottyConnector;
     }
 }

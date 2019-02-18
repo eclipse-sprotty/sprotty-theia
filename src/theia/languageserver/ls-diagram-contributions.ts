@@ -32,7 +32,7 @@ export class LSDiagramCommandContribution implements CommandContribution {
         registry.registerCommand({
             id: DiagramCommands.DELETE,
             label: 'Delete selected'
-        })
+        });
         registry.registerHandler(
             DiagramCommands.DELETE,
             new DiagramCommandHandler(this.shell, widget => {

@@ -32,7 +32,7 @@ export class CodeActionProvider {
         const diagramServer = await this.diagramServerProvider();
         const connector = diagramServer.connector;
         const languageClient = await connector.getLanguageClient();
-        return await languageClient.sendRequest(CodeActionRequest.type, <CodeActionParams>{
+        return languageClient.sendRequest(CodeActionRequest.type, <CodeActionParams>{
             textDocument: {
                 uri: diagramServer.sourceUri
             },
@@ -111,7 +111,7 @@ export class PaletteMouseListener extends PopupHoverMouseListener {
         if (workspace) {
             const codeActions = await this.codeActionProvider.getCodeActions(target.range, target.codeActionKind);
             if (codeActions) {
-                for (let codeAction of codeActions) {
+                for (const codeAction of codeActions) {
                     if (CodeAction.is(codeAction) && codeAction.edit)
                         return new WorkspaceEditAction(codeAction.edit);
                 }

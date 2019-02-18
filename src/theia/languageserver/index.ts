@@ -14,6 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-export * from './diagram-language-client'
-export * from './diagram-language-client-contribution'
-export * from './languageserver-diagram-contributions'
+export * from './diagram-language-client';
+export * from './diagram-language-client-contribution';
+export * from './ls-diagram-contributions';
+export * from './ls-diagram-module';

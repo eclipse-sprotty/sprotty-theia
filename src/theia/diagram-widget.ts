@@ -16,9 +16,9 @@
 
 import { RequestModelAction, CenterAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher,
     ModelSource, TYPES, DiagramServer, ViewerOptions } from 'sprotty';
-import { Widget } from "@phosphor/widgets"
-import { Message } from "@phosphor/messaging/lib"
-import { BaseWidget } from '@theia/core/lib/browser/widgets/widget'
+import { Widget } from "@phosphor/widgets";
+import { Message } from "@phosphor/messaging/lib";
+import { BaseWidget } from '@theia/core/lib/browser/widgets/widget';
 import { StatefulWidget } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 import { TheiaSprottyConnector } from '../sprotty/theia-sprotty-connector';
@@ -37,20 +37,20 @@ export namespace DiagramWidgetOptions {
         return options.diagramType
             && options.uri
             && options.label
-            && options.iconClass
+            && options.iconClass;
     }
 }
 
 export class DiagramWidget extends BaseWidget implements StatefulWidget {
 
-    private statusIconDiv: HTMLDivElement
-    private statusMessageDiv: HTMLDivElement
+    private statusIconDiv: HTMLDivElement;
+    private statusMessageDiv: HTMLDivElement;
 
-    protected options: DiagramWidgetOptions
-    protected _actionDispatcher: IActionDispatcher
+    protected options: DiagramWidgetOptions;
+    protected _actionDispatcher: IActionDispatcher;
 
     get uri(): URI {
-        return new URI(this.options.uri)
+        return new URI(this.options.uri);
     }
 
     get actionDispatcher(): IActionDispatcher {
@@ -58,79 +58,79 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
     }
 
     get viewerOptions(): ViewerOptions {
-        return this.diContainer.get(TYPES.ViewerOptions)
+        return this.diContainer.get(TYPES.ViewerOptions);
     }
 
     constructor(options: DiagramWidgetOptions, readonly id: string, readonly diContainer: Container, readonly connector?: TheiaSprottyConnector) {
-        super()
-        this.options = options
-        this.title.closable = true
-        this.title.label = options.label
-        this.title.iconClass = options.iconClass
+        super();
+        this.options = options;
+        this.title.closable = true;
+        this.title.label = options.label;
+        this.title.iconClass = options.iconClass;
     }
 
     protected onAfterAttach(msg: Message): void {
-        super.onAfterAttach(msg)
+        super.onAfterAttach(msg);
 
-        const svgContainer = document.createElement("div")
-        svgContainer.id = this.viewerOptions.baseDiv
-        this.node.appendChild(svgContainer)
+        const svgContainer = document.createElement("div");
+        svgContainer.id = this.viewerOptions.baseDiv;
+        this.node.appendChild(svgContainer);
 
-        const hiddenContainer = document.createElement("div")
-        hiddenContainer.id = this.viewerOptions.hiddenDiv
-        document.body.appendChild(hiddenContainer)
+        const hiddenContainer = document.createElement("div");
+        hiddenContainer.id = this.viewerOptions.hiddenDiv;
+        document.body.appendChild(hiddenContainer);
 
-        const statusDiv = document.createElement("div")
-        statusDiv.setAttribute('class', 'sprotty-status')
-        this.node.appendChild(statusDiv)
+        const statusDiv = document.createElement("div");
+        statusDiv.setAttribute('class', 'sprotty-status');
+        this.node.appendChild(statusDiv);
 
-        this.statusIconDiv = document.createElement("div")
-        statusDiv.appendChild(this.statusIconDiv)
+        this.statusIconDiv = document.createElement("div");
+        statusDiv.appendChild(this.statusIconDiv);
 
-        this.statusMessageDiv = document.createElement("div")
-        this.statusMessageDiv.setAttribute('class', 'sprotty-status-message')
-        statusDiv.appendChild(this.statusMessageDiv)
-        this.initializeSprotty()
+        this.statusMessageDiv = document.createElement("div");
+        this.statusMessageDiv.setAttribute('class', 'sprotty-status-message');
+        statusDiv.appendChild(this.statusMessageDiv);
+        this.initializeSprotty();
     }
 
     protected initializeSprotty() {
-        const modelSource = this.diContainer.get<ModelSource>(TYPES.ModelSource)
+        const modelSource = this.diContainer.get<ModelSource>(TYPES.ModelSource);
         if (modelSource instanceof DiagramServer)
-            modelSource.clientId = this.id
+            modelSource.clientId = this.id;
         if (modelSource instanceof TheiaDiagramServer && this.connector)
-            this.connector.connect(modelSource)
+            this.connector.connect(modelSource);
         this.disposed.connect(() => {
             if (modelSource instanceof TheiaDiagramServer && this.connector)
-                this.connector.disconnect(modelSource)
-        })
+                this.connector.disconnect(modelSource);
+        });
         this.actionDispatcher.dispatch(new RequestModelAction({
             sourceUri: this.options.uri,
             diagramType: this.options.diagramType
-        }))
+        }));
     }
 
     protected getBoundsInPage(element: Element) {
-        const bounds = element.getBoundingClientRect()
+        const bounds = element.getBoundingClientRect();
         return {
             x: bounds.left,
             y: bounds.top,
             width: bounds.width,
             height: bounds.height
-        }
+        };
     }
 
     protected onResize(msg: Widget.ResizeMessage): void {
-        super.onResize(msg)
-        const newBounds = this.getBoundsInPage(this.node as Element)
-        this.actionDispatcher.dispatch(new InitializeCanvasBoundsAction(newBounds))
-        this.actionDispatcher.dispatch(new CenterAction([], false))
+        super.onResize(msg);
+        const newBounds = this.getBoundsInPage(this.node as Element);
+        this.actionDispatcher.dispatch(new InitializeCanvasBoundsAction(newBounds));
+        this.actionDispatcher.dispatch(new CenterAction([], false));
     }
 
     protected onActivateRequest(msg: Message): void {
-        super.onActivateRequest(msg)
-        const svgElement = this.node.querySelector(`#${this.viewerOptions.baseDiv} svg`) as HTMLElement
+        super.onActivateRequest(msg);
+        const svgElement = this.node.querySelector(`#${this.viewerOptions.baseDiv} svg`) as HTMLElement;
         if (svgElement !== null)
-            svgElement.focus()
+            svgElement.focus();
     }
 
     /**
@@ -142,64 +142,64 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
      */
     async getSvgElement(): Promise<HTMLElement | undefined> {
         return new Promise<HTMLElement | undefined>((resolve) => {
-            let frames = 0
+            let frames = 0;
             const waitForSvg = () => {
                 requestAnimationFrame(() => {
-                    const svgElement = this.node.querySelector(`#${this.viewerOptions.baseDiv} svg`) as HTMLElement
+                    const svgElement = this.node.querySelector(`#${this.viewerOptions.baseDiv} svg`) as HTMLElement;
                     if (svgElement !== null)
-                        resolve(svgElement)
+                        resolve(svgElement);
                     else if (++frames < 5)
-                        waitForSvg()
+                        waitForSvg();
                     else
-                        resolve(undefined)
-                })
-            }
-            waitForSvg()
+                        resolve(undefined);
+                });
+            };
+            waitForSvg();
         });
     }
 
     setStatus(status: ServerStatusAction): void {
-        this.statusMessageDiv.textContent = status.message
-        this.removeClasses(this.statusMessageDiv, 1)
-        this.statusMessageDiv.classList.add(status.severity.toLowerCase())
-        this.removeClasses(this.statusIconDiv, 0)
-        const classes = this.statusIconDiv.classList
-        classes.add(status.severity.toLowerCase())
+        this.statusMessageDiv.textContent = status.message;
+        this.removeClasses(this.statusMessageDiv, 1);
+        this.statusMessageDiv.classList.add(status.severity.toLowerCase());
+        this.removeClasses(this.statusIconDiv, 0);
+        const classes = this.statusIconDiv.classList;
+        classes.add(status.severity.toLowerCase());
         switch (status.severity) {
             case 'FATAL':
-                classes.add('fa')
-                classes.add('fa-times-circle')
-                break
+                classes.add('fa');
+                classes.add('fa-times-circle');
+                break;
             case 'ERROR':
-                classes.add('fa')
-                classes.add('fa-exclamation-circle')
-                break
+                classes.add('fa');
+                classes.add('fa-exclamation-circle');
+                break;
             case 'WARNING':
-                classes.add('fa')
-                classes.add('fa-exclamation-circle')
-                break
+                classes.add('fa');
+                classes.add('fa-exclamation-circle');
+                break;
             case 'INFO':
-                classes.add('fa')
-                classes.add('fa-info-circle')
-                break
+                classes.add('fa');
+                classes.add('fa-info-circle');
+                break;
         }
     }
 
     protected removeClasses(element: Element, keep: number) {
-        const classes = element.classList
+        const classes = element.classList;
         while (classes.length > keep) {
-            const item = classes.item(classes.length - 1)
+            const item = classes.item(classes.length - 1);
             if (item)
-                classes.remove(item)
+                classes.remove(item);
         }
     }
 
     storeState(): object {
-        return this.options
+        return this.options;
     }
 
     restoreState(oldState: object): void {
         if (DiagramWidgetOptions.is(oldState))
-            this.options = oldState
+            this.options = oldState;
     }
 }

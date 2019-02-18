@@ -22,25 +22,25 @@ import { EditorManager } from "@theia/editor/lib/browser";
 import { TheiaSprottyConnector } from "../sprotty/theia-sprotty-connector";
 import { DiagramConfigurationRegistry } from "./diagram-configuration";
 
-export const DiagramManagerProvider = Symbol('DiagramManagerProvider')
+export const DiagramManagerProvider = Symbol('DiagramManagerProvider');
 
-export type DiagramManagerProvider = () => Promise<DiagramManager>
+export type DiagramManagerProvider = () => Promise<DiagramManager>;
 
 @injectable()
 export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> implements WidgetFactory {
 
-    @inject(WidgetManager) protected readonly widgetManager: WidgetManager
-    @inject(EditorManager) protected editorManager: EditorManager
-    @inject(DiagramConfigurationRegistry) diagramConfigurationRegistry: DiagramConfigurationRegistry
+    @inject(WidgetManager) protected readonly widgetManager: WidgetManager;
+    @inject(EditorManager) protected editorManager: EditorManager;
+    @inject(DiagramConfigurationRegistry) diagramConfigurationRegistry: DiagramConfigurationRegistry;
 
     abstract get diagramType(): string;
 
     abstract get iconClass(): string
 
-    private widgetCount = 0
+    private widgetCount = 0;
 
     canHandle(uri: URI, options?: WidgetOpenerOptions | undefined): number {
-        return 10
+        return 10;
     }
 
     async doOpen(widget: DiagramWidget, options?: WidgetOpenerOptions) {
@@ -49,15 +49,15 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
             ...options
         };
         if (!widget.isAttached) {
-            const currentEditor = this.editorManager.currentEditor
-            const options: ApplicationShell.WidgetOptions = {
+            const currentEditor = this.editorManager.currentEditor;
+            const widgetOptions: ApplicationShell.WidgetOptions = {
                 area: 'main'
-            }
+            };
             if (!!currentEditor && currentEditor.editor.uri.toString(true) === widget.uri.toString(true)) {
-                options.ref = currentEditor
-                options.mode = 'open-to-right'
+                widgetOptions.ref = currentEditor;
+                widgetOptions.mode = 'open-to-right';
             }
-            this.shell.addWidget(widget, options)
+            this.shell.addWidget(widget, widgetOptions);
         }
         const promises: Promise<void>[] = [];
         if (op.mode === 'activate') {
@@ -73,7 +73,7 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
     }
 
     get id() {
-        return this.diagramType + "-diagram-manager"
+        return this.diagramType + "-diagram-manager";
     }
 
     protected createWidgetOptions(uri: URI, options?: WidgetOpenerOptions): Object {
@@ -86,18 +86,18 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
                 label: uri.path.base
             },
             ...widgetOptions
-        }
+        };
     }
 
     async createWidget(options?: any): Promise<Widget> {
         if (DiagramWidgetOptions.is(options)) {
-            const clientId = this.createClientId()
-            const config = this.diagramConfigurationRegistry.get(options.diagramType)
-            const diContainer = config.createContainer(clientId + '_sprotty')
-            const diagramWidget = new DiagramWidget(options, clientId, diContainer, this.diagramConnector)
+            const clientId = this.createClientId();
+            const config = this.diagramConfigurationRegistry.get(options.diagramType);
+            const diContainer = config.createContainer(clientId + '_sprotty');
+            const diagramWidget = new DiagramWidget(options, clientId, diContainer, this.diagramConnector);
             return diagramWidget;
         }
-        throw Error('DiagramWidgetFactory needs DiagramWidgetOptions but got ' + JSON.stringify(options))
+        throw Error('DiagramWidgetFactory needs DiagramWidgetOptions but got ' + JSON.stringify(options));
     }
 
     protected createClientId() {
@@ -105,6 +105,6 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
     }
 
     get diagramConnector(): TheiaSprottyConnector | undefined {
-        return undefined
+        return undefined;
     }
 }

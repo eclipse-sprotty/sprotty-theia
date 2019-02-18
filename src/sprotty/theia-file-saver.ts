@@ -14,10 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { inject, injectable } from 'inversify'
-import { ExportSvgAction } from 'sprotty'
-import { FileSystem } from '@theia/filesystem/lib/common'
-import { MessageService } from '@theia/core/lib/common'
+import { inject, injectable } from 'inversify';
+import { ExportSvgAction } from 'sprotty';
+import { FileSystem } from '@theia/filesystem/lib/common';
+import { MessageService } from '@theia/core/lib/common';
 
 @injectable()
 export class TheiaFileSaver {
@@ -34,20 +34,20 @@ export class TheiaFileSaver {
                 .catch((error) =>
                     this.messageService.error(`Error exporting diagram '${error}`)
                 )
-        )
+        );
     }
 
     getNextFileName(sourceUri: string): Promise<string> {
-        return new Promise<string>(resolve => this.tryNextFileName(sourceUri, 0, resolve))
+        return new Promise<string>(resolve => this.tryNextFileName(sourceUri, 0, resolve));
     }
 
     tryNextFileName(sourceURI: string, count: number, resolve: (fileName: string) => void) {
-        const currentName = sourceURI + (count === 0 ? '' : count) + '.svg'
+        const currentName = sourceURI + (count === 0 ? '' : count) + '.svg';
         this.fileSystem.exists(currentName).then(exists => {
             if (!exists)
-                resolve(currentName)
+                resolve(currentName);
             else
-                this.tryNextFileName(sourceURI, ++count, resolve)
-        })
+                this.tryNextFileName(sourceURI, ++count, resolve);
+        });
     }
 }

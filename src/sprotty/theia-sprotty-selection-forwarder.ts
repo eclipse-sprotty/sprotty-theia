@@ -13,12 +13,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { inject, injectable, } from "inversify"
+import { inject, injectable, } from "inversify";
 import {
     Action, ActionHandlerRegistry, IActionHandler, SelectAction, SelectCommand, TYPES, ViewerOptions,
     RequestModelAction, IActionHandlerInitializer
 } from "sprotty";
-import { SelectionService } from "@theia/core"
+import { SelectionService } from "@theia/core";
 
 
 export interface SprottySelection {
@@ -29,20 +29,20 @@ export interface SprottySelection {
 
 export function isSprottySelection(object?: any): object is SprottySelection {
     return object !== undefined && (<SprottySelection>object).selectedElementsIDs !== undefined
-        && (<SprottySelection>object).widgetId !== undefined
+        && (<SprottySelection>object).widgetId !== undefined;
 }
 
 @injectable()
 export class TheiaSprottySelectionForwarder implements IActionHandlerInitializer, IActionHandler {
 
-    @inject(TYPES.ViewerOptions) protected viewerOptions: ViewerOptions
-    @inject(SelectionService) protected selectionService: SelectionService
+    @inject(TYPES.ViewerOptions) protected viewerOptions: ViewerOptions;
+    @inject(SelectionService) protected selectionService: SelectionService;
 
-    protected sourceUri?: string
+    protected sourceUri?: string;
 
     initialize(registry: ActionHandlerRegistry): any {
-        registry.register(RequestModelAction.KIND, this)
-        registry.register(SelectCommand.KIND, this)
+        registry.register(RequestModelAction.KIND, this);
+        registry.register(SelectCommand.KIND, this);
     }
 
     handle(action: Action): void {
@@ -51,9 +51,9 @@ export class TheiaSprottySelectionForwarder implements IActionHandlerInitializer
                 selectedElementsIDs: action.selectedElementsIDs,
                 widgetId: this.viewerOptions.baseDiv,
                 sourceUri: this.sourceUri
-            }
+            };
         } else if (action instanceof RequestModelAction && action.options !== undefined) {
-            this.sourceUri = action.options.sourceUri
+            this.sourceUri = action.options.sourceUri;
         }
     }
 }
