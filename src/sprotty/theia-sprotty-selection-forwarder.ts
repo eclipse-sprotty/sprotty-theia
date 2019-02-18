@@ -17,7 +17,7 @@ import { inject, injectable, } from "inversify"
 import {
     Action, ActionHandlerRegistry, IActionHandler, SelectAction, SelectCommand, TYPES, ViewerOptions,
     RequestModelAction, IActionHandlerInitializer
-} from "sprotty/lib";
+} from "sprotty";
 import { SelectionService } from "@theia/core"
 
 

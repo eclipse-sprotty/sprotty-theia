@@ -19,7 +19,7 @@ import URI from '@theia/core/lib/common/uri';
 import { EditorManager } from '@theia/editor/lib/browser';
 import { ILanguageClient, LanguageClientContribution, Location, NotificationType } from '@theia/languages/lib/browser';
 import { inject, injectable } from 'inversify';
-import { ActionMessage } from 'sprotty/lib';
+import { ActionMessage } from 'sprotty';
 import { DiagramWidget } from '../diagram-widget';
 
 export interface ActionMessageReceiver {

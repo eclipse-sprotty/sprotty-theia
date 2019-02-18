@@ -17,7 +17,7 @@
 import { inject, injectable, optional } from "inversify";
 import { Action, ActionHandlerRegistry, ActionMessage, DiagramServer, ExportSvgAction, ICommand,
     RequestModelAction, RequestPopupModelAction, SelectCommand, ServerStatusAction, SetPopupModelAction,
-    SModelElementSchema, SModelRootSchema } from 'sprotty/lib';
+    SModelElementSchema, SModelRootSchema } from 'sprotty';
 import { TheiaSprottyConnector } from './theia-sprotty-connector';
 
 export const IRootPopupModelProvider = Symbol('IRootPopupModelProvider');

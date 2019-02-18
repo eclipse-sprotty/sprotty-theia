@@ -16,7 +16,7 @@
 
 import { inject, injectable } from "inversify";
 import { Action, EMPTY_ROOT, HtmlRootSchema, PopupHoverMouseListener, RequestPopupModelAction,
-    SButton, SButtonSchema, SetPopupModelAction, SModelElement, SModelElementSchema, SModelRootSchema } from "sprotty/lib";
+    SButton, SButtonSchema, SetPopupModelAction, SModelElement, SModelElementSchema, SModelRootSchema } from "sprotty";
 import { IRootPopupModelProvider } from '../theia-diagram-server';
 import { CodeAction, CodeActionParams, CodeActionRequest, Range } from '@theia/languages/lib/browser';
 import { WorkspaceEditAction } from "./workspace-edit-command";

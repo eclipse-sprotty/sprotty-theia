@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { SLabel } from "sprotty/lib";
+import { SLabel } from "sprotty";
 import { inject, injectable } from "inversify";
 import { LSTheiaDiagramServerProvider } from "./ls-theia-diagram-server";
 import { CompletionRequest, CompletionList, CompletionItem, TextEdit } from '@theia/languages/lib/browser';

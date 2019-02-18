@@ -21,7 +21,7 @@ import {
     UndoAction,
     RedoAction,
     SelectAllAction
-} from 'sprotty/lib'
+} from 'sprotty'
 import { DiagramWidget } from './diagram-widget'
 import { injectable, inject } from 'inversify'
 import { MAIN_MENU_BAR, MenuContribution, MenuModelRegistry, CommandContribution,

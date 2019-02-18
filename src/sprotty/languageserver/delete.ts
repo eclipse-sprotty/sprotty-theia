@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { TextEdit, Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
-import { Action, CommandExecutionContext, isSelectable, SEdge, Selectable, SModelElement, SChildElement, TYPES } from "sprotty/lib";
+import { Action, CommandExecutionContext, isSelectable, SEdge, Selectable, SModelElement, SChildElement, TYPES } from "sprotty";
 import { AbstractWorkspaceEditCommand } from "./workspace-edit-command";
 import { getRange, Traceable, isTraceable, getURI } from "./traceable";
 import { Range } from "@theia/languages/lib/browser";

@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { SModelElement, SModelExtension, MouseListener, Action, findParent, OpenAction } from "sprotty/lib";
+import { SModelElement, SModelExtension, MouseListener, Action, findParent, OpenAction } from "sprotty";
 import { Range } from "@theia/languages/lib/browser";
 import URI from "@theia/core/lib/common/uri";
 
