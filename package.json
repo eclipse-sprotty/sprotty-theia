@@ -62,6 +62,8 @@
     "src",
     "css"
   ],
+  "main": "lib/index",
+  "types": "lib/index",
   "theiaExtensions": [
     {
       "frontend": "lib/theia/diagram-module"

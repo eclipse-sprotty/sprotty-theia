@@ -14,14 +14,17 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
+export * from './sprotty/theia-diagram-server'
+export * from './sprotty/theia-file-saver'
+export * from './sprotty/theia-key-tool'
+export * from './sprotty/theia-sprotty-connector'
+export * from './sprotty/theia-sprotty-selection-forwarder'
+export * from './sprotty/languageserver/index'
+
 export * from './theia/diagram-commands'
 export * from './theia/diagram-configuration'
 export * from './theia/diagram-keybinding'
 export * from './theia/diagram-manager'
 export * from './theia/diagram-module'
 export * from './theia/diagram-widget'
-export * from './sprotty/theia-diagram-server'
-export * from './sprotty/theia-file-saver'
-export * from './sprotty/theia-key-tool'
-export * from './sprotty/theia-sprotty-connector'
-export * from './sprotty/theia-sprotty-selection-forwarder'
+export * from './theia/languageserver/index'
