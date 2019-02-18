@@ -49,9 +49,9 @@
   "scripts": {
     "clean": "rimraf lib artifacts",
     "build": "tsc -p ./tsconfig.json && yarn run lint",
-    "lint": "tslint -c ./tslint.json --project ./tsconfig.json",
+    "lint": "tslint -c ./configs/tslint.json --project ./tsconfig.json",
     "watch": "tsc -w -p ./tsconfig.json",
-    "test": "jenkins-mocha --opts ./mocha.opts \"./src/**/*.spec.?(ts|tsx)\"",
+    "test": "jenkins-mocha --opts ./configs/mocha.opts \"./src/**/*.spec.?(ts|tsx)\"",
     "prepare": "yarn run clean && yarn run build",
     "prepublishOnly": "yarn run test",
     "publish:next": "yarn publish --new-version \"$(semver $npm_package_version -i minor)-next.$(git rev-parse --short HEAD)\" --tag next",
