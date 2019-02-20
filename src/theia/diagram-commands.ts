@@ -20,7 +20,8 @@ import {
     RequestExportSvgAction,
     UndoAction,
     RedoAction,
-    SelectAllAction
+    SelectAllAction,
+    LayoutAction
 } from 'sprotty';
 import { DiagramWidget } from './diagram-widget';
 import { injectable, inject } from 'inversify';
@@ -37,6 +38,7 @@ export namespace DiagramCommands {
     export const SELECT_ALL = 'diagram.selectAll';
     export const OPEN_IN_DIAGRAM = 'diagram.open';
     export const DELETE = 'diagram.delete';
+    export const LAYOUT = 'diagram.layout';
 }
 
 export namespace DiagramMenus {
@@ -57,6 +59,9 @@ export class DiagramMenuContribution implements MenuContribution {
         });
         registry.registerMenuAction(DiagramMenus.DIAGRAM, {
             commandId: DiagramCommands.EXPORT
+        });
+        registry.registerMenuAction(DiagramMenus.DIAGRAM, {
+            commandId: DiagramCommands.LAYOUT
         });
         registry.registerMenuAction(EDITOR_CONTEXT_MENU, {
             commandId: DiagramCommands.OPEN_IN_DIAGRAM
@@ -122,6 +127,10 @@ export class DiagramCommandContribution implements CommandContribution {
             label: 'Export'
         });
         registry.registerCommand({
+            id: DiagramCommands.LAYOUT,
+            label: 'Layout'
+        });
+        registry.registerCommand({
             id: DiagramCommands.SELECT_ALL,
             label: 'Select all'
         });
@@ -146,6 +155,12 @@ export class DiagramCommandContribution implements CommandContribution {
             DiagramCommands.EXPORT,
             new DiagramCommandHandler(this.shell, widget =>
                 widget.actionDispatcher.dispatch(new RequestExportSvgAction())
+            )
+        );
+        registry.registerHandler(
+            DiagramCommands.LAYOUT,
+            new DiagramCommandHandler(this.shell, widget =>
+                widget.actionDispatcher.dispatch(new LayoutAction())
             )
         );
         registry.registerHandler(

@@ -55,6 +55,11 @@ export class DiagramKeybindingContribution implements KeybindingContribution {
                 keybinding: 'alt+e'
             },
             {
+                command: DiagramCommands.LAYOUT,
+                context: this.diagramKeybindingContext.id,
+                keybinding: 'alt+l'
+            },
+            {
                 command: DiagramCommands.SELECT_ALL,
                 context: this.diagramKeybindingContext.id,
                 keybinding: 'ctrlcmd+a'
