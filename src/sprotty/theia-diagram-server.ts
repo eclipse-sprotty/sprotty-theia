@@ -65,7 +65,7 @@ export abstract class TheiaDiagramServer extends DiagramServer {
         registry.register(SelectCommand.KIND, this);
     }
 
-    handle(action: Action): void | ICommand {
+    handle(action: Action): void | ICommand | Action {
         if (action instanceof RequestModelAction && action.options !== undefined)
             this._sourceUri = action.options.sourceUri;
         return super.handle(action);
