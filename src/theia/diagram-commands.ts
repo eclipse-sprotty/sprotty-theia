@@ -104,6 +104,15 @@ export class OpenInDiagramHandler implements CommandHandler {
             });
         }
     }
+
+    isEnabled(): boolean {
+        const editor = this.editorManager.currentEditor;
+        if(editor) {
+            const uri = editor.editor.uri;
+            return uri.scheme !== 'diff';
+        }
+        return false;
+    }
 }
 
 @injectable()
@@ -136,7 +145,7 @@ export class DiagramCommandContribution implements CommandContribution {
         });
         registry.registerCommand({
             id: DiagramCommands.OPEN_IN_DIAGRAM,
-            label: 'Open in diagram'
+            label: 'Open in Diagram'
         });
 
         registry.registerHandler(
