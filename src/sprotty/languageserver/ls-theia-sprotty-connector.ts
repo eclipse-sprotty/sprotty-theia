@@ -59,7 +59,7 @@ export class LSTheiaSprottyConnector implements TheiaSprottyConnector, TheiaSpro
     disconnect(diagramServer: TheiaDiagramServer) {
         const index = this.servers.indexOf(diagramServer);
         if (index >= 0)
-            this.servers.splice(index, 0);
+            this.servers.splice(index, 1);
         diagramServer.disconnect();
         this.diagramLanguageClient.didClose(diagramServer.clientId);
     }
