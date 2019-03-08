@@ -27,12 +27,12 @@
     }
   ],
   "dependencies": {
-    "@theia/core": "^0.4.0",
-    "@theia/editor": "^0.4.0",
-    "@theia/filesystem": "^0.4.0",
-    "@theia/languages": "^0.4.0",
-    "@theia/monaco": "^0.4.0",
-    "sprotty": "^0.6.0"
+    "@theia/core": "next",
+    "@theia/editor": "next",
+    "@theia/filesystem": "next",
+    "@theia/languages": "next",
+    "@theia/monaco": "next",
+    "sprotty": "next"
   },
   "devDependencies": {
     "@types/chai": "^4.1.3",

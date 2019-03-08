@@ -107,7 +107,7 @@ export class OpenInDiagramHandler implements CommandHandler {
 
     isEnabled(): boolean {
         const editor = this.editorManager.currentEditor;
-        if(editor) {
+        if (editor) {
             const uri = editor.editor.uri;
             return uri.scheme !== 'diff';
         }
