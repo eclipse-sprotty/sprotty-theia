@@ -3,16 +3,17 @@
 Glue code for [Sprotty diagrams](https://github.com/eclipse/sprotty) - with or without language servers - in [Theia](https://theia-ide.org).
 
 ## Build
+
 ```bash
 yarn
 ```
 
-Pre-build npm packages available from [npmjs](https://www.npmjs.com/package/sprotty-theia).
+Pre-built npm packages available from [npmjs](https://www.npmjs.com/package/sprotty-theia).
 
 ## See also
 
 - [sprotty](https://github.com/eclipse/sprotty) the client part of the Sprotty framework. 
-- [sprotty-server](https://github.com/eclipse/sprotty-server) libraries to implement Sprotty diagram servers in Java. Also covers addin Sprotty diagram support to Xtext-based language servers.
+- [sprotty-server](https://github.com/eclipse/sprotty-server) libraries to implement Sprotty diagram servers in Java. Also covers add-in Sprotty diagram support to Xtext-based language servers.
 
 ## References
 
