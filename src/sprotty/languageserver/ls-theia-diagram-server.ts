@@ -14,8 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
+import { ServerStatusAction } from "sprotty";
 import { TheiaDiagramServer } from "../theia-diagram-server";
+import { EditDiagramLocker } from "./edit-diagram-locker";
 import { LSTheiaSprottyConnector } from "./ls-theia-sprotty-connector";
 
 export const LSTheiaDiagramServerProvider = Symbol('LSTheiaDiagramServerProvider');
@@ -24,6 +26,8 @@ export type LSTheiaDiagramServerProvider = () => Promise<LSTheiaDiagramServer>;
 
 @injectable()
 export class LSTheiaDiagramServer extends TheiaDiagramServer {
+
+    @inject(EditDiagramLocker) diagramLocker: EditDiagramLocker;
 
     connect(connector: LSTheiaSprottyConnector): void {
         super.connect(connector);
@@ -38,5 +42,10 @@ export class LSTheiaDiagramServer extends TheiaDiagramServer {
 
     get connector(): LSTheiaSprottyConnector {
         return this._connector as LSTheiaSprottyConnector;
+    }
+
+    handleServerStateAction(action: ServerStatusAction) {
+        this.diagramLocker.allowEdit = action.severity !== 'FATAL';
+        return super.handleServerStateAction(action);
     }
 }

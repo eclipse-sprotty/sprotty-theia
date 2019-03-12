@@ -17,6 +17,7 @@
 export * from './code-action-palette';
 export * from './completion-label-edit';
 export * from './delete';
+export * from './edit-diagram-locker';
 export * from './ls-theia-sprotty-connector';
 export * from './ls-theia-diagram-server';
 export * from './rename-label-edit';
