@@ -4219,9 +4219,9 @@ sprintf-js@~1.0.2:
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
 sprotty@next:
-  version "0.7.0-next.5a9965c"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.7.0-next.5a9965c.tgz#1d59c04e4366fb236a5b9d3e6d13bdb708dc1541"
-  integrity sha512-Dr6SlSXVutGQTr9W2yhSpfZr+6Hl5fAWFDlABuvdTZN+eotEXr7xhW5m/eMozgblePaYY/b4hkcRVWFU3M/LJA==
+  version "0.7.0-next.1ee073d"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.7.0-next.1ee073d.tgz#f400f34b02858f19baa36397a63dbe0302e78102"
+  integrity sha512-zhZ0hiGcxsQuYaeT+zbSrqjgpEdAt4n7Up3BRXPB1IvGbFcwUyRRu7194Q7Stuj3j0ogn7qMoVcmm9OPQ0pFiw==
   dependencies:
     file-saver "1.3.3"
     inversify "^4.3.0"
