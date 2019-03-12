@@ -64,10 +64,10 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
             await widget.getSvgElement();
             promises.push(this.onActive(widget));
             promises.push(this.onReveal(widget));
-            this.shell.activateWidget(widget.id);
+            this.shell.activateWidget(widget.widgetId);
         } else if (op.mode === 'reveal') {
             promises.push(this.onReveal(widget));
-            this.shell.revealWidget(widget.id);
+            this.shell.revealWidget(widget.widgetId);
         }
         await Promise.all(promises);
     }
@@ -93,8 +93,8 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
         if (DiagramWidgetOptions.is(options)) {
             const clientId = this.createClientId();
             const config = this.diagramConfigurationRegistry.get(options.diagramType);
-            const diContainer = config.createContainer(clientId + '_sprotty');
-            const diagramWidget = new DiagramWidget(options, clientId, diContainer, this.diagramConnector);
+            const diContainer = config.createContainer(clientId);
+            const diagramWidget = new DiagramWidget(options, clientId + '_widget', diContainer, this.diagramConnector);
             return diagramWidget;
         }
         throw Error('DiagramWidgetFactory needs DiagramWidgetOptions but got ' + JSON.stringify(options));

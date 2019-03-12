@@ -68,8 +68,10 @@ export class LSTheiaSprottyConnector implements TheiaSprottyConnector, TheiaSpro
         this.fileSaver.save(uri, action);
     }
 
-    showStatus(widgetId: string, status: ServerStatusAction): void {
-        const widget = this.widgetManager.getWidgets(this.diagramManager.id).find(w => w.id === widgetId);
+    showStatus(clientId: string, status: ServerStatusAction): void {
+        const widget = this.widgetManager
+            .getWidgets(this.diagramManager.id)
+            .find(w => w instanceof DiagramWidget && w.clientId === clientId);
         if (widget instanceof DiagramWidget)
             widget.setStatus(status);
     }

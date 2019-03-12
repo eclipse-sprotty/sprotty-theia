@@ -49,6 +49,8 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
     protected options: DiagramWidgetOptions;
     protected _actionDispatcher: IActionDispatcher;
 
+    protected _modelSource: ModelSource;
+
     get uri(): URI {
         return new URI(this.options.uri);
     }
@@ -61,7 +63,22 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
         return this.diContainer.get(TYPES.ViewerOptions);
     }
 
-    constructor(options: DiagramWidgetOptions, readonly id: string, readonly diContainer: Container, readonly connector?: TheiaSprottyConnector) {
+    get modelSource(): ModelSource {
+        return this._modelSource;
+    }
+
+    get clientId(): string {
+        if (this._modelSource instanceof DiagramServer)
+            return this._modelSource.clientId;
+        else
+            return this.widgetId;
+    }
+
+    get id(): string {
+        return this.widgetId;
+    }
+
+    constructor(options: DiagramWidgetOptions, readonly widgetId: string, readonly diContainer: Container, readonly connector?: TheiaSprottyConnector) {
         super();
         this.options = options;
         this.title.closable = true;
@@ -95,8 +112,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
 
     protected initializeSprotty() {
         const modelSource = this.diContainer.get<ModelSource>(TYPES.ModelSource);
-        if (modelSource instanceof DiagramServer)
-            modelSource.clientId = this.id;
+        this._modelSource = modelSource;
         if (modelSource instanceof TheiaDiagramServer && this.connector)
             this.connector.connect(modelSource);
         this.disposed.connect(() => {

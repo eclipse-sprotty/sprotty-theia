@@ -44,7 +44,7 @@ export interface TheiaSprottyConnector {
     connect(diagramServer: TheiaDiagramServer): void
     disconnect(diagramServer: TheiaDiagramServer): void
     save(uri: string, action: ExportSvgAction): void
-    showStatus(widgetId: string, status: ServerStatusAction): void
+    showStatus(clientId: string, status: ServerStatusAction): void
     sendMessage(message: ActionMessage): void
     onMessageReceived(message: ActionMessage): void
 }
