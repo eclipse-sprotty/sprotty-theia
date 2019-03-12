@@ -14,14 +14,16 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
+import { CodeAction, CodeActionParams, CodeActionRequest, Range } from '@theia/languages/lib/browser';
 import { inject, injectable } from "inversify";
 import { Action, EMPTY_ROOT, HtmlRootSchema, PopupHoverMouseListener, RequestPopupModelAction,
-    SButton, SButtonSchema, SetPopupModelAction, SModelElement, SModelElementSchema, SModelRootSchema } from "sprotty";
+    SButton, SButtonSchema, SetPopupModelAction, SModelElement, SModelElementSchema,
+    SModelRootSchema } from "sprotty";
 import { IRootPopupModelProvider } from '../theia-diagram-server';
-import { CodeAction, CodeActionParams, CodeActionRequest, Range } from '@theia/languages/lib/browser';
-import { WorkspaceEditAction } from "./workspace-edit-command";
-import { getRange } from "./traceable";
 import { LSTheiaDiagramServerProvider } from './ls-theia-diagram-server';
+import { getRange } from "./traceable";
+import { WorkspaceEditAction } from "./workspace-edit-command";
+import { EditDiagramLocker } from './edit-diagram-locker';
 
 @injectable()
 export class CodeActionProvider {
@@ -52,10 +54,11 @@ export class CodeActionProvider {
 export class CodeActionPalettePopupProvider implements IRootPopupModelProvider {
 
     @inject(CodeActionProvider) codeActionProvider: CodeActionProvider;
+    @inject(EditDiagramLocker) editDiagramLocker: EditDiagramLocker;
 
     async getPopupModel(action: RequestPopupModelAction, rootElement: SModelRootSchema): Promise<SModelElementSchema | undefined> {
         const range = getRange(rootElement);
-        if (range !== undefined) {
+        if (this.editDiagramLocker.allowEdit && range !== undefined) {
             const codeActions = await this.codeActionProvider.getCodeActions(range, 'sprotty.create');
             if (codeActions) {
                 const buttons: PaletteButtonSchema[] = [];
