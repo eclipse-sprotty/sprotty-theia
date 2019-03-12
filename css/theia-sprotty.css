@@ -81,6 +81,11 @@ svg:focus {
     padding-left: 10px;
 }
 
+.sprotty-status-message.fatal {
+    visibility: visible;
+    padding-left: 10px;
+}
+
 .sprotty-status:hover .sprotty-status-message {
     visibility: visible;
 }
