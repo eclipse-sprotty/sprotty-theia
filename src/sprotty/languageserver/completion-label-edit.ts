@@ -17,7 +17,7 @@
 import { SLabel } from "sprotty";
 import { inject, injectable } from "inversify";
 import { LSTheiaDiagramServerProvider } from "./ls-theia-diagram-server";
-import { CompletionRequest, CompletionList, CompletionItem, TextEdit } from '@theia/languages/lib/browser';
+import { CompletionRequest, CompletionList, CompletionItem, TextEdit, CompletionItemKind } from '@theia/languages/lib/browser';
 import { Traceable, getRange } from "./traceable";
 
 @injectable()
@@ -40,7 +40,8 @@ export class CompletionLabelEditor {
                 const completionItems = ((completions as any)["items"])
                     ? (completions as CompletionList).items
                     : completions as CompletionItem[];
-                const quickPickItems = completionItems.map(i => { return {
+                const quickPickItems = this.filterCompletionItems(completionItems)
+                    .map(i => { return {
                         label: i.textEdit!.newText,
                         value: i
                     };
@@ -57,5 +58,9 @@ export class CompletionLabelEditor {
                 }
             }
         }
+    }
+
+    protected filterCompletionItems(items: CompletionItem[]): CompletionItem[] {
+        return items.filter(item => item.kind === CompletionItemKind.Reference);
     }
 }
