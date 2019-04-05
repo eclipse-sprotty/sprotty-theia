@@ -28,6 +28,6 @@ export default new ContainerModule(bind => {
     bind(CommandContribution).to(DiagramCommandContribution).inSingletonScope();
     bind(MenuContribution).to(DiagramMenuContribution).inSingletonScope();
     bind(DiagramKeybindingContext).toSelf().inSingletonScope();
-    bind(KeybindingContext).to(DiagramKeybindingContext).inSingletonScope();
+    bind(KeybindingContext).toService(DiagramKeybindingContext);
     bind(KeybindingContribution).to(DiagramKeybindingContribution).inSingletonScope();
 });
