@@ -14,7 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Workspace, WorkspaceEdit } from "@theia/languages/lib/browser";
+import { WorkspaceEdit } from "@theia/languages/lib/browser";
+import { MonacoWorkspace } from "@theia/monaco/lib/browser/monaco-workspace";
 import { inject, injectable } from "inversify";
 import { Action, Command, CommandExecutionContext, CommandResult, TYPES } from "sprotty";
 import { LSTheiaDiagramServer } from "./ls-theia-diagram-server";
@@ -26,7 +27,7 @@ export abstract class AbstractWorkspaceEditCommand extends Command {
 
     abstract createWorkspaceEdit(context: CommandExecutionContext): WorkspaceEdit;
 
-    get workspace(): Workspace {
+    get workspace(): MonacoWorkspace {
         return this.diagramServer.connector.workspace!;
     }
 
@@ -34,7 +35,7 @@ export abstract class AbstractWorkspaceEditCommand extends Command {
 
     execute(context: CommandExecutionContext): CommandResult {
         this.workspaceEdit = this.createWorkspaceEdit(context);
-        this.workspace.applyEdit(this.workspaceEdit);
+        this.workspace.applyEdit(this.workspaceEdit, { mode: 'open' });
         return context.root;
     }
 

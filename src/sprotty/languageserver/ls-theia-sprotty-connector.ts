@@ -15,7 +15,8 @@
  ********************************************************************************/
 
 import { QuickPickService, WidgetManager } from '@theia/core/lib/browser';
-import { ILanguageClient, Workspace } from '@theia/languages/lib/browser';
+import { ILanguageClient } from '@theia/languages/lib/browser';
+import { MonacoWorkspace } from "@theia/monaco/lib/browser/monaco-workspace";
 import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty';
 import { DiagramManager } from '../../theia/diagram-manager';
 import { DiagramWidget } from '../../theia/diagram-widget';
@@ -43,7 +44,7 @@ export class LSTheiaSprottyConnector implements TheiaSprottyConnector, TheiaSpro
     readonly editorManager: EditorManager;
     readonly widgetManager: WidgetManager;
     readonly diagramManager: DiagramManager;
-    readonly workspace?: Workspace;
+    readonly workspace?: MonacoWorkspace;
     readonly quickPickService?: QuickPickService;
 
     constructor(services: TheiaSprottyConnectorServices) {

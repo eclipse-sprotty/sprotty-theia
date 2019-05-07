@@ -15,13 +15,13 @@
  ********************************************************************************/
 
 import { QuickPickService, WidgetManager } from '@theia/core/lib/browser';
-import { Workspace } from '@theia/languages/lib/browser';
+import { EditorManager } from '@theia/editor/lib/browser';
+import { MonacoWorkspace } from "@theia/monaco/lib/browser/monaco-workspace";
 import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty';
 import { DiagramManager } from '../theia/diagram-manager';
 import { DiagramLanguageClient } from '../theia/languageserver';
 import { TheiaDiagramServer } from './theia-diagram-server';
 import { TheiaFileSaver } from './theia-file-saver';
-import { EditorManager } from '@theia/editor/lib/browser';
 
 export interface TheiaSprottyConnectorServices {
     readonly diagramLanguageClient: DiagramLanguageClient,
@@ -29,7 +29,7 @@ export interface TheiaSprottyConnectorServices {
     readonly editorManager: EditorManager,
     readonly widgetManager: WidgetManager,
     readonly diagramManager: DiagramManager,
-    readonly workspace?: Workspace,
+    readonly workspace?: MonacoWorkspace,
     readonly quickPickService?: QuickPickService
 }
 
