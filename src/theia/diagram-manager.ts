@@ -45,18 +45,19 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
 
     async doOpen(widget: DiagramWidget, options?: WidgetOpenerOptions) {
         const op: WidgetOpenerOptions = {
-            mode: 'activate',
+            mode: options && options.mode ? options.mode : 'activate',
             ...options
         };
         if (!widget.isAttached) {
             const currentEditor = this.editorManager.currentEditor;
             const widgetOptions: ApplicationShell.WidgetOptions = {
-                area: 'main'
+                area: 'main',
+                ...(options && options.widgetOptions ? options.widgetOptions : {})
             };
             if (!!currentEditor && currentEditor.editor.uri.toString(true) === widget.uri.toString(true)) {
                 widgetOptions.ref = currentEditor;
-                widgetOptions.mode = 'open-to-right';
-            }
+                widgetOptions.mode = options && options.widgetOptions && options.widgetOptions.mode ? options.widgetOptions.mode : 'open-to-right';
+            } 
             this.shell.addWidget(widget, widgetOptions);
         }
         const promises: Promise<void>[] = [];
