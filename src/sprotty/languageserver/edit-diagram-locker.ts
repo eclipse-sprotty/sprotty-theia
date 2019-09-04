@@ -14,9 +14,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Action, CenterCommand, FitToScreenCommand, IDiagramLocker, ViewportCommand,
-    HoverFeedbackCommand, RequestPopupModelAction, SetPopupModelCommand, SelectCommand,
-    SelectAllCommand, ServerStatusAction, SetModelCommand, UpdateModelCommand } from "sprotty";
+import { Action, CenterAction, FitToScreenAction, IDiagramLocker, SetViewportAction,
+    HoverFeedbackAction, RequestPopupModelAction, SetPopupModelAction, SelectAction,
+    SelectAllAction, ServerStatusAction, SetModelAction, UpdateModelAction } from "sprotty";
 import { injectable } from "inversify";
 
 /**
@@ -29,10 +29,10 @@ import { injectable } from "inversify";
 export class EditDiagramLocker implements IDiagramLocker {
 
     protected nonEditActions = [
-        SetModelCommand.KIND, UpdateModelCommand.KIND,
-        CenterCommand.KIND, FitToScreenCommand.KIND, ViewportCommand.KIND,
-        SelectCommand.KIND, SelectAllCommand.KIND,
-        HoverFeedbackCommand.KIND, RequestPopupModelAction.KIND, SetPopupModelCommand.KIND,
+        SetModelAction.KIND, UpdateModelAction.KIND,
+        CenterAction.KIND, FitToScreenAction.KIND, SetViewportAction.KIND,
+        SelectAction.KIND, SelectAllAction.KIND,
+        HoverFeedbackAction.KIND, RequestPopupModelAction.KIND, SetPopupModelAction.KIND,
         ServerStatusAction.KIND
     ];
 

@@ -763,6 +763,11 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+autocompleter@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/autocompleter/-/autocompleter-4.0.2.tgz#74fd9eaa733258e5ac2a72362c4bab0951ab6a01"
+  integrity sha512-joYpKB3gsYSVIzBdiuUU/LOpvNEN68rSTPlroH+RQ38Ff8OmSUE0ue+C6aSc+powTRrSUnZfvYGvOsa++3HRtA==
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -4219,10 +4224,11 @@ sprintf-js@~1.0.2:
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
 sprotty@next:
-  version "0.7.0-next.1ee073d"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.7.0-next.1ee073d.tgz#f400f34b02858f19baa36397a63dbe0302e78102"
-  integrity sha512-zhZ0hiGcxsQuYaeT+zbSrqjgpEdAt4n7Up3BRXPB1IvGbFcwUyRRu7194Q7Stuj3j0ogn7qMoVcmm9OPQ0pFiw==
+  version "0.7.0-next.b544262"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.7.0-next.b544262.tgz#9f8ae7bb9c60890b2c44adc9d54d4a3951baf532"
+  integrity sha512-AguuMaxpGo9JDodWrQ6eZiqlhhGLECsrSXQyUYYy5sVYgRz0BgkqarliYVWjMuF10kSFuO2bhfgzN95/KD/IXQ==
   dependencies:
+    autocompleter "^4.0.2"
     file-saver "1.3.3"
     inversify "^4.3.0"
     snabbdom "^0.7.0"

@@ -15,7 +15,7 @@
  ********************************************************************************/
 import { inject, injectable, } from "inversify";
 import {
-    Action, ActionHandlerRegistry, IActionHandler, SelectAction, SelectCommand, TYPES, ViewerOptions,
+    Action, ActionHandlerRegistry, IActionHandler, SelectAction, TYPES, ViewerOptions,
     RequestModelAction, IActionHandlerInitializer
 } from "sprotty";
 import { SelectionService } from "@theia/core";
@@ -42,7 +42,7 @@ export class TheiaSprottySelectionForwarder implements IActionHandlerInitializer
 
     initialize(registry: ActionHandlerRegistry): any {
         registry.register(RequestModelAction.KIND, this);
-        registry.register(SelectCommand.KIND, this);
+        registry.register(SelectAction.KIND, this);
     }
 
     handle(action: Action): void {

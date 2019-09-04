@@ -21,9 +21,17 @@ import { getRange, Traceable, isTraceable, getURI } from "./traceable";
 import { Range } from "@theia/languages/lib/browser";
 import { injectable, inject } from "inversify";
 
+export class DeleteWithWorkspaceEditAction implements Action {
+    static readonly KIND = 'deleteWithWorkspaceEdit';
+    readonly kind = DeleteWithWorkspaceEditAction.KIND;
+
+    // TODO: consider URIs from individual element traces
+    constructor(readonly workspace: Workspace, readonly sourceUri: string) {}
+}
+
 @injectable()
 export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand {
-    static readonly KIND = 'deleteWithWorkspaceEdit';
+    static readonly KIND = DeleteWithWorkspaceEditAction.KIND;
 
     constructor(@inject(TYPES.Action) readonly action: DeleteWithWorkspaceEditAction) {
         super();
@@ -111,12 +119,5 @@ export class DeleteWithWorkspaceEditCommand extends AbstractWorkspaceEditCommand
         }
         return false;
     }
-}
-
-export class DeleteWithWorkspaceEditAction implements Action {
-    readonly kind = DeleteWithWorkspaceEditCommand.KIND;
-
-    // TODO: consider URIs from individual element traces
-    constructor(readonly workspace: Workspace, readonly sourceUri: string) {}
 }
 

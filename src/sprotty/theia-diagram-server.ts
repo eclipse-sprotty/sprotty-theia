@@ -16,7 +16,7 @@
 
 import { inject, injectable, optional } from "inversify";
 import { Action, ActionHandlerRegistry, ActionMessage, DiagramServer, ExportSvgAction, ICommand,
-    RequestModelAction, RequestPopupModelAction, SelectCommand, ServerStatusAction, SetPopupModelAction,
+    RequestModelAction, RequestPopupModelAction, SelectAction, ServerStatusAction, SetPopupModelAction,
     SModelElementSchema, SModelRootSchema } from 'sprotty';
 import { TheiaSprottyConnector } from './theia-sprotty-connector';
 
@@ -62,7 +62,7 @@ export abstract class TheiaDiagramServer extends DiagramServer {
 
     initialize(registry: ActionHandlerRegistry): void {
         super.initialize(registry);
-        registry.register(SelectCommand.KIND, this);
+        registry.register(SelectAction.KIND, this);
     }
 
     handle(action: Action): void | ICommand | Action {

@@ -17,7 +17,7 @@
 import { WorkspaceEdit } from "@theia/languages/lib/browser";
 import { MonacoWorkspace } from "@theia/monaco/lib/browser/monaco-workspace";
 import { inject, injectable } from "inversify";
-import { Action, Command, CommandExecutionContext, CommandResult, TYPES } from "sprotty";
+import { Action, Command, CommandExecutionContext, TYPES, CommandReturn } from "sprotty";
 import { LSTheiaDiagramServer } from "./ls-theia-diagram-server";
 
 @injectable()
@@ -33,26 +33,36 @@ export abstract class AbstractWorkspaceEditCommand extends Command {
 
     protected workspaceEdit: WorkspaceEdit | undefined;
 
-    execute(context: CommandExecutionContext): CommandResult {
+    execute(context: CommandExecutionContext): CommandReturn {
         this.workspaceEdit = this.createWorkspaceEdit(context);
         this.workspace.applyEdit(this.workspaceEdit, { mode: 'open' });
         return context.root;
     }
 
-    undo(context: CommandExecutionContext): CommandResult {
+    undo(context: CommandExecutionContext): CommandReturn {
         // TODO implement revert workspace edit
         return context.root;
     }
 
-    redo(context: CommandExecutionContext): CommandResult {
+    redo(context: CommandExecutionContext): CommandReturn {
         // TODO implement revert workspace edit
         return context.root;
     }
 }
 
+/**
+ * This is a client only action, so it does not have to be serializable
+ */
+export class WorkspaceEditAction implements Action {
+    static readonly KIND = 'workspaceEdit';
+
+    readonly kind = WorkspaceEditAction.KIND;
+    constructor(readonly workspaceEdit: WorkspaceEdit) {}
+}
+
 @injectable()
 export class WorkspaceEditCommand extends AbstractWorkspaceEditCommand {
-    static readonly KIND = 'workspaceEdit';
+    static readonly KIND = WorkspaceEditAction.KIND;
 
     constructor(@inject(TYPES.Action) readonly action: WorkspaceEditAction) {
         super();
@@ -63,10 +73,3 @@ export class WorkspaceEditCommand extends AbstractWorkspaceEditCommand {
     }
 }
 
-/**
- * This is a client only action, so it does not have to be serializable
- */
-export class WorkspaceEditAction implements Action {
-    readonly kind = WorkspaceEditCommand.KIND;
-    constructor(readonly workspaceEdit: WorkspaceEdit) {}
-}
