@@ -19,15 +19,16 @@
     height:100%;
 }
 
-svg {
+.sprotty svg {
     width: 100%;
     flex: 1;
     border-style: solid;
     border-width: 0px;
 }
 
-svg:focus {
+.sprotty svg:focus {
     border-width: 0;
+    outline: none;
 }
 
 .sprotty-status {
