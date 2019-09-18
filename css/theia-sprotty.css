@@ -111,3 +111,27 @@
     display: block;
     font-weight: bold;
 }
+
+.sprotty-edge > .sprotty-routing-handle {
+    r: 5px;
+    fill: var(--theia-ui-font-color1);
+    stroke: none;
+    z-index: 1000;
+}
+
+.sprotty-edge > .sprotty-routing-handle[data-kind='line'] {
+    opacity: 0.35;
+}
+
+.sprotty-edge > .sprotty-routing-handle.selected {
+    fill: var(--theia-accent-color1);
+}
+
+.sprotty-edge > .sprotty-routing-handle.mouseover {
+    stroke: var(--theia-accent-color0);
+    stroke-width: 1;
+}
+
+.sprotty-edge.mouseover:not(.selected) {
+    stroke-width: 3px;
+}
