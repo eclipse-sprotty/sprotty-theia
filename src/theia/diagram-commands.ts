@@ -43,6 +43,7 @@ export namespace DiagramCommands {
 
 export namespace DiagramMenus {
     export const DIAGRAM: MenuPath = MAIN_MENU_BAR.concat("3_diagram");
+    export const EDITOR_CONTEXT_DIAGRAM: MenuPath = EDITOR_CONTEXT_MENU.concat("a_diagram");
 }
 
 @injectable()
@@ -63,7 +64,7 @@ export class DiagramMenuContribution implements MenuContribution {
         registry.registerMenuAction(DiagramMenus.DIAGRAM, {
             commandId: DiagramCommands.LAYOUT
         });
-        registry.registerMenuAction(EDITOR_CONTEXT_MENU, {
+        registry.registerMenuAction(DiagramMenus.EDITOR_CONTEXT_DIAGRAM, {
             commandId: DiagramCommands.OPEN_IN_DIAGRAM
         });
     }
