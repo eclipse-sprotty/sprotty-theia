@@ -53,7 +53,7 @@ export class TheiaSprottySelectionForwarder implements IActionHandlerInitializer
                 sourceUri: this.sourceUri
             };
         } else if (action instanceof RequestModelAction && action.options !== undefined) {
-            this.sourceUri = action.options.sourceUri;
+            this.sourceUri = action.options.sourceUri as string;
         }
     }
 }

@@ -67,7 +67,7 @@ export abstract class TheiaDiagramServer extends DiagramServer {
 
     handle(action: Action): void | ICommand | Action {
         if (action instanceof RequestModelAction && action.options !== undefined)
-            this._sourceUri = action.options.sourceUri;
+            this._sourceUri = action.options.sourceUri as string;
         return super.handle(action);
     }
 
