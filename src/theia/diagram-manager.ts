@@ -15,8 +15,8 @@
  ********************************************************************************/
 
 import { injectable, inject } from "inversify";
-import { WidgetOpenHandler, WidgetManager, WidgetOpenerOptions, ApplicationShell, Widget, WidgetFactory } from "@theia/core/lib/browser";
-import { DiagramWidget, DiagramWidgetOptions } from "./diagram-widget";
+import { WidgetOpenHandler, WidgetManager, WidgetOpenerOptions, ApplicationShell, WidgetFactory } from "@theia/core/lib/browser";
+import { DiagramWidget, DiagramWidgetOptions, DiagramWidgetFactory } from "./diagram-widget";
 import URI from "@theia/core/lib/common/uri";
 import { EditorManager } from "@theia/editor/lib/browser";
 import { TheiaSprottyConnector } from "../sprotty/theia-sprotty-connector";
@@ -30,7 +30,8 @@ export type DiagramManagerProvider = () => Promise<DiagramManager>;
 export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> implements WidgetFactory {
 
     @inject(WidgetManager) protected readonly widgetManager: WidgetManager;
-    @inject(EditorManager) protected editorManager: EditorManager;
+    @inject(EditorManager) protected readonly editorManager: EditorManager;
+    @inject(DiagramWidgetFactory) protected readonly widgetFactory: DiagramWidgetFactory;
     @inject(DiagramConfigurationRegistry) diagramConfigurationRegistry: DiagramConfigurationRegistry;
 
     abstract get diagramType(): string;
@@ -90,12 +91,12 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
         };
     }
 
-    async createWidget(options?: any): Promise<Widget> {
+    async createWidget(options?: any): Promise<DiagramWidget> {
         if (DiagramWidgetOptions.is(options)) {
             const clientId = this.createClientId();
             const config = this.diagramConfigurationRegistry.get(options.diagramType);
             const diContainer = config.createContainer(clientId);
-            const diagramWidget = new DiagramWidget(options, clientId + '_widget', diContainer, this.diagramConnector);
+            const diagramWidget = this.widgetFactory(options, clientId + '_widget', diContainer, this.diagramConnector);
             return diagramWidget;
         }
         throw Error('DiagramWidgetFactory needs DiagramWidgetOptions but got ' + JSON.stringify(options));

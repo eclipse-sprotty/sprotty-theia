@@ -14,13 +14,15 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { ContainerModule } from 'inversify';
-import { DiagramConfigurationRegistry } from "./diagram-configuration";
-import { TheiaFileSaver } from "../sprotty/theia-file-saver";
-import { DiagramCommandContribution, DiagramMenuContribution } from './diagram-commands';
+import { ContainerModule, Container } from 'inversify';
 import { CommandContribution, MenuContribution } from '@theia/core/lib/common';
-import { DiagramKeybindingContext, DiagramKeybindingContribution } from './diagram-keybinding';
 import { KeybindingContext, KeybindingContribution } from '@theia/core/lib/browser';
+import { TheiaFileSaver } from "../sprotty/theia-file-saver";
+import { TheiaSprottyConnector } from '../sprotty/theia-sprotty-connector';
+import { DiagramConfigurationRegistry } from "./diagram-configuration";
+import { DiagramCommandContribution, DiagramMenuContribution } from './diagram-commands';
+import { DiagramKeybindingContext, DiagramKeybindingContribution } from './diagram-keybinding';
+import { DiagramWidgetFactory, DiagramWidget, DiagramWidgetOptions } from './diagram-widget';
 
 export default new ContainerModule(bind => {
     bind(DiagramConfigurationRegistry).toSelf().inSingletonScope();
@@ -30,4 +32,8 @@ export default new ContainerModule(bind => {
     bind(DiagramKeybindingContext).toSelf().inSingletonScope();
     bind(KeybindingContext).toService(DiagramKeybindingContext);
     bind(KeybindingContribution).to(DiagramKeybindingContribution).inSingletonScope();
+    bind(DiagramWidgetFactory).toFactory(ctx => {
+        return (options: DiagramWidgetOptions, widgetId: string, diContainer: Container, connector?: TheiaSprottyConnector) =>
+            new DiagramWidget(options, widgetId, diContainer, connector);
+    });
 });

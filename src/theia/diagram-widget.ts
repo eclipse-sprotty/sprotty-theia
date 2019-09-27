@@ -32,6 +32,10 @@ export interface DiagramWidgetOptions {
     iconClass: string
 }
 
+export type DiagramWidgetFactory =
+    (options: DiagramWidgetOptions, widgetId: string, diContainer: Container, connector?: TheiaSprottyConnector) => DiagramWidget;
+export const DiagramWidgetFactory = Symbol('DiagramWidgetFactory');
+
 export namespace DiagramWidgetOptions {
     export function is(options: any): options is DiagramWidgetOptions {
         return options.diagramType
@@ -41,12 +45,15 @@ export namespace DiagramWidgetOptions {
     }
 }
 
+/**
+ * The DiagramWidget is the container for Sprotty diagrams.
+ */
 export class DiagramWidget extends BaseWidget implements StatefulWidget {
 
-    private statusIconDiv: HTMLDivElement;
-    private statusMessageDiv: HTMLDivElement;
+    private diagramContainer?: HTMLDivElement;
+    private statusIconDiv?: HTMLDivElement;
+    private statusMessageDiv?: HTMLDivElement;
 
-    protected options: DiagramWidgetOptions;
     protected _actionDispatcher: IActionDispatcher;
 
     protected _modelSource: ModelSource;
@@ -78,39 +85,47 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
         return this.widgetId;
     }
 
-    constructor(options: DiagramWidgetOptions, readonly widgetId: string, readonly diContainer: Container, readonly connector?: TheiaSprottyConnector) {
+    constructor(protected options: DiagramWidgetOptions,
+                readonly widgetId: string,
+                readonly diContainer: Container,
+                readonly connector?: TheiaSprottyConnector) {
         super();
-        this.options = options;
         this.title.closable = true;
         this.title.label = options.label;
         this.title.iconClass = options.iconClass;
     }
 
     protected onAfterAttach(msg: Message): void {
+        if (!this.diagramContainer) {
+            // Create the container and initialize its content upon first attachment
+            this.createContainer();
+            this.initializeSprotty();
+        }
         super.onAfterAttach(msg);
+    }
 
-        const svgContainer = document.createElement("div");
-        svgContainer.id = this.viewerOptions.baseDiv;
-        this.node.appendChild(svgContainer);
+    protected createContainer(): void {
+        this.diagramContainer = document.createElement('div');
+        this.diagramContainer.id = this.viewerOptions.baseDiv;
+        this.node.appendChild(this.diagramContainer);
 
-        const hiddenContainer = document.createElement("div");
+        const hiddenContainer = document.createElement('div');
         hiddenContainer.id = this.viewerOptions.hiddenDiv;
         document.body.appendChild(hiddenContainer);
 
-        const statusDiv = document.createElement("div");
+        const statusDiv = document.createElement('div');
         statusDiv.setAttribute('class', 'sprotty-status');
         this.node.appendChild(statusDiv);
 
-        this.statusIconDiv = document.createElement("div");
+        this.statusIconDiv = document.createElement('div');
         statusDiv.appendChild(this.statusIconDiv);
 
-        this.statusMessageDiv = document.createElement("div");
+        this.statusMessageDiv = document.createElement('div');
         this.statusMessageDiv.setAttribute('class', 'sprotty-status-message');
         statusDiv.appendChild(this.statusMessageDiv);
-        this.initializeSprotty();
     }
 
-    protected initializeSprotty() {
+    protected initializeSprotty(): void {
         const modelSource = this.diContainer.get<ModelSource>(TYPES.ModelSource);
         this._modelSource = modelSource;
         if (modelSource instanceof TheiaDiagramServer && this.connector)
@@ -175,29 +190,33 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
     }
 
     setStatus(status: ServerStatusAction): void {
-        this.statusMessageDiv.textContent = status.message;
-        this.removeClasses(this.statusMessageDiv, 1);
-        this.statusMessageDiv.classList.add(status.severity.toLowerCase());
-        this.removeClasses(this.statusIconDiv, 0);
-        const classes = this.statusIconDiv.classList;
-        classes.add(status.severity.toLowerCase());
-        switch (status.severity) {
-            case 'FATAL':
-                classes.add('fa');
-                classes.add('fa-times-circle');
-                break;
-            case 'ERROR':
-                classes.add('fa');
-                classes.add('fa-exclamation-circle');
-                break;
-            case 'WARNING':
-                classes.add('fa');
-                classes.add('fa-exclamation-circle');
-                break;
-            case 'INFO':
-                classes.add('fa');
-                classes.add('fa-info-circle');
-                break;
+        if (this.statusMessageDiv) {
+            this.statusMessageDiv.textContent = status.message;
+            this.removeClasses(this.statusMessageDiv, 1);
+            this.statusMessageDiv.classList.add(status.severity.toLowerCase());
+        }
+        if (this.statusIconDiv) {
+            this.removeClasses(this.statusIconDiv, 0);
+            const classes = this.statusIconDiv.classList;
+            classes.add(status.severity.toLowerCase());
+            switch (status.severity) {
+                case 'FATAL':
+                    classes.add('fa');
+                    classes.add('fa-times-circle');
+                    break;
+                case 'ERROR':
+                    classes.add('fa');
+                    classes.add('fa-exclamation-circle');
+                    break;
+                case 'WARNING':
+                    classes.add('fa');
+                    classes.add('fa-exclamation-circle');
+                    break;
+                case 'INFO':
+                    classes.add('fa');
+                    classes.add('fa-info-circle');
+                    break;
+            }
         }
     }
 
