@@ -19,7 +19,7 @@ import { RequestModelAction, CenterAction, InitializeCanvasBoundsAction, ServerS
 import { Widget } from "@phosphor/widgets";
 import { Message } from "@phosphor/messaging/lib";
 import { BaseWidget } from '@theia/core/lib/browser/widgets/widget';
-import { StatefulWidget } from '@theia/core/lib/browser';
+import { StatefulWidget, Navigatable } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 import { TheiaSprottyConnector } from '../sprotty/theia-sprotty-connector';
 import { Container } from 'inversify';
@@ -48,7 +48,7 @@ export namespace DiagramWidgetOptions {
 /**
  * The DiagramWidget is the container for Sprotty diagrams.
  */
-export class DiagramWidget extends BaseWidget implements StatefulWidget {
+export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigatable {
 
     private diagramContainer?: HTMLDivElement;
     private statusIconDiv?: HTMLDivElement;
@@ -236,5 +236,13 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget {
     restoreState(oldState: object): void {
         if (DiagramWidgetOptions.is(oldState))
             this.options = oldState;
+    }
+
+    getResourceUri(): URI | undefined {
+        return this.uri;
+    }
+
+    createMoveToUri(resourceUri: URI): URI | undefined {
+        return this.uri.withPath(resourceUri.path);
     }
 }
