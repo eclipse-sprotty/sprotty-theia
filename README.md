@@ -10,6 +10,8 @@ The version history is documented in the [CHANGELOG](https://github.com/eclipse/
 yarn
 ```
 
+The project is built on [jenkins.eclipse.org/sprotty](https://jenkins.eclipse.org/sprotty/).
+
 Pre-built npm packages available from [npmjs](https://www.npmjs.com/package/sprotty-theia).
 
 ## See also
