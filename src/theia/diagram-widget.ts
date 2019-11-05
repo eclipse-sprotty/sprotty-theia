@@ -160,8 +160,14 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
     protected onActivateRequest(msg: Message): void {
         super.onActivateRequest(msg);
         const svgElement = this.node.querySelector(`#${this.viewerOptions.baseDiv} svg`) as HTMLElement;
-        if (svgElement !== null)
+        if (svgElement !== null) {
             svgElement.focus();
+		} else {
+			const tabindex = this.node.getAttribute('tabindex');
+			if (tabindex === null)
+				this.node.setAttribute('tabindex', -1);
+			this.node.focus();
+		}
     }
 
     /**
