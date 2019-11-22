@@ -66,7 +66,7 @@ export class TheiaContextMenuService implements IContextMenuService {
 
     protected registerCommand(menuPath: string[], item: MenuItem): DisposableItem {
         const command: Command = { id: commandId(menuPath, item), label: item.label, iconClass: item.icon };
-        const disposable = this.commandRegistry.registerCommand(command, new GlspCommandHandler(item, this.actionDispatcher));
+        const disposable = this.commandRegistry.registerCommand(command, new SprottyCommandHandler(item, this.actionDispatcher));
         return new DisposableCommand(command, disposable);
     }
 
@@ -82,7 +82,7 @@ export class TheiaContextMenuService implements IContextMenuService {
     }
 }
 
-class GlspCommandHandler implements CommandHandler {
+class SprottyCommandHandler implements CommandHandler {
 
     constructor(readonly menuItem: MenuItem, readonly actionDispatcher?: IActionDispatcher) { }
 
