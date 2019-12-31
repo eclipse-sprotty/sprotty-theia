@@ -3392,10 +3392,15 @@ snabbdom-virtualize@0.7.0:
   dependencies:
     html-parse-stringify2 "^2"
 
-snabbdom@0.7.3, snabbdom@^0.7.0:
+snabbdom@0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-0.7.3.tgz#27b29b41228779ae5d99696a07edaaff4912fc54"
   integrity sha512-XNh90GQiV36hWdfSL46fIVrSSvmBuZlWk3++qaEgBeQWQJCqTphcbjTODPv8/vyZHJaB3VhePsWfGxi/zBxXyw==
+
+snabbdom@^0.7.0:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-0.7.4.tgz#817f07e8d3fb870960c3763b8da56f1ba982d31a"
+  integrity sha512-nnN+7uZ2NTIiu7EPMNwSDhmrYXqwlfCP/j72RdzvDPujXyvQxOW7Jl9yuLayzxMHDNWQR7FM6Pcn4wnDpKRe6Q==
 
 sort-keys@^2.0.0:
   version "2.0.0"
@@ -3471,9 +3476,9 @@ sprintf-js@~1.0.2:
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
 sprotty@next:
-  version "0.7.0-next.192c4c5"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.7.0-next.192c4c5.tgz#c4513dce9e4a34e0d3ab0209830dad83ebe328e2"
-  integrity sha512-6vPo8G//tD03l+3oz6tOi2fOTOJSl2VgMSs5wpBuTZ8FVxzRBwo9WoBgyHhVHE99wqtdhp9UCyKMVvismID4Ow==
+  version "0.8.0-next.78d7bc3"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.8.0-next.78d7bc3.tgz#af424cc0a01847a9e71e30af1f8a7e0876ecefe9"
+  integrity sha512-pgVng9NfGvoh4uAa8dkLxt2mE+8KdLdNGQjjaG6EEFwnq4mSDy5d32E0f+Dkke0g+erViBqD6GH9lhzylaHLiw==
   dependencies:
     autocompleter "5.1.0"
     file-saver "2.0.2"
