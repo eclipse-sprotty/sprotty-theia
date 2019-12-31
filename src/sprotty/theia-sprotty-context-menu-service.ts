@@ -25,22 +25,30 @@ export namespace TheiaSprottyContextMenu {
 @injectable()
 export class TheiaContextMenuService implements IContextMenuService {
 
-    protected readonly cleanUpDelay = 500;
-    protected actionDispatcher?: IActionDispatcher;
+    protected timeout?: number;
+    protected disposables?: DisposableItem[];
 
-    constructor(@inject(ContextMenuRenderer) protected readonly contextMenuRenderer: ContextMenuRenderer,
-        @inject(MenuModelRegistry) protected readonly menuProvider: MenuModelRegistry,
-        @inject(CommandRegistry) protected readonly commandRegistry: CommandRegistry) { }
+    @inject(ContextMenuRenderer)
+    protected readonly contextMenuRenderer: ContextMenuRenderer;
+
+    @inject(MenuModelRegistry)
+    protected readonly menuProvider: MenuModelRegistry;
+
+    @inject(CommandRegistry)
+    protected readonly commandRegistry: CommandRegistry;
+
+    protected actionDispatcher?: IActionDispatcher;
 
     connect(actionDispatcher: IActionDispatcher) {
         this.actionDispatcher = actionDispatcher;
     }
 
     show(items: MenuItem[], anchor: Anchor, onHide?: () => void): void {
-        const disposables = this.register(TheiaSprottyContextMenu.CONTEXT_MENU, items);
+        this.cleanUpNow();
+        this.disposables = this.register(TheiaSprottyContextMenu.CONTEXT_MENU, items);
         const renderOptions = {
-            menuPath: TheiaSprottyContextMenu.CONTEXT_MENU, anchor,
-            onHide: () => { if (onHide) onHide(); window.setTimeout(() => this.cleanUp(disposables), this.cleanUpDelay); }
+            menuPath: TheiaSprottyContextMenu.CONTEXT_MENU, anchor: anchor,
+            onHide: () => { if (onHide) onHide(); this.scheduleCleanup(); }
         };
         this.contextMenuRenderer.render(renderOptions);
     }
@@ -77,8 +85,22 @@ export class TheiaContextMenuService implements IContextMenuService {
         return new DisposableMenuAction(menuAction, disposable);
     }
 
-    protected cleanUp(disposables: DisposableItem[]) {
-        disposables.forEach(disposable => disposable.dispose(this.menuProvider, this.commandRegistry));
+    protected cleanUpNow() {
+        window.clearTimeout(this.timeout);
+        this.cleanUp();
+    }
+
+    protected scheduleCleanup() {
+        this.timeout = window.setTimeout(() => {
+            this.cleanUp();
+        }, 200);
+    }
+
+    protected cleanUp() {
+        if (this.disposables) {
+            this.disposables.forEach(disposable => disposable.dispose(this.menuProvider, this.commandRegistry));
+            this.disposables = undefined;
+        }
     }
 }
 
@@ -86,21 +108,21 @@ class SprottyCommandHandler implements CommandHandler {
 
     constructor(readonly menuItem: MenuItem, readonly actionDispatcher?: IActionDispatcher) { }
 
-    execute() {
+    execute(...args: any[]) {
         if (this.actionDispatcher && this.menuItem.actions) {
             this.actionDispatcher.dispatchAll(this.menuItem.actions);
         }
     }
 
-    isEnabled() {
+    isEnabled(...args: any[]): boolean {
         return getBooleanValue(this.menuItem.isEnabled, true);
     }
 
-    isVisible() {
+    isVisible(...args: any[]): boolean {
         return getBooleanValue(this.menuItem.isVisible, true);
     }
 
-    isToggled() {
+    isToggled(...args: any[]): boolean {
         return getBooleanValue(this.menuItem.isToggled, false);
     }
 }
