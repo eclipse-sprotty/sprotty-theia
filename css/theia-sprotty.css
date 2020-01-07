@@ -40,34 +40,34 @@
 }
 
 .sprotty-status .fatal {
-    color: var(--theia-error-color1)
+    color: var(--theia-inputValidation-errorBorder)
 }
 
 .sprotty-status .error {
-    color: var(--theia-error-color0)
+    color: var(--theia-errorForeground)
 }
 
 .sprotty-status .warning {
-    color: var(--theia-warn-color0)
+    color: var(--theia-editorWarning-foreground)
 }
 
-.sprotty-status .info {
-    color: var(--theia-info-color0)
+.sprotty-status .info { 
+    color: var(--theia-editorInfo-foreground)
 }
 
 .sprotty-error {
-    fill: var(--theia-error-color0);
-    color: var(--theia-error-color0);
+    fill: var(--theia-inputValidation-errorBackground);
+    color: var(--theia-errorForeground);
 }
 
 .sprotty-warning {
-    fill: var(--theia-warn-color0);
-    color: var(--theia-warn-color0);
+    fill: var(--theia-inputValidation-warningBackground);
+    color: var(--theia-editorWarning-foreground);
 }
 
 .sprotty-info {
     fill: var(--theia-info-color0);
-    color: var(--theia-info-color0);
+    color: var(--theia-inputValidation-infoBackground);
 }
 
 .sprotty-infoRow .fa {
@@ -114,7 +114,7 @@
 
 .sprotty-edge > .sprotty-routing-handle {
     r: 5px;
-    fill: var(--theia-ui-font-color1);
+    fill: var(--theia-foreground);
     stroke: none;
     z-index: 1000;
 }
@@ -124,11 +124,11 @@
 }
 
 .sprotty-edge > .sprotty-routing-handle.selected {
-    fill: var(--theia-accent-color1);
+    fill: var(--theia-button-background);
 }
 
 .sprotty-edge > .sprotty-routing-handle.mouseover {
-    stroke: var(--theia-accent-color0);
+    stroke: var(--theia-button-hoverBackground);
     stroke-width: 1;
 }
 
