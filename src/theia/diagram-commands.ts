@@ -25,9 +25,11 @@ import {
 } from 'sprotty';
 import { DiagramWidget } from './diagram-widget';
 import { injectable, inject } from 'inversify';
-import { MAIN_MENU_BAR, MenuContribution, MenuModelRegistry, CommandContribution,
-         CommandHandler, CommandRegistry, MenuPath } from '@theia/core/lib/common';
-import { ApplicationShell, OpenerService, CommonCommands } from '@theia/core/lib/browser';
+import {
+    MAIN_MENU_BAR, MenuContribution, MenuModelRegistry, CommandContribution,
+    CommandHandler, CommandRegistry, MenuPath
+} from '@theia/core/lib/common';
+import { ApplicationShell, OpenerService, CommonCommands, Widget } from '@theia/core/lib/browser';
 import { EDITOR_CONTEXT_MENU, EditorManager } from "@theia/editor/lib/browser";
 import { DiagramManager } from './diagram-manager';
 
@@ -78,13 +80,31 @@ export class DiagramCommandHandler implements CommandHandler {
 
     execute(...args: any[]) {
         return this.isEnabled()
-            ? this.doExecute((this.shell.activeWidget || this.shell.currentWidget) as DiagramWidget)
+            ? this.doExecute(this.diagramWidget!)
             : undefined;
     }
 
     isEnabled(): boolean {
-        return (this.shell.activeWidget || this.shell.currentWidget) instanceof DiagramWidget;
+        return this.diagramWidget !== undefined;
     }
+
+    get diagramWidget() {
+        const widget = (this.shell.activeWidget || this.shell.currentWidget);
+        if (widget instanceof DiagramWidget) {
+            return widget as DiagramWidget;
+        } else if (isDiagramWidgetContainer(widget)) {
+            return widget.diagramWidget;
+        }
+        return undefined;
+    }
+}
+
+export interface DiagramWidgetContainer {
+    diagramWidget: DiagramWidget
+}
+
+export function isDiagramWidgetContainer(widget?: Widget): widget is Widget & DiagramWidgetContainer {
+    return widget !== undefined && (<any>widget).diagramWidget instanceof DiagramWidget;
 }
 
 export class OpenInDiagramHandler implements CommandHandler {
