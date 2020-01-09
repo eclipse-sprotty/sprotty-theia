@@ -2,17 +2,19 @@
 
 Glue code for [Sprotty diagrams](https://github.com/eclipse/sprotty) - with or without language servers - in [Theia](https://theia-ide.org).
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/eclipse/sprotty-theia)
+
+The project is built on [ci.eclipse.org/sprotty](https://ci.eclipse.org/sprotty/). Pre-built npm packages available from [npmjs](https://www.npmjs.com/package/sprotty-theia).
+
 The version history is documented in the [CHANGELOG](https://github.com/eclipse/sprotty-theia/blob/master/CHANGELOG.md).
 
-## Build
+### Version Compatibility
 
-```bash
-yarn
-```
-
-The project is built on [jenkins.eclipse.org/sprotty](https://jenkins.eclipse.org/sprotty/).
-
-Pre-built npm packages available from [npmjs](https://www.npmjs.com/package/sprotty-theia).
+| sprotty-theia | Theia  |
+| ------------- | ------ |
+| 0.8.0         | 0.15.0 |
+| 0.7.0         | 0.11.0 |
+| 0.6.0         | 0.4.0  |
 
 ## See also
 

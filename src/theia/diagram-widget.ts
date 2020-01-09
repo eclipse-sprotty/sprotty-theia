@@ -162,12 +162,12 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
         const svgElement = this.node.querySelector(`#${this.viewerOptions.baseDiv} svg`) as HTMLElement;
         if (svgElement !== null) {
             svgElement.focus();
-		} else {
-			const tabindex = this.node.getAttribute('tabindex');
-			if (tabindex === null)
-				this.node.setAttribute('tabindex', -1);
-			this.node.focus();
-		}
+        } else {
+            const tabindex = this.node.getAttribute('tabindex');
+            if (tabindex === null)
+                this.node.setAttribute('tabindex', -1);
+            this.node.focus();
+        }
     }
 
     /**
