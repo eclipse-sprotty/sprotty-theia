@@ -94,6 +94,7 @@
 .sprotty-popup {
     position: absolute;
     background: #FFE9BE;
+	color: black;
     border-radius: 0px;
     border: none;
     max-width: initial;
