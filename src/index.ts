@@ -19,6 +19,7 @@ export * from './sprotty/theia-file-saver';
 export * from './sprotty/theia-key-tool';
 export * from './sprotty/theia-sprotty-connector';
 export * from './sprotty/theia-sprotty-selection-forwarder';
+export * from './sprotty/theia-sprotty-context-menu-service';
 export * from './sprotty/languageserver/index';
 
 export * from './theia/diagram-commands';
