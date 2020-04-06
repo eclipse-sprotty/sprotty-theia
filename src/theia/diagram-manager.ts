@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2018 TypeFox and others.
+ * Copyright (c) 2018-2020 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -61,17 +61,12 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
             }
             this.shell.addWidget(widget, widgetOptions);
         }
-        const promises: Promise<void>[] = [];
         if (op.mode === 'activate') {
             await widget.getSvgElement();
-            promises.push(this.onActive(widget));
-            promises.push(this.onReveal(widget));
-            this.shell.activateWidget(widget.widgetId);
+            await this.shell.activateWidget(widget.widgetId);
         } else if (op.mode === 'reveal') {
-            promises.push(this.onReveal(widget));
-            this.shell.revealWidget(widget.widgetId);
+            await this.shell.revealWidget(widget.widgetId);
         }
-        await Promise.all(promises);
     }
 
     get id() {
