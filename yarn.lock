@@ -230,7 +230,7 @@
     semver "^5.4.1"
     write-json-file "^2.2.0"
 
-"@theia/core@^1.0.0":
+"@theia/core@1.0.0", "@theia/core@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@theia/core/-/core-1.0.0.tgz#d69c94c3923da37ea466d94da10decdb14bd90d0"
   integrity sha512-rqg+N/NXeRmqRoxvQspKbspwomX3rQrxFFbxjKAKjfuNLsxWzC51jUI/adUb5veJ1UnbjfLWnpGKFivdTOpClw==
@@ -277,7 +277,7 @@
     ws "^7.1.2"
     yargs "^11.1.0"
 
-"@theia/editor@^1.0.0":
+"@theia/editor@1.0.0", "@theia/editor@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@theia/editor/-/editor-1.0.0.tgz#f73df4e6409a98d53be301e3500e4d5e6a63ae17"
   integrity sha512-kZZMe//OrLH8BgVNoRYGQ6M3zbYFBcpfKi+0CpPUd4Aq8/B7vMTGCIdRjxO+GrFgOztjHSnm5IJ+lI8pmgGNbw==
@@ -288,7 +288,7 @@
     "@types/base64-arraybuffer" "0.1.0"
     base64-arraybuffer "^0.1.5"
 
-"@theia/filesystem@^1.0.0":
+"@theia/filesystem@1.0.0", "@theia/filesystem@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@theia/filesystem/-/filesystem-1.0.0.tgz#b448171b323a421315b1330dd5e142c7e2f2ec65"
   integrity sha512-VLAJN7jte8M0tpnV6q2XC07+LcrwwV0HLBEt+u/BBAuCO8n36Wgorj6onS/rlIJJQONQdn17MJ/m6GngfwI7ug==
@@ -314,7 +314,7 @@
     uuid "^3.2.1"
     zip-dir "^1.0.2"
 
-"@theia/languages@^1.0.0":
+"@theia/languages@1.0.0", "@theia/languages@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@theia/languages/-/languages-1.0.0.tgz#30b87fcd67cc0d36b339e003a221e1f3f76755a8"
   integrity sha512-z7793MdwPQNL50JRlwpyTTwie6FHE2qOCndIlICcFUDa30abjgwcGq0UmKbRqZfaw4HJqHS7UpuQqxO5WTtTPg==
@@ -339,7 +339,7 @@
     "@theia/navigator" "^1.0.0"
     "@theia/workspace" "^1.0.0"
 
-"@theia/monaco@^1.0.0":
+"@theia/monaco@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@theia/monaco/-/monaco-1.0.0.tgz#8e953d0ac8fd258e7b8c430c1ba00a337417e416"
   integrity sha512-LFuN/CrntomL4S7TvFIR711TzjgQ+zgoX6c/ggSSgPmkoxNE6MJi2pUlBHtre+U0SXrUCRzBc1e5fI943RgVig==
@@ -3482,10 +3482,10 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-sprotty@next:
-  version "0.8.0-next.78d7bc3"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.8.0-next.78d7bc3.tgz#af424cc0a01847a9e71e30af1f8a7e0876ecefe9"
-  integrity sha512-pgVng9NfGvoh4uAa8dkLxt2mE+8KdLdNGQjjaG6EEFwnq4mSDy5d32E0f+Dkke0g+erViBqD6GH9lhzylaHLiw==
+sprotty@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.8.0.tgz#fe0b3e64aa698f7e7d6de90eb22176a5340ec92e"
+  integrity sha512-P5iTJGGLD9rqVqsNjpuCsWN1ifVoPwlhbvf+6Sl/J/o/tpYwnwDsHZiQkD72UFteV+0r0aZWvwppzLf8g9YpKw==
   dependencies:
     autocompleter "5.1.0"
     file-saver "2.0.2"
