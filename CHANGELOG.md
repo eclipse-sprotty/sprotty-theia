@@ -2,6 +2,20 @@
 
 This change log covers only the Theia integration of Sprotty. See also the change logs of [sprotty](https://github.com/eclipse/sprotty/blob/master/CHANGELOG.md), [sprotty-server](https://github.com/eclipse/sprotty-server/blob/master/CHANGELOG.md) and [sprotty-layout](https://github.com/eclipse/sprotty-layout/blob/master/CHANGELOG.md).
 
+### v0.8.0 (Apr. 2020)
+
+New features:
+ * Focus fixed on activation ([#46](https://github.com/eclipse/sprotty-theia/pull/46)) 
+ * Context menu ([#47](https://github.com/eclipse/sprotty-theia/pull/47))
+ * Use colors from VSCode theme ([#49]((https://github.com/eclipse/sprotty-theia/pull/49))
+ * Upgraded to Theia 1.0.0 ([#56]((https://github.com/eclipse/sprotty-theia/pull/56))
+ 
+Fixed issues: https://github.com/eclipse/sprotty-theia/milestone/3?closed=1
+
+Breaking API changes:
+* CSS colors now use VSCode themes instead of Theia variables ([#49]((https://github.com/eclipse/sprotty-theia/pull/49))
+
+ 
 ### v0.7.0 (Oct. 2019)
 
 New features:
