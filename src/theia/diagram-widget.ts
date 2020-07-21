@@ -14,8 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { RequestModelAction, CenterAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher,
-    ModelSource, TYPES, DiagramServer, ViewerOptions } from 'sprotty';
+import {
+    RequestModelAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher,
+    ModelSource, TYPES, DiagramServer, ViewerOptions
+} from 'sprotty';
 import { Widget } from "@phosphor/widgets";
 import { Message } from "@phosphor/messaging/lib";
 import { BaseWidget } from '@theia/core/lib/browser/widgets/widget';
@@ -154,7 +156,6 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
         super.onResize(msg);
         const newBounds = this.getBoundsInPage(this.node as Element);
         this.actionDispatcher.dispatch(new InitializeCanvasBoundsAction(newBounds));
-        this.actionDispatcher.dispatch(new CenterAction([], false));
     }
 
     protected onActivateRequest(msg: Message): void {
