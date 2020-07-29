@@ -16,7 +16,7 @@
 
 import {
     RequestModelAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher,
-    ModelSource, TYPES, DiagramServer, ViewerOptions
+    ModelSource, TYPES, DiagramServer, ViewerOptions, CenterAction
 } from 'sprotty';
 import { Widget } from "@phosphor/widgets";
 import { Message } from "@phosphor/messaging/lib";
@@ -136,10 +136,16 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
             if (modelSource instanceof TheiaDiagramServer && this.connector)
                 this.connector.disconnect(modelSource);
         });
-        this.actionDispatcher.dispatch(new RequestModelAction({
+        this.requestModel();
+    }
+
+    protected async requestModel(): Promise<void> {
+        const response = await this.actionDispatcher.request(RequestModelAction.create({
             sourceUri: this.options.uri,
             diagramType: this.options.diagramType
         }));
+        await this.actionDispatcher.dispatch(response);
+        await this.actionDispatcher.dispatch(new CenterAction([], false));
     }
 
     protected getBoundsInPage(element: Element) {
