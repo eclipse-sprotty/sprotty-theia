@@ -9,3 +9,7 @@ github:
     addComment: true
     addBadge: false
     addLabel: prebuilt-in-gitpod
+
+vscode:
+  extensions:
+    - ms-vscode.vscode-typescript-tslint-plugin@1.2.2:0nQ3PEEA0NPEt3UcbCYiIQ==
