@@ -4,7 +4,7 @@ kind: Pod
 spec:
   containers:
   - name: node
-    image: node:8.12
+    image: node:12.18.3
     tty: true
     resources:
       limits:
