@@ -140,12 +140,23 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
     }
 
     protected async requestModel(): Promise<void> {
-        const response = await this.actionDispatcher.request(RequestModelAction.create({
-            sourceUri: this.options.uri,
-            diagramType: this.options.diagramType
-        }));
-        await this.actionDispatcher.dispatch(response);
-        await this.actionDispatcher.dispatch(new CenterAction([], false));
+        try {
+            const response = await this.actionDispatcher.request(RequestModelAction.create({
+                sourceUri: this.options.uri,
+                diagramType: this.options.diagramType
+            }));
+            await this.actionDispatcher.dispatch(response);
+            await this.initializeView();
+        } catch (err) {
+            const status = new ServerStatusAction();
+            status.message = err instanceof Error ? err.message : err.toString();
+            status.severity = 'FATAL';
+            this.setStatus(status);
+        }
+    }
+
+    protected initializeView(): Promise<void> {
+        return this.actionDispatcher.dispatch(new CenterAction([], false));
     }
 
     protected getBoundsInPage(element: Element) {
