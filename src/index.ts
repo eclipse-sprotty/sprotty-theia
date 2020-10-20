@@ -20,7 +20,6 @@ export * from './sprotty/theia-key-tool';
 export * from './sprotty/theia-sprotty-connector';
 export * from './sprotty/theia-sprotty-selection-forwarder';
 export * from './sprotty/theia-sprotty-context-menu-service';
-export * from './sprotty/languageserver/index';
 
 export * from './theia/diagram-commands';
 export * from './theia/diagram-configuration';
@@ -28,4 +27,3 @@ export * from './theia/diagram-keybinding';
 export * from './theia/diagram-manager';
 export * from './theia/diagram-module';
 export * from './theia/diagram-widget';
-export * from './theia/languageserver/index';

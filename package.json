@@ -40,7 +40,6 @@
     "@theia/core": "^1.0.0",
     "@theia/editor": "^1.0.0",
     "@theia/filesystem": "^1.0.0",
-    "@theia/languages": "^1.0.0",
     "@theia/monaco": "^1.0.0",
     "sprotty": "0.9.0"
   },
