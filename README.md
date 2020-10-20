@@ -1,6 +1,7 @@
 # sprotty-theia
 
-Glue code for [Sprotty diagrams](https://github.com/eclipse/sprotty) - with or without language servers - in [Theia](https://theia-ide.org).
+Glue code for [Sprotty diagrams](https://github.com/eclipse/sprotty) - without language servers - in [Theia](https://theia-ide.org).
+
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/eclipse/sprotty-theia)
 

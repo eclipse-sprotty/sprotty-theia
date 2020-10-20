@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2017-2018 TypeFox and others.
+ * Copyright (c) 2017-2020 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,27 +14,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { QuickPickService, WidgetManager } from '@theia/core/lib/browser';
-import { EditorManager } from '@theia/editor/lib/browser';
-import { MonacoWorkspace } from "@theia/monaco/lib/browser/monaco-workspace";
 import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty';
-import { DiagramManager } from '../theia/diagram-manager';
-import { DiagramLanguageClient } from '../theia/languageserver';
 import { TheiaDiagramServer } from './theia-diagram-server';
-import { TheiaFileSaver } from './theia-file-saver';
-
-export interface TheiaSprottyConnectorServices {
-    readonly diagramLanguageClient: DiagramLanguageClient,
-    readonly fileSaver: TheiaFileSaver,
-    readonly editorManager: EditorManager,
-    readonly widgetManager: WidgetManager,
-    readonly diagramManager: DiagramManager,
-    readonly workspace?: MonacoWorkspace,
-    readonly quickPickService?: QuickPickService
-}
 
 /**
- * Connects sprotty DiagramServers to a Theia LanguageClientContribution.
+ * Connects sprotty DiagramServers to a Theia contribution.
  *
  * Instances bridge the gap between the sprotty DI containers (one per
  * diagram) and a specific connection client (e.g. LSP client) from the Theia DI container
