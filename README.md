@@ -1,6 +1,7 @@
 # sprotty-theia
 
-Glue code for [Sprotty diagrams](https://github.com/eclipse/sprotty) - without language servers - in [Theia](https://theia-ide.org).
+Glue code for [Sprotty diagrams](https://github.com/eclipse/sprotty) in [Theia](https://theia-ide.org) as [Theia extensions](https://theia-ide.org/docs/authoring_extensions). 
+If you want to connect your diagram with a language server, you should rather build a [VS Code extension](https://github.com/eclipse/sprotty-vscode). 
 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/eclipse/sprotty-theia)
@@ -20,10 +21,10 @@ The version history is documented in the [CHANGELOG](https://github.com/eclipse/
 ## See also
 
 - [sprotty](https://github.com/eclipse/sprotty) &ndash; the client part of the Sprotty framework.
+- [sprotty-vscode](https://github.com/eclipse/sprotty-vscode) &ndash; glue code for embedding Sprotty diagrams in VS Code
 - [sprotty-server](https://github.com/eclipse/sprotty-server) &ndash; libraries to implement Sprotty diagram servers in Java. Also covers add-in Sprotty diagram support to Xtext-based language servers.
 - [sprotty-layout](https://github.com/eclipse/sprotty-layout) &ndash; client-side diagram layout based on the Eclipse Layout Kernel.
 
 ## References
 
 - [DSL in the Cloud example](http://github.com/TypeFox/theia-xtext-sprotty-example) an example using Xtext, Theia and Sprotty to create a DSL workbench in the cloud.
-- [yangster](http://github.com/theia-ide/yangster) a Theia extension for the YANG language.
