@@ -183,7 +183,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
         } else {
             const tabindex = this.node.getAttribute('tabindex');
             if (tabindex === null)
-                this.node.setAttribute('tabindex', -1);
+                this.node.setAttribute('tabindex', '-1');
             this.node.focus();
         }
     }

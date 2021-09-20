@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { injectable, multiInject, optional } from 'inversify';
-import { VNode } from 'snabbdom/vnode';
+import { VNode } from 'snabbdom';
 import { KeyListener, KeyTool, SModelElement, TYPES } from 'sprotty';
 
 @injectable()
