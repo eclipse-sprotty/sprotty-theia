@@ -48,6 +48,7 @@
     "@types/mocha": "^8.0.0",
     "chai": "^4.2.0",
     "jenkins-mocha": "^8.0.0",
+    "keytar": "^7.7.0",
     "mocha": "^8.1.0",
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",
