@@ -20,7 +20,7 @@ import {
 } from 'sprotty';
 import { Widget } from "@phosphor/widgets";
 import { Message } from "@phosphor/messaging/lib";
-import { BaseWidget } from '@theia/core/lib/browser/widgets/widget';
+import { BaseWidget, codiconArray } from '@theia/core/lib/browser/widgets/widget';
 import { StatefulWidget, Navigatable } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 import { TheiaSprottyConnector } from '../sprotty/theia-sprotty-connector';
@@ -225,20 +225,16 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
             classes.add(status.severity.toLowerCase());
             switch (status.severity) {
                 case 'FATAL':
-                    classes.add('fa');
-                    classes.add('fa-times-circle');
+                    classes.add(...codiconArray('error'));
                     break;
                 case 'ERROR':
-                    classes.add('fa');
-                    classes.add('fa-exclamation-circle');
+                    classes.add(...codiconArray('warning'));
                     break;
                 case 'WARNING':
-                    classes.add('fa');
-                    classes.add('fa-exclamation-circle');
+                    classes.add(...codiconArray('warning'));
                     break;
                 case 'INFO':
-                    classes.add('fa');
-                    classes.add('fa-info-circle');
+                    classes.add(...codiconArray('info'));
                     break;
             }
         }

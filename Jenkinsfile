@@ -4,7 +4,7 @@ kind: Pod
 spec:
   containers:
   - name: node
-    image: node:12.18.3
+    image: eclipsetheia/theia-blueprint
     tty: true
     resources:
       limits:
@@ -13,12 +13,27 @@ spec:
       requests:
         memory: "2Gi"
         cpu: "1"
+    command:
+    - cat
     volumeMounts:
+    - mountPath: "/home/jenkins"
+      name: "jenkins-home"
+      readOnly: false
     - mountPath: "/.yarn"
       name: "yarn-global"
-      readonly: false
+      readOnly: false
+    - name: global-cache
+      mountPath: /.cache     
+    - name: global-npm
+      mountPath: /.npm      
   volumes:
+  - name: "jenkins-home"
+    emptyDir: {}
   - name: "yarn-global"
+    emptyDir: {}
+  - name: global-cache
+    emptyDir: {}
+  - name: global-npm
     emptyDir: {}
 """
 
