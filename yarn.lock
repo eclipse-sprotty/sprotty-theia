@@ -706,6 +706,11 @@
   resolved "https://registry.yarnpkg.com/@vscode/codicons/-/codicons-0.0.21.tgz#20ef724b141fdddba3ad86e85f34aaad29e4d3a0"
   integrity sha512-oUfqbWTaEc2NIVLUxOK2Vi8AB/ixFfp52CkmR+pYZcWAr82IVIDDn50pdEDRXfJNIc4giHDSc5F5ZTsVMZK9Sg==
 
+"@vscode/codicons@^0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@vscode/codicons/-/codicons-0.0.25.tgz#4ebc3e2c9e707ac46aea0becceda79f7738c647c"
+  integrity sha512-uqPhTdADjwoCh5Ufbv0M6TZiiP2mqbfJVB4grhVx1k+YeP03LDMOHBWPsNwGKn4/0S5Mq9o1w1GeftvR031Gzg==
+
 accepts@~1.3.7:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
@@ -3778,11 +3783,12 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-sprotty@next:
-  version "0.10.0-next.4039435"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.10.0-next.4039435.tgz#18b3b9d4073185bdc7467dd4330cfb089b033501"
-  integrity sha512-/8ranKdWSvI85EfKFDBCuhN0BbRdQG/ePaJTPfURlV7Czf5zx6xms1/k/btFQwVhtg8EHz+B0o/4/YR4QGPnoQ==
+sprotty@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.10.0.tgz#1c1d4fbce76127945d3bf5fb1e0f4995731a1271"
+  integrity sha512-Aicu0PEYulIFcI+FcFIydvwZu67+R0DqL60ZDIhkbre344uIlijwtOSoEyAwaihtODZAb4M9mFcrHb8qweRRwA==
   dependencies:
+    "@vscode/codicons" "^0.0.25"
     autocompleter "5.1.0"
     file-saver "2.0.2"
     inversify "^5.0.1"

@@ -2,10 +2,17 @@
 
 This change log covers only the Theia integration of Sprotty. See also the change logs of [sprotty](https://github.com/eclipse/sprotty/blob/master/CHANGELOG.md), [sprotty-server](https://github.com/eclipse/sprotty-server/blob/master/CHANGELOG.md) and [sprotty-layout](https://github.com/eclipse/sprotty-layout/blob/master/CHANGELOG.md).
 
-### v0.10.0 (upcoming)
+### v0.10.0 (Oct. 2021)
 
-Breaking API changes:
-* Upgraded to Theia 1.18.0 ([#85]((https://github.com/eclipse/sprotty-theia/pull/85))
+New features:
+ * Upgraded to Theia 1.18.0 ([#85](https://github.com/eclipse/sprotty-theia/pull/85))
+ * Support Codicons ([#85](https://github.com/eclipse/sprotty-theia/pull/85))
+ * Transpile to ES2017 ([#81](https://github.com/eclipse/sprotty-theia/pull/81))
+
+Breaking changes:
+ * Language server integration was removed because it is no longer supported in Theia ([#69](https://github.com/eclipse/sprotty-theia/pull/69))
+
+Fixed issues: https://github.com/eclipse/sprotty-theia/milestone/5?closed=1
 
 -----
 
