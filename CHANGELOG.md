@@ -2,6 +2,12 @@
 
 This change log covers only the Theia integration of Sprotty. See also the change logs of [sprotty](https://github.com/eclipse/sprotty/blob/master/CHANGELOG.md), [sprotty-server](https://github.com/eclipse/sprotty-server/blob/master/CHANGELOG.md) and [sprotty-layout](https://github.com/eclipse/sprotty-layout/blob/master/CHANGELOG.md).
 
+### v0.11.0 (Nov. 2021)
+
+This version aligns the Theia integration with the restructuring of Sprotty 0.11.0, which adds a new package `sprotty-protocol`. The imports have been updated accordingly.
+
+-----
+
 ### v0.10.0 (Oct. 2021)
 
 New features:
