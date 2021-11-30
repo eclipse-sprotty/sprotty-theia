@@ -1,6 +1,6 @@
 {
   "name": "sprotty-theia",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Glue code for Sprotty diagrams in a Theia IDE",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
   "keywords": [
@@ -41,25 +41,30 @@
     "@theia/editor": "^1.0.0",
     "@theia/filesystem": "^1.0.0",
     "@theia/monaco": "^1.0.0",
-    "sprotty": "^0.10.0"
+    "sprotty": "^0.11.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
     "@types/mocha": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
     "chai": "^4.2.0",
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-header": "^3.1.1",
+    "eslint-plugin-no-null": "^1.0.2",
     "jenkins-mocha": "^8.0.0",
     "keytar": "^7.7.0",
     "mocha": "^8.1.0",
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",
     "ts-node": "^8.10.2",
-    "tslint": "^6.1.2",
     "typescript": "3.9.2"
   },
   "scripts": {
     "clean": "rimraf lib artifacts",
     "build": "tsc -p ./tsconfig.json && yarn run lint",
-    "lint": "tslint -c ./configs/tslint.json --project ./tsconfig.json",
+    "lint": "eslint \"src/**/!(*.spec.ts*)\"",
     "watch": "tsc -w -p ./tsconfig.json",
     "test": "jenkins-mocha --opts ./configs/mocha.opts \"./src/**/*.spec.?(ts|tsx)\"",
     "prepare": "yarn run clean && yarn run build",
@@ -78,5 +83,8 @@
     {
       "frontend": "lib/theia/diagram-module"
     }
+  ],
+  "eslintIgnore": [
+    "src/**/*.spec.?(ts|tsx)"
   ]
 }

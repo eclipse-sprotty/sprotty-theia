@@ -16,10 +16,10 @@
 
 import { injectable, inject } from "inversify";
 import { WidgetOpenHandler, WidgetManager, WidgetOpenerOptions, ApplicationShell, WidgetFactory } from "@theia/core/lib/browser";
-import { DiagramWidget, DiagramWidgetOptions, DiagramWidgetFactory } from "./diagram-widget";
 import URI from "@theia/core/lib/common/uri";
 import { EditorManager } from "@theia/editor/lib/browser";
 import { TheiaSprottyConnector } from "../sprotty/theia-sprotty-connector";
+import { DiagramWidget, DiagramWidgetOptions, DiagramWidgetFactory } from "./diagram-widget";
 import { DiagramConfigurationRegistry } from "./diagram-configuration";
 
 export const DiagramManagerProvider = Symbol('DiagramManagerProvider');
@@ -36,7 +36,7 @@ export abstract class DiagramManager extends WidgetOpenHandler<DiagramWidget> im
 
     abstract get diagramType(): string;
 
-    abstract get iconClass(): string
+    abstract get iconClass(): string;
 
     private widgetCount = 0;
 

@@ -14,15 +14,19 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { inject, injectable, optional } from "inversify";
-import { Action, ActionHandlerRegistry, ActionMessage, DiagramServer, ExportSvgAction, ICommand,
-    RequestModelAction, RequestPopupModelAction, SelectAction, ServerStatusAction, SetPopupModelAction,
-    SModelElementSchema, SModelRootSchema } from 'sprotty';
+import { inject, injectable, optional } from 'inversify';
+import {
+    ActionHandlerRegistry,  DiagramServerProxy,  ExportSvgAction, ICommand, ServerStatusAction
+} from 'sprotty';
+import {
+    Action, ActionMessage, RequestModelAction, RequestPopupModelAction, SelectAction, SetPopupModelAction,
+    SModelElement, SModelRoot
+} from 'sprotty-protocol';
 import { TheiaSprottyConnector } from './theia-sprotty-connector';
 
 export const IRootPopupModelProvider = Symbol('IRootPopupModelProvider');
 export interface IRootPopupModelProvider {
-    getPopupModel(action: RequestPopupModelAction, rootElement: SModelRootSchema): Promise<SModelElementSchema | undefined>;
+    getPopupModel(action: RequestPopupModelAction, rootElement: SModelRoot): Promise<SModelElement | undefined>;
 }
 
 /**
@@ -33,7 +37,7 @@ export interface IRootPopupModelProvider {
  * services are available via the TheiaDiagramServerConnector.
  */
 @injectable()
-export abstract class TheiaDiagramServer extends DiagramServer {
+export abstract class TheiaDiagramServer extends DiagramServerProxy {
 
     protected _sourceUri: string;
 
@@ -66,14 +70,15 @@ export abstract class TheiaDiagramServer extends DiagramServer {
     }
 
     handle(action: Action): void | ICommand | Action {
-        if (action instanceof RequestModelAction && action.options !== undefined)
-            this._sourceUri = action.options.sourceUri as string;
+        if (action.kind === RequestModelAction.KIND && (action as RequestModelAction).options !== undefined) {
+            this._sourceUri = (action as RequestModelAction).options!.sourceUri as string;
+        }
         return super.handle(action);
     }
 
     handleLocally(action: Action): boolean {
-        if (action instanceof RequestPopupModelAction) {
-            return this.handleRequestPopupModel(action);
+        if (action.kind === RequestPopupModelAction.KIND) {
+            return this.handleRequestPopupModel(action as RequestPopupModelAction);
         } else {
             return super.handleLocally(action);
         }
@@ -88,7 +93,7 @@ export abstract class TheiaDiagramServer extends DiagramServer {
         if (action.elementId === this.currentRoot.id) {
             this.rootPopupModelProvider.getPopupModel(action, this.currentRoot).then(model => {
                 if (model)
-                    this.actionDispatcher.dispatch(new SetPopupModelAction(model));
+                    this.actionDispatcher.dispatch(SetPopupModelAction.create(model));
             });
             return false;
         } else {

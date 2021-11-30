@@ -14,7 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { ActionMessage, ExportSvgAction, ServerStatusAction } from 'sprotty';
+import { ExportSvgAction, ServerStatusAction } from 'sprotty';
+import { ActionMessage } from 'sprotty-protocol';
 import { TheiaDiagramServer } from './theia-diagram-server';
 
 /**

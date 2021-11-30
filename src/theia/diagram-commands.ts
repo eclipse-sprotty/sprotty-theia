@@ -14,15 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import {
-    CenterAction,
-    FitToScreenAction,
-    RequestExportSvgAction,
-    UndoAction,
-    RedoAction,
-    SelectAllAction,
-    LayoutAction
-} from 'sprotty';
+import { RequestExportSvgAction, UndoAction, RedoAction } from 'sprotty';
+import { CenterAction, FitToScreenAction, LayoutAction, SelectAllAction } from 'sprotty-protocol';
 import { DiagramWidget } from './diagram-widget';
 import { injectable, inject } from 'inversify';
 import {
@@ -172,31 +165,31 @@ export class DiagramCommandContribution implements CommandContribution {
         registry.registerHandler(
             DiagramCommands.CENTER,
             new DiagramCommandHandler(this.shell, widget =>
-                widget.actionDispatcher.dispatch(new CenterAction([]))
+                widget.actionDispatcher.dispatch(CenterAction.create([]))
             )
         );
         registry.registerHandler(
             DiagramCommands.FIT,
             new DiagramCommandHandler(this.shell, widget =>
-                widget.actionDispatcher.dispatch(new FitToScreenAction([]))
+                widget.actionDispatcher.dispatch(FitToScreenAction.create([]))
             )
         );
         registry.registerHandler(
             DiagramCommands.EXPORT,
             new DiagramCommandHandler(this.shell, widget =>
-                widget.actionDispatcher.dispatch(new RequestExportSvgAction())
+                widget.actionDispatcher.dispatch(RequestExportSvgAction.create())
             )
         );
         registry.registerHandler(
             DiagramCommands.LAYOUT,
             new DiagramCommandHandler(this.shell, widget =>
-                widget.actionDispatcher.dispatch(new LayoutAction())
+                widget.actionDispatcher.dispatch(LayoutAction.create())
             )
         );
         registry.registerHandler(
             DiagramCommands.SELECT_ALL,
             new DiagramCommandHandler(this.shell, widget => {
-                const action = new SelectAllAction(true);
+                const action = SelectAllAction.create({ select: true });
                 widget.actionDispatcher.dispatch(action);
             })
         );
@@ -207,13 +200,13 @@ export class DiagramCommandContribution implements CommandContribution {
         registry.registerHandler(
             CommonCommands.UNDO.id,
             new DiagramCommandHandler(this.shell, widget =>
-                widget.actionDispatcher.dispatch(new UndoAction())
+                widget.actionDispatcher.dispatch(UndoAction.create())
             )
         );
         registry.registerHandler(
             CommonCommands.REDO.id,
             new DiagramCommandHandler(this.shell, widget =>
-                widget.actionDispatcher.dispatch(new RedoAction())
+                widget.actionDispatcher.dispatch(RedoAction.create())
             )
         );
     }

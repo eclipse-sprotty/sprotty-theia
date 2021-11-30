@@ -15,9 +15,10 @@
  ********************************************************************************/
 
 import {
-    RequestModelAction, InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher,
-    ModelSource, TYPES, DiagramServer, ViewerOptions, CenterAction
+    InitializeCanvasBoundsAction, ServerStatusAction, IActionDispatcher, ModelSource,
+    TYPES, ViewerOptions, DiagramServerProxy
 } from 'sprotty';
+import { CenterAction, RequestModelAction } from 'sprotty-protocol';
 import { Widget } from "@phosphor/widgets";
 import { Message } from "@phosphor/messaging/lib";
 import { BaseWidget, codiconArray } from '@theia/core/lib/browser/widgets/widget';
@@ -77,7 +78,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
     }
 
     get clientId(): string {
-        if (this._modelSource instanceof DiagramServer)
+        if (this._modelSource instanceof DiagramServerProxy)
             return this._modelSource.clientId;
         else
             return this.widgetId;
@@ -156,7 +157,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
     }
 
     protected initializeView(): Promise<void> {
-        return this.actionDispatcher.dispatch(new CenterAction([], false));
+        return this.actionDispatcher.dispatch(CenterAction.create([], { animate: false }));
     }
 
     protected getBoundsInPage(element: Element) {
@@ -172,7 +173,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
     protected onResize(msg: Widget.ResizeMessage): void {
         super.onResize(msg);
         const newBounds = this.getBoundsInPage(this.node as Element);
-        this.actionDispatcher.dispatch(new InitializeCanvasBoundsAction(newBounds));
+        this.actionDispatcher.dispatch(InitializeCanvasBoundsAction.create(newBounds));
     }
 
     protected onActivateRequest(msg: Message): void {

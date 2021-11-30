@@ -14,11 +14,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { DiagramCommands } from './diagram-commands';
-import { DiagramWidget } from './diagram-widget';
 import { injectable, inject } from 'inversify';
 import { FrontendApplication } from '@theia/core/lib/browser/frontend-application';
 import { CommonCommands, KeybindingContext, Keybinding, KeybindingContribution, KeybindingRegistry } from '@theia/core/lib/browser';
+import { DiagramCommands } from './diagram-commands';
+import { DiagramWidget } from './diagram-widget';
 
 @injectable()
 export class DiagramKeybindingContext implements KeybindingContext {

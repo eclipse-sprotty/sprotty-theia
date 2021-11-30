@@ -13,12 +13,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { inject, injectable, } from "inversify";
+import { inject, injectable } from 'inversify';
 import {
-    Action, ActionHandlerRegistry, IActionHandler, SelectAction, TYPES, ViewerOptions,
-    RequestModelAction, IActionHandlerInitializer
-} from "sprotty";
-import { SelectionService } from "@theia/core";
+    ActionHandlerRegistry, IActionHandler, TYPES, ViewerOptions, IActionHandlerInitializer
+} from 'sprotty';
+import { Action, RequestModelAction, SelectAction } from 'sprotty-protocol';
+import { SelectionService } from '@theia/core';
 
 
 export interface SprottySelection {
@@ -46,14 +46,14 @@ export class TheiaSprottySelectionForwarder implements IActionHandlerInitializer
     }
 
     handle(action: Action): void {
-        if (action instanceof SelectAction) {
+        if (action.kind === SelectAction.KIND) {
             this.selectionService.selection = <SprottySelection>{
-                selectedElementsIDs: action.selectedElementsIDs,
+                selectedElementsIDs: (action as SelectAction).selectedElementsIDs,
                 widgetId: this.viewerOptions.baseDiv,
                 sourceUri: this.sourceUri
             };
-        } else if (action instanceof RequestModelAction && action.options !== undefined) {
-            this.sourceUri = action.options.sourceUri as string;
+        } else if (action.kind === RequestModelAction.KIND && (action as RequestModelAction).options !== undefined) {
+            this.sourceUri = (action as RequestModelAction).options!.sourceUri as string;
         }
     }
 }

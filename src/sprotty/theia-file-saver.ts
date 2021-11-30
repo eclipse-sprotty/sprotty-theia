@@ -16,25 +16,26 @@
 
 import { inject, injectable } from 'inversify';
 import { ExportSvgAction } from 'sprotty';
-import { FileSystem } from '@theia/filesystem/lib/common';
+import URI from '@theia/core/lib/common/uri';
+import { FileService } from '@theia/filesystem/lib/browser/file-service';
 import { MessageService } from '@theia/core/lib/common';
 
 @injectable()
 export class TheiaFileSaver {
 
-    @inject(FileSystem) protected readonly fileSystem: FileSystem;
+    @inject(FileService) protected readonly fileService: FileService;
     @inject(MessageService) protected readonly messageService: MessageService;
 
     save(sourceUri: string, action: ExportSvgAction) {
-        this.getNextFileName(sourceUri).then(fileName =>
-            this.fileSystem.createFile(fileName, { content: action.svg })
+        this.getNextFileName(sourceUri).then(fileName => {
+            this.fileService.write(new URI(fileName), action.svg)
                 .then(() =>
                     this.messageService.info(`Diagram exported to '${fileName}'`)
                 )
                 .catch((error) =>
                     this.messageService.error(`Error exporting diagram '${error}`)
-                )
-        );
+                );
+        });
     }
 
     getNextFileName(sourceUri: string): Promise<string> {
@@ -43,7 +44,7 @@ export class TheiaFileSaver {
 
     tryNextFileName(sourceURI: string, count: number, resolve: (fileName: string) => void) {
         const currentName = sourceURI + (count === 0 ? '' : count) + '.svg';
-        this.fileSystem.exists(currentName).then(exists => {
+        this.fileService.exists(new URI(currentName)).then(exists => {
             if (!exists)
                 resolve(currentName);
             else
