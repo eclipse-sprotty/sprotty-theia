@@ -57,7 +57,7 @@ pipeline {
         stage('Build sprotty-theia') {
             steps {
                 container('node') {
-                    sh "yarn install"
+                    sh "yarn install --ignore-engines"
                     sh "yarn test || true" // Ignore test failures
                 }
             }
