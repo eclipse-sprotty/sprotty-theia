@@ -314,7 +314,7 @@
     semver "^5.4.1"
     write-json-file "^2.2.0"
 
-"@theia/core@1.23.0":
+"@theia/core@1.23.0", "@theia/core@^1.18.0":
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/@theia/core/-/core-1.23.0.tgz#ef79f11370df98f391b12f7050d196dd001ad2e1"
   integrity sha512-yheuGb09/eCsBFMlj6OcI35hL7L/psPllpGaiBleldcKnTbeYKsY1KRSPl3FFHFAWfE1uFb6/3RaDVVVdlD4ew==
@@ -386,7 +386,7 @@
     ws "^7.1.2"
     yargs "^15.3.1"
 
-"@theia/editor@1.23.0":
+"@theia/editor@1.23.0", "@theia/editor@^1.18.0":
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/@theia/editor/-/editor-1.23.0.tgz#71f07337db761220bd5950686a9c06f3fefc261a"
   integrity sha512-v3ra+pXu/uCtKYUtc5Me48Do5XiRVWJcVSNAU86qB2Qc8mWWHq6FueaN7Oh1sSJv4Xu6Gs1CVow3/u0/w4awfQ==
@@ -394,7 +394,7 @@
     "@theia/core" "1.23.0"
     "@theia/variable-resolver" "1.23.0"
 
-"@theia/filesystem@1.23.0":
+"@theia/filesystem@1.23.0", "@theia/filesystem@^1.18.0":
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/@theia/filesystem/-/filesystem-1.23.0.tgz#270bafe7b0be7d2e66666677e917c2d1656b2b06"
   integrity sha512-a6chJIgzthYqi9R0czgS3SgCEEjXHaxwmo0praQ1X3q5lFTJGxyKS6L9Dgnw4tCgBODrFKMow5VIIRw7wpUSeQ==
@@ -431,7 +431,7 @@
   resolved "https://registry.yarnpkg.com/@theia/monaco-editor-core/-/monaco-editor-core-0.23.0.tgz#7a1cbb7a857a509ce8e75c9965abea752bd76e80"
   integrity sha512-WyrotTd6ZfeXAX4icgFALTzlqE356tAQ5nRuwa2E0Qdp2YIO9GDcw5G2l2NJ8INO2ygujbE5pEdD5kJM5N4TOQ==
 
-"@theia/monaco@1.23.0":
+"@theia/monaco@^1.18.0":
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/@theia/monaco/-/monaco-1.23.0.tgz#7e2a8dfc8cc49ab48566913b05d1f982dc43f90e"
   integrity sha512-AIDjtuGsFj8PX40ZeAvoXt5FB4gh7A32AiEZpKJAr/Ktp50eX7roWv43OyiptdhZC8BoQ362mc+oVUArUJzUlQ==
@@ -4547,22 +4547,22 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-sprotty-protocol@0.11.0, sprotty-protocol@~0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/sprotty-protocol/-/sprotty-protocol-0.11.0.tgz#f8ff89121155520b4e32ea0c05927e7a56173b99"
-  integrity sha512-OxRKrKx8mNOxX8CBKsP4epu7YGjT4XvaGwNfAwtVQVh2OPQq98t78A86XGjJThw9axm950QX0KQWGbrzX7FJuQ==
+sprotty-protocol@0.11.0-next.e898c14.30+e898c14, sprotty-protocol@next:
+  version "0.11.0-next.e898c14.30"
+  resolved "https://registry.yarnpkg.com/sprotty-protocol/-/sprotty-protocol-0.11.0-next.e898c14.30.tgz#19a860d9967d17ed0c5c79aa361a51836f901d23"
+  integrity sha512-Eop7azThw6GUWc9TH8tWtaOCaPcubIlwUcqm+nZ52r8leFUArmXRE9vqJ+MtlnKEhYcaR7EDFB0dkPMtqyy5BQ==
 
-sprotty@0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.11.1.tgz#3a04703cf10efe8bd89f02ecd6bb33637d9312c5"
-  integrity sha512-wHeDbhZeGPgZebJqoWpqrkQQlpfJ1uiXIjLgIIJOhY8+bkTkGClQDMget7H6Zun7yU56x/XtwgesDyMXA4BVFg==
+sprotty@next:
+  version "0.11.0-next.e898c14.30"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.11.0-next.e898c14.30.tgz#2ea9c87b1c8cb3f2b29eaf7693c9e5c7f1ef3561"
+  integrity sha512-oJDQDv5aHpAO1mUruNJn8Iaf0X43vkWPe0KQy4gh1wPx/HnMrYq9qMQ8lW7BMgCyN4UiE6go0k4cjW6GOyTwQw==
   dependencies:
     "@vscode/codicons" "^0.0.25"
     autocompleter "^5.1.0"
     file-saver "^2.0.2"
     inversify "^5.0.1"
     snabbdom "^3.0.3"
-    sprotty-protocol "~0.11.0"
+    sprotty-protocol "0.11.0-next.e898c14.30+e898c14"
     tinyqueue "^2.0.3"
 
 sshpk@^1.7.0:
