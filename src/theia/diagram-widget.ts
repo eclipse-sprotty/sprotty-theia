@@ -61,6 +61,8 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
 
     protected _modelSource: ModelSource;
 
+    readonly id: string;
+
     get uri(): URI {
         return new URI(this.options.uri);
     }
@@ -84,18 +86,15 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
             return this.widgetId;
     }
 
-    get id(): string {
-        return this.widgetId;
-    }
-
     constructor(protected options: DiagramWidgetOptions,
-                readonly widgetId: string,
-                readonly diContainer: Container,
-                readonly connector?: TheiaSprottyConnector) {
+        readonly widgetId: string,
+        readonly diContainer: Container,
+        readonly connector?: TheiaSprottyConnector) {
         super();
         this.title.closable = true;
         this.title.label = options.label;
         this.title.iconClass = options.iconClass;
+        this.id = widgetId;
     }
 
     protected onAfterAttach(msg: Message): void {
@@ -196,7 +195,7 @@ export class DiagramWidget extends BaseWidget implements StatefulWidget, Navigat
      * after creating the widget and before activating it, we use this method to wait for the
      * SVG to be appended to the DOM.
      */
-    async getSvgElement(): Promise<HTMLElement | undefined> {
+    async getSvgElement(): Promise<HTMLElement | undefined> {
         return new Promise<HTMLElement | undefined>((resolve) => {
             let frames = 0;
             const waitForSvg = () => {
