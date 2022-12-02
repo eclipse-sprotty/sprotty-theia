@@ -162,7 +162,7 @@ function getBooleanValue(value: any, defaultValue: boolean) {
 }
 
 function isFunction(value: () => boolean | boolean): value is () => boolean {
-    return !!(value && value.constructor && value.call && value.apply);
+    return !!(value && value.constructor && value.apply);
 }
 
 function isBoolean(value: () => boolean | boolean): boolean {
