@@ -14,7 +14,7 @@ The version history is documented in the [CHANGELOG](https://github.com/eclipse/
 
 | sprotty-theia | Theia  |
 | ------------- | ------ |
-| 0.12.0        | 1.18.0 - 1.26.0|
+| 0.12.0        | >=1.18.0|
 | 0.11.0        | 1.18.0 |
 | 0.10.0        | 1.18.0 |
 | 0.9.0         | 1.4.0  |
