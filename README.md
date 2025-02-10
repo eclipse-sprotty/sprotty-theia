@@ -3,8 +3,18 @@
 Glue code for [Sprotty diagrams](https://github.com/eclipse/sprotty) in [Theia](https://theia-ide.org) as [Theia extensions](https://theia-ide.org/docs/authoring_extensions). 
 If you want to connect your diagram with a language server, you should rather build a [VS Code extension](https://github.com/eclipse/sprotty-vscode). 
 
+## 🌏  Open in the Cloud 
+Click any of the buttons below to start a new development environment to demo or contribute to the codebase without having to install anything on your machine:
 
+[![Open in VS Code](https://img.shields.io/badge/Open%20in-VS%20Code-blue?logo=visualstudiocode)](https://vscode.dev/github/eclipse/sprotty-theia)
+[![Open in Glitch](https://img.shields.io/badge/Open%20in-Glitch-blue?logo=glitch)](https://glitch.com/edit/#!/import/github/eclipse/sprotty-theia)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/eclipse/sprotty-theia)
+[![Edit in Codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/eclipse/sprotty-theia)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/eclipse/sprotty-theia)
+[![Open in Repl.it](https://replit.com/badge/github/withastro/astro)](https://replit.com/github/eclipse/sprotty-theia)
+[![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/eclipse/sprotty-theia)
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/eclipse/sprotty-theia)
+
 
 The project is built on [ci.eclipse.org/sprotty](https://ci.eclipse.org/sprotty/). Pre-built npm packages available from [npmjs](https://www.npmjs.com/package/sprotty-theia).
 
